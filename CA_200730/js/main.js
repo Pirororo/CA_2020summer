@@ -40,7 +40,9 @@ var Params = function() {
 	this.curves = true;
 	// this.circles = false;
 	this.amount = 10;
-	this.lineWidth = 0.5;
+	// this.lineWidth = 0.5;
+	this.lineWidth = Math.random(0,1);
+
 	this.dashArray = 0.1;
 	this.dashOffset = 0;
 	this.dashRatio = 0.5;
@@ -48,10 +50,10 @@ var Params = function() {
 	this.taper = 'none';
 	this.strokes = false;
 	this.sizeAttenuation = true;
-	this.animateWidth = false;
+	// this.animateWidth = false;
 	this.spread = false;
 	// this.autoRotate = true;
-	this.autoUpdate = true;
+	// this.autoUpdate = true;
 	// this.animateVisibility = false;
 	this.animateDashOffset = true;
 	this.update = function() {
@@ -75,20 +77,20 @@ window.addEventListener( 'load', function() {
 	gui.add( params, 'curves' ).onChange( update );
 	// gui.add( params, 'circles' ).onChange( update );
 	gui.add( params, 'amount', 1, 100 ).onChange( update );
-	gui.add( params, 'lineWidth', 0.01, 5 ).onChange( update );
+	// gui.add( params, 'lineWidth', 0.01, 5 ).onChange( update );
 	gui.add( params, 'dashArray', 0, 3 ).onChange( update );
 	gui.add( params, 'dashRatio', 0, 1 ).onChange( update );
 	// gui.add( params, 'taper', [ 'none', 'linear', 'parabolic', 'wavy' ] ).onChange( update );
 	
-	gui.add( params, 'autoUpdate' ).onChange( update );
+	// gui.add( params, 'autoUpdate' ).onChange( update );
 	gui.add( params, 'update' );
 	gui.add( params, 'strokes' ).onChange( update );
-	gui.add( params, 'sizeAttenuation' ).onChange( update );
-	gui.add( params, 'animateWidth' );
+	// gui.add( params, 'sizeAttenuation' ).onChange( update );
+	// gui.add( params, 'animateWidth' );
 	gui.add( params, 'spread' );
 	// gui.add( params, 'autoRotate' );
 	// gui.add( params, 'animateVisibility' );
-	gui.add( params, 'animateDashOffset' );
+	// gui.add( params, 'animateDashOffset' );
 
 	// var loader = new THREE.TextureLoader();
 	// loader.load( 'assets/stroke.png', function( texture ) {
@@ -104,7 +106,7 @@ function createCurve(wid) {
 
  	var geometry = new THREE.Geometry();
 	for( var i = 0; i < 2; i++ ) {
-		geometry.vertices.push( new THREE.Vector3( 10*wid, -350*i, 0));
+		geometry.vertices.push( new THREE.Vector3( 10*wid, window.innerHeight*i, 0));
 	}
 	return geometry;
 
@@ -138,6 +140,21 @@ var colors = [
 	0x70c1b3
 ];
 
+var lineWidths = [];
+for(let i =0; i< params.amount; i++){
+	let wid = (~~(Math.random()*10))*0.1;
+	console.log(wid);
+	lineWidths.push(wid);
+}
+
+var dashOffsets = [];
+for(let i =0; i< params.amount; i++){
+	let offs= (~~(Math.random()*60))*0.01;
+	console.log(offs);
+	dashOffsets.push(offs);
+}
+
+
 function clearLines() {
 
 	lines.forEach( function( l ) {
@@ -161,17 +178,20 @@ function makeLine( geo ) {
 		color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
 		// color: new THREE.Color(colors[0]),
 		opacity: 1,
-		dashArray: params.dashArray,
-		dashOffset: params.dashOffset,
+		// dashArray: params.dashArray,
+		dashArray: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ],
+		// dashOffset: params.dashOffset,
+		dashOffset: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ]*0.01,
 		dashRatio: params.dashRatio,
 		// resolution: resolution,
-		sizeAttenuation: params.sizeAttenuation,
-		lineWidth: params.lineWidth,
-		near: camera.near,
-		far: camera.far,
+		// sizeAttenuation: params.sizeAttenuation,
+		// lineWidth: params.lineWidth,
+		lineWidth: lineWidths[ ~~Maf.randomInRange( 0, lineWidths.length ) ],
+		// near: camera.near,
+		// far: camera.far,
 		// depthWrite: false,
-		depthTest: !params.strokes,
-		alphaTest: params.strokes ? .5 : 0,
+		// depthTest: !params.strokes,
+		// alphaTest: params.strokes ? .5 : 0,
 		transparent: true,
 		side: THREE.DoubleSide
 	});
@@ -272,7 +292,7 @@ function render(time) {
 		// if( params.autoRotate ) l.rotation.y += .125 * delta;
 		// 	l.material.uniforms.visibility.value= params.animateVisibility ? (time/3000) % 1.0 : 1.0;
 			
-		l.material.uniforms.dashOffset.value -= params.animateDashOffset ? 0.001 : 0;
+		l.material.uniforms.dashOffset.value += params.animateDashOffset ? 0.01 : 0;
 	} );
 
 	renderer.render( scene, camera );
