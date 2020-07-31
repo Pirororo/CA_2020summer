@@ -51,7 +51,7 @@ export class Scene extends THREE.Scene {
 
     update(){
         // TWEEN.update();
-        this.camera.update();//lookAtで中心みてる
+        // this.camera.update();//lookAtで中心みてる
         this.scene1.update();
         this.scene2.update();
     }
