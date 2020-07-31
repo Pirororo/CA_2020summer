@@ -15,6 +15,9 @@ renderer.setPixelRatio( window.devicePixelRatio );
 container.appendChild( renderer.domElement );
 
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+
+
 var clock = new THREE.Clock();
 
 var lines = [];
