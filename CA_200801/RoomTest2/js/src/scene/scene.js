@@ -39,11 +39,11 @@ export class Scene extends THREE.Scene {
         this.scene1 = new Scene1();
         this.add(this.scene1);
 
-        // this.scene2 = new Scene2();
-        // this.scene2.add(ambientLight);
+        this.scene2 = new Scene2();
+        this.scene2.add(ambientLight);
         // // this.scene2.add(directionalLight);
         // this.scene2.add(spotLight);
-        // this.add(this.scene2);
+        this.add(this.scene2);
 
         
 
@@ -53,7 +53,7 @@ export class Scene extends THREE.Scene {
         // TWEEN.update();
         this.camera.update();//lookAtで中心みてる
         this.scene1.update();
-        // this.scene2.update();
+        this.scene2.update();
     }
 
 }
@@ -95,110 +95,180 @@ export class Scene2 extends THREE.Scene {
 
         super();
 
-        //プレート
-        this.meshList = [];//raycast用
-        this.meshGroup = new THREE.Group();
-
-        const xMax = 7;
-        const yMax = 7;
-        const zMax = 7;
-
-        const material = new THREE.MeshLambertMaterial({ 
-            color: 0xffffff, 
-            opacity: 0.2,
-            transparent: true,
-            // depthTest: false,
-            side: THREE.DoubleSide,
-        });
-
-        // const material = new THREE.MeshBasicMaterial( { 
-        //     color: 0xffffff, 
-        //     wireframe: true,
-        //     opacity: 0.8,
-        //     transparent: true,
-        //    // depthTest: true,
-        //     blending: THREE.AdditiveBlending
-        // } );
-
-        // const segments = xMax*yMax*zMax;
-        let manyLineGeometry = new THREE.BufferGeometry();
-        let manyLineMaterial = new THREE.LineBasicMaterial( { 
-            // vertexColors: true,
-            color: 0x00ffff,//vertexColors: trueだと意味ない
-            // linewidth: 10 //どっちにしろ意味ない
-        } );
-
-        let positions = [];
-        // var colors = [];
-        // var r = 800;
+        this.init = this.init.bind(this);
+        this.createLines = this.createLines.bind(this);
+        this.createLine = this.createLine.bind(this);
+        // this.Params = this.Params.bind(this);
+        this.makeLine = this.makeLine.bind(this);
+        this.createCurve = this.createCurve.bind(this);
 
 
-        for (let i = 0; i < xMax; i++) {
-            for (let j = 0; j < yMax; j++) {
-                for (let k = 0; k < zMax; k++) {
 
-                    this.floorsize = 5* (Math.random()) +3;
-                    let geometry = new THREE.BoxBufferGeometry(this.floorsize, this.floorsize, this.floorsize);
-
-                    //もとのやつ
-                    let floorPos = this.floorsize +20;
-                    let mesh = new THREE.Mesh(geometry, material);
-                    mesh.position.x = floorPos *i - ((floorPos*xMax)/2);
-                    mesh.position.y = floorPos *j - ((floorPos*yMax)/2);
-                    mesh.position.z = floorPos *k - ((floorPos*zMax)/2);
-                    // mesh.rotation.x = Math.PI/180 * 90;
-                    this.meshGroup.add(mesh);
-
-                    // 配列に保存
-                    this.meshList.push(mesh);
+        //  console.log(positions);//30000個の中身全部[]
+        // console.log(positions.length);//30000
 
 
-                    // positions
-                    positions.push( mesh.position.x, mesh.position.y, mesh.position.z );
+        this.lines = [];
 
-                    // // colors
-                    // colors.push( ( mesh.position.x / r ) + 0.5 );
-                    // colors.push( ( mesh.position.y / r ) + 0.5 );
-                    // colors.push( ( mesh.position.z / r ) + 0.5 );
+        var Params = function(){
+            this.curves = true;
+            this.amount = 50;
+            this.lineWidth = Math.random(0,2);
+        
+            // this.dashArray = 0.1;
+            this.dashOffset = 0;
+            this.dashRatio = 0.7;
+            this.taper = 'none';
+            this.strokes = false;
+            this.sizeAttenuation = true;
+            // this.animateWidth = false;
+            this.spread = false;
+            // this.autoUpdate = true;
+            // this.animateVisibility = false;
+            this.animateDashOffset = true;
+        };
 
-                }
-            }
-        }
+        this.params = new Params();
 
-        this.add(this.meshGroup);
-
-        console.log(positions);//30000個の中身全部[]
-        console.log(positions.length);//30000
-
-
-        //setじゃなくてaddAttributeにする！Float32BufferAttributeはthree.moduleにしかないので、BufferAttributeをつかう
-        manyLineGeometry.addAttribute( 'position', new THREE.BufferAttribute( new Float32Array(positions), 3 ) );
-        // // manyLineGeometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
-        // manyLineGeometry.addAttribute( 'color', new THREE.BufferAttribute( new Float32Array(colors), 3 ) );
-
-
-        this.manyLine = new THREE.Line( manyLineGeometry, manyLineMaterial );
-        this.add(this.manyLine );
-
+        window.addEventListener( 'load', this.init());
 
     }
+
+
+
+    init() {
+  
+        this.createLines();
+        // render();
+        // this.update();
+      
+    }
+      
+    createLine(j) {
+        if( this.params.curves ) this.makeLine( this.createCurve(j) );
+    }
+      
+    createLines() {
+        for( var j = 0; j < this.params.amount; j++ ) {
+            this.createLine(j);
+        }
+    }
     
+    //  clearLines() {
+  
+    //     this.lines.forEach( function( l ) {
+    //       scene.remove( l );
+    //     } );
+    //     this.lines = [];
+      
+    //   }
+      
+    makeLine( geo ) {
+
+        this.g = new MeshLine();
+
+        switch( this.params.taper ) {
+            case 'none': this.g.setGeometry( geo ); break;
+        }
+
+        var colors = [
+            0xed6a5a,
+            0xf4f1bb,
+            0x9bc1bc,
+            0x5ca4a9,
+            0xe6ebe0,
+            0xf0b67f,
+            0xfe5f55,
+            0xd6d1b1,
+            0xc7efcf,
+            0xeef5db,
+            0x50514f,
+            0xf25f5c,
+            0xffe066,
+            0x247ba0,
+            0x70c1b3
+        ];
+  
+        var lineWidths = [];
+        for(let i =0; i< this.params.amount; i++){
+            let wid = (~~(Math.random()*10))*0.1;
+            // console.log(wid);
+            lineWidths.push(wid);
+        }
+        
+        var dashArrays = [];
+        for(let i =0; i< this.params.amount; i++){
+            let arrays= 0.3+((~~(Math.random()*60))*0.01);
+            // console.log(arrays);
+            dashArrays.push(arrays);
+        }
+        
+        var dashOffsets = [];
+        for(let i =0; i< this.params.amount; i++){
+            let offs= (~~(Math.random()*60))*0.0001;
+            // console.log(offs);
+            dashOffsets.push(offs);
+        }
+
+  
+        var material = new MeshLineMaterial( {
+            // map: strokeTexture,
+            useMap: this.params.strokes,
+            color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
+            opacity: 1,
+            dashArray: dashArrays[ ~~Maf.randomInRange( 0, dashArrays.length ) ],
+            dashOffset: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ],
+            dashRatio: this.params.dashRatio,
+            // resolution: resolution,
+            // sizeAttenuation: params.sizeAttenuation,
+            // lineWidth: params.lineWidth,
+            lineWidth: lineWidths[ ~~Maf.randomInRange( 0, lineWidths.length ) ],
+            // near: camera.near,
+            // far: camera.far,
+            // depthWrite: false,
+            // depthTest: !params.strokes,
+            // alphaTest: params.strokes ? .5 : 0,
+            transparent: true,
+            side: THREE.DoubleSide
+        });
+
+
+        var mesh = new THREE.Mesh( this.g.geometry, material );
+
+        this.add( mesh );
+    
+        this.lines.push( mesh );
+
+    }
+
+    createCurve(wid) {
+        let randomWid = Math.random()*window.innerWidth*0.6;
+        console.log(window.innerWidth);
+        
+        var geometry = new THREE.Geometry();
+        for( var i = 0; i < 2; i++ ) {
+            geometry.vertices.push( new THREE.Vector3(
+                -window.innerWidth/4+ randomWid,
+                -window.innerHeight/2+ window.innerHeight*i, 0
+            ));
+            // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
+        }
+        return geometry;
+    }
+
+
     update(){
-        // for (let i = 0; i < xMax; i++) {
-        //     for (let j = 0; j < yMax; j++) {
-        //         for (let k = 0; k < zMax; k++) {
+        // var delta = clock.getDelta();
+        // var t = clock.getElapsedTime();
+        this.lines.forEach( function( l, i ) {
+            // if( params.animateWidth ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
+            // if( params.autoRotate ) l.rotation.y += .125 * delta;
+            // 	l.material.uniforms.visibility.value= params.animateVisibility ? (time/3000) % 1.0 : 1.0;
+            
+            l.material.uniforms.dashOffset.value += 0.01;
+        } );
 
-        //         }
-        //     }
-        // }
-
-        // this.floorsize += 0.1;//きかない
-
-        this.meshGroup.rotation.y += 0.01;
-        this.meshGroup.rotation.z += 0.01;
-        console.log("rotete!");
-
-
+        // console.log(this.lines.length);
 
     }
 

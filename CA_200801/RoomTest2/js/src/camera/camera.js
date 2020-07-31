@@ -67,7 +67,7 @@ export class Camera extends THREE.PerspectiveCamera{
     this.camPos.z += (this.camTarget.z - this.camPos.z)*0.01;
 
     this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
-    console.log(this.camPos.x);
+    // console.log(this.camPos.x);
 
 
     // 原点に注目
