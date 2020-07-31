@@ -4,27 +4,12 @@ var container = document.getElementById( 'container' );
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, .1, 1000 );
-camera.position.set( 0, 0, -200 );
-
-
-// var camera = new THREE.OrthographicCamera(
-// 	-window.innerWidth /2, 
-// 	window.innerWidth /2,
-// 	window.innerHeight /2,
-// 	-window.innerHeight /2, .1, 1000
-// );
-
-// var camera = new THREE.OrthographicCamera(
-// 	-400, 
-// 	400,
-// 	200,
-// 	-200, .1, 1000
-// );
-// camera.position.set( 0, 0, -500 );
+camera.position.set( 0, 0, 200 );
 
 
 
 var renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true });
+renderer.setClearColor ( 0xffffff, 1.0 );
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setPixelRatio( window.devicePixelRatio );
 container.appendChild( renderer.domElement );
@@ -38,89 +23,45 @@ var strokeTexture;
 
 var Params = function() {
 	this.curves = true;
-	// this.circles = false;
-	this.amount = 10;
-	// this.lineWidth = 0.5;
-	this.lineWidth = Math.random(0,1);
+	this.amount = 50;
+	this.lineWidth = Math.random(0,2);
 
-	this.dashArray = 0.1;
+	// this.dashArray = 0.1;
 	this.dashOffset = 0;
-	this.dashRatio = 0.5;
-	// this.taper = 'parabolic';
+	this.dashRatio = 0.7;
 	this.taper = 'none';
 	this.strokes = false;
 	this.sizeAttenuation = true;
 	// this.animateWidth = false;
 	this.spread = false;
-	// this.autoRotate = true;
 	// this.autoUpdate = true;
 	// this.animateVisibility = false;
 	this.animateDashOffset = true;
-	this.update = function() {
-		clearLines();
-		createLines();
-	}
 };
 
-var params = new Params();
-var gui = new dat.GUI();
 
 window.addEventListener( 'load', function() {
-
-	function update() {
-		if( params.autoUpdate ) {
-			clearLines();
-			createLines();
-		}
-	}
-
-	gui.add( params, 'curves' ).onChange( update );
-	// gui.add( params, 'circles' ).onChange( update );
-	gui.add( params, 'amount', 1, 100 ).onChange( update );
-	// gui.add( params, 'lineWidth', 0.01, 5 ).onChange( update );
-	gui.add( params, 'dashArray', 0, 3 ).onChange( update );
-	gui.add( params, 'dashRatio', 0, 1 ).onChange( update );
-	// gui.add( params, 'taper', [ 'none', 'linear', 'parabolic', 'wavy' ] ).onChange( update );
-	
-	// gui.add( params, 'autoUpdate' ).onChange( update );
-	gui.add( params, 'update' );
-	gui.add( params, 'strokes' ).onChange( update );
-	// gui.add( params, 'sizeAttenuation' ).onChange( update );
-	// gui.add( params, 'animateWidth' );
-	gui.add( params, 'spread' );
-	// gui.add( params, 'autoRotate' );
-	// gui.add( params, 'animateVisibility' );
-	// gui.add( params, 'animateDashOffset' );
-
-	// var loader = new THREE.TextureLoader();
-	// loader.load( 'assets/stroke.png', function( texture ) {
-	// 	strokeTexture = texture;
-		init()
-	// } );
-
+	init();
 } );
 
-
+var params = new Params();
 
 function createCurve(wid) {
 
- 	var geometry = new THREE.Geometry();
+	let randomWid = Math.random()*window.innerWidth*0.6;
+	console.log(window.innerWidth);
+	
+	var geometry = new THREE.Geometry();
 	for( var i = 0; i < 2; i++ ) {
-		geometry.vertices.push( new THREE.Vector3( 10*wid, window.innerHeight*i, 0));
+		geometry.vertices.push( new THREE.Vector3(
+			 -window.innerWidth/4+ randomWid,
+			 -window.innerHeight/2+ window.innerHeight*i, 0
+		));
+		// geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
 	}
 	return geometry;
 
 }
-
-// function createCurve() {
-
-// 	var geometry = new THREE.Geometry();
-//    for( var i = 0; i < 2; i++ ) {
-// 	   geometry.vertices.push( new THREE.Vector3( 0, -350*i, 0));
-//    }
-//    return geometry;
-
-// }
 
 var colors = [
 	0xed6a5a,
@@ -143,14 +84,22 @@ var colors = [
 var lineWidths = [];
 for(let i =0; i< params.amount; i++){
 	let wid = (~~(Math.random()*10))*0.1;
-	console.log(wid);
+	// console.log(wid);
 	lineWidths.push(wid);
 }
 
+var dashArrays = [];
+for(let i =0; i< params.amount; i++){
+	let arrays= 0.3+((~~(Math.random()*60))*0.01);
+	console.log(arrays);
+	dashArrays.push(arrays);
+}
+
+
 var dashOffsets = [];
 for(let i =0; i< params.amount; i++){
-	let offs= (~~(Math.random()*60))*0.01;
-	console.log(offs);
+	let offs= (~~(Math.random()*60))*0.0001;
+	// console.log(offs);
 	dashOffsets.push(offs);
 }
 
@@ -176,12 +125,9 @@ function makeLine( geo ) {
 		// map: strokeTexture,
 		useMap: params.strokes,
 		color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
-		// color: new THREE.Color(colors[0]),
 		opacity: 1,
-		// dashArray: params.dashArray,
-		dashArray: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ],
-		// dashOffset: params.dashOffset,
-		dashOffset: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ]*0.01,
+		dashArray: dashArrays[ ~~Maf.randomInRange( 0, dashArrays.length ) ],
+		dashOffset: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ],
 		dashRatio: params.dashRatio,
 		// resolution: resolution,
 		// sizeAttenuation: params.sizeAttenuation,
@@ -199,23 +145,6 @@ function makeLine( geo ) {
 	var mesh = new THREE.Mesh( g.geometry, material );
 
 
-	// let meshGroup = new THREE.Group();
-	// for(let i ; i < params.amount; i++){
-	// 	var mesh = new THREE.Mesh( g.geometry, material );
-	// 	mesh.position.set( 10*i, 0, 0);
-	// 	meshGroup.add(mesh);
-	// }
-	// scene.add(meshGroup);
-
-
-
-	// if( params.spread || params.circles ) {
-	// 	var r = 50;
-	// 	mesh.position.set( Maf.randomInRange( -r, r ), Maf.randomInRange( -r, r ), Maf.randomInRange( -r, r ) );
-	// 	var s = 10 + 10 * Math.random();
-	// 	mesh.scale.set( s,s,s );
-	// 	mesh.rotation.set( Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI );
-	// }
 	scene.add( mesh );
 
 	lines.push( mesh );
@@ -231,10 +160,7 @@ function init() {
 }
 
 function createLine(j) {
-	// if( params.circles ) makeLine( hexagonGeometry );
 	if( params.curves ) makeLine( createCurve(j) );
-	//makeLine( makeVerticalLine() );
-	//makeLine( makeSquare() );
 }
 
 function createLines() {
@@ -243,24 +169,6 @@ function createLines() {
 	}
 }
 
-// function makeVerticalLine() {
-// 	var g = new THREE.Geometry()
-// 	var x = ( .5 - Math.random() ) * 100;
-// 	g.vertices.push( new THREE.Vector3( x, -10, 0 ) );
-// 	g.vertices.push( new THREE.Vector3( x, 10, 0 ) );
-// 	return g;
-// }
-
-// function makeSquare() {
-// 	var g = new THREE.Geometry()
-// 	var x = ( .5 - Math.random() ) * 100;
-// 	g.vertices.push( new THREE.Vector3( -1, -1, 0 ) );
-// 	g.vertices.push( new THREE.Vector3( 1, -1, 0 ) );
-// 	g.vertices.push( new THREE.Vector3( 1, 1, 0 ) );
-// 	g.vertices.push( new THREE.Vector3( -1, 1, 0 ) );
-// 	g.vertices.push( new THREE.Vector3( -1, -1, 0 ) );
-// 	return g;
-// }
 
 function onWindowResize() {
 
@@ -285,8 +193,8 @@ function render(time) {
 	requestAnimationFrame( render );
 	controls.update();
 
-	var delta = clock.getDelta();
-	var t = clock.getElapsedTime();
+	// var delta = clock.getDelta();
+	// var t = clock.getElapsedTime();
 	lines.forEach( function( l, i ) {
 		// if( params.animateWidth ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
 		// if( params.autoRotate ) l.rotation.y += .125 * delta;
