@@ -12,47 +12,7 @@ export class Scene extends THREE.Scene {
 
         super();
 
-        // this._frame = 0;//frame
-
-        //カメラ３種
-        //mainCamera
         this.camera = new Camera();//thisにすること！！！最終的にはgame2.jsでsceneにaddする
-        // this.camera.position.x = 215;
-        // this.camera.position.y = 180;
-        // this.camera.position.z = 150;
-
-        // this.camera.position.x = -55;
-        // this.camera.position.y = 35;
-        // this.camera.position.z = 65;
-
-
-
-        // //単純な動きならこっちの書き方のほうがみやすいかも
-        // //ここから
-        // this.camPos = {x: 215, y: 180, z: 150};
-        // this.camera.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
-
-        // // var rndPos = (2*Math.random()-1)*100;//-100~100
-        // // this.camTarget= {x:rndPos, y:rndPos, z:rndPos};
-        // this.camTarget= {x:50, y:20, z:-100};
-
-
-        // this.tween = new TWEEN.Tween(this.camPos).to(this.camTarget, 1000).easing(TWEEN.Easing.Elastic.InOut).onUpdate(function(){
-        // console.log('update');
-        // this.camera.position.x = this.camPos.x;
-        // this.camera.position.y = this.camPos.y;
-        // this.camera.position.z = this.camPos.z;
-        // }).delay(1500).start();//tween.start();も省略されてる
-        // //ここまで
-
-        
-
-        // //roomCamera
-        // this.roomCamera = new RoomCamera();//thisにすること！！！最終的にはgame2.jsでsceneにaddする
-
-        // //moveCamera
-        // this.moveCamera = new MoveCamera();//thisにすること！！！最終的にはgame2.jsでsceneにaddする
-
 
         // 環境光源
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
@@ -79,11 +39,11 @@ export class Scene extends THREE.Scene {
         this.scene1 = new Scene1();
         this.add(this.scene1);
 
-        this.scene2 = new Scene2();
-        this.scene2.add(ambientLight);
-        // this.scene2.add(directionalLight);
-        this.scene2.add(spotLight);
-        this.add(this.scene2);
+        // this.scene2 = new Scene2();
+        // this.scene2.add(ambientLight);
+        // // this.scene2.add(directionalLight);
+        // this.scene2.add(spotLight);
+        // this.add(this.scene2);
 
         
 
@@ -93,7 +53,7 @@ export class Scene extends THREE.Scene {
         // TWEEN.update();
         this.camera.update();//lookAtで中心みてる
         this.scene1.update();
-        this.scene2.update();
+        // this.scene2.update();
     }
 
 }
@@ -110,23 +70,6 @@ export class Scene1 extends THREE.Scene {
         this._line.position.set(0,0,0);
         this.add(this._line);
 
-        //ライン2
-        this._line2 = new Line();
-        // this._line2.rotation.x = 180 * Math.PI/180;
-        // this._line2.rotation.z = 90 * Math.PI/180;
-        this.add(this._line2);
-
-        //ライン3
-        this._line3 = new Line();
-        // this._line3.rotation.x = 90 * Math.PI/180;
-        // this._line3.rotation.y = 90 * Math.PI/180;
-        this.add(this._line3);
-
-        //ライン4
-        this._line4 = new Line();
-        // this._line4.rotation.z = 180 * Math.PI/180;
-        // this._line4.rotation.y = 90 * Math.PI/180;
-        this.add(this._line4);
 
         //BOX
         this.body = new THREE.Mesh(
@@ -141,11 +84,7 @@ export class Scene1 extends THREE.Scene {
     }
     
     update(){
-
         this._line.update();
-        this._line2.update();
-        this._line3.update();
-        this._line4.update();
     }
 
 }
