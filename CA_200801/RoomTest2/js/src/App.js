@@ -19,7 +19,7 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0xffffff), 1.0);
+      this._renderer.setClearColor(new THREE.Color(0x000000), 1.0);
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
   
@@ -44,7 +44,7 @@ export class App{
     */
     _update() {
   
-      this._renderer.autoClear = false;//これ大事〜！trueだと色が毎回背景白にクリアされちゃう
+      this._renderer.autoClear = true;//これ大事〜！trueだと色が毎回背景白にクリアされちゃう、逆にtrueにしないと背景色ぬられない
   
       // シーンの更新
       this._scene.update();
