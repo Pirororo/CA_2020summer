@@ -16,7 +16,6 @@ export default class ManyLine extends THREE.Object3D {
         this.init = this.init.bind(this);
         this.createLines = this.createLines.bind(this);
         this.createLine = this.createLine.bind(this);
-        // this.Params = this.Params.bind(this);
         this.makeLine = this.makeLine.bind(this);
         this.createCurve = this.createCurve.bind(this);
 
@@ -55,16 +54,18 @@ export default class ManyLine extends THREE.Object3D {
     init() {
         this.createLines();
     }
-    
-    createLine(j) {
-        if( this.params.curves ) this.makeLine( this.createCurve(j) );
-    }
-    
+
     createLines() {
         for( var j = 0; j < this.params.amount; j++ ) {
             this.createLine(j);
         }
     }
+    
+    createLine(j) {
+        if( this.params.curves ) this.makeLine( this.createCurve(j) );
+    }
+    
+
 
     //  clearLines() {
     //     this.lines.forEach( function( l ) {
@@ -162,7 +163,8 @@ export default class ManyLine extends THREE.Object3D {
         for( var i = 0; i < 2; i++ ) {
             geometry.vertices.push( new THREE.Vector3(
                 -window.innerWidth/4+ randomWid,
-                -window.innerHeight/4+ window.innerHeight*i, 0
+                -window.innerHeight/4+ window.innerHeight*i,
+                0
             ));
             // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
         }

@@ -2,6 +2,7 @@
 // import {Camera, RoomCamera, MoveCamera} from '../camera/camera.js';
 import {Camera} from '../camera/camera.js';
 import ManyLine from '../objects/ManyLine.js';
+import Triangle from '../objects/Triangle.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -97,12 +98,17 @@ export class Scene2 extends THREE.Scene {
 
         //複数線
         this._manyLine = new ManyLine();
-        // this._manyLine.set(0,0,0);
+        this._manyLine.rotation.z = 45 * Math.PI/180;
         this.add(this._manyLine);
+
+        this._triangle = new Triangle();
+        this._triangle.position.set(0,0,0);
+        this.add(this._triangle);
 
     }
 
     update(){
         this._manyLine.update();
+        this._triangle.update();
     }
 }
