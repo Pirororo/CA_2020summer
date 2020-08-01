@@ -102,7 +102,7 @@ export class Scene2 extends THREE.Scene {
         this.add(this._manyLine);
 
         this._triangle = new Triangle();
-        this._triangle.position.set(0,0,0);
+        this._triangle.rotation.z = 45 * Math.PI/180;
         this.add(this._triangle);
 
     }

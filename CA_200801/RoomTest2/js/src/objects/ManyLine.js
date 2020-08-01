@@ -115,7 +115,7 @@ export default class ManyLine extends THREE.Object3D {
         
         var dashArrays = [];
         for(let i =0; i< this.params.amount; i++){
-            let arrays= 0.3+((~~(Math.random()*60))*0.01);
+            let arrays= 0.1+((~~(Math.random()*60))*0.01);
             // console.log(arrays);
             dashArrays.push(arrays);
         }

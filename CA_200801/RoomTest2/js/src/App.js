@@ -37,6 +37,7 @@ export class App{
       this._update();
   
     }
+
   
   
     /**
@@ -67,6 +68,8 @@ export class App{
       this._renderer.setSize(width, height);
       this._scene.camera.aspect = width / height;
       this._scene.camera.updateProjectionMatrix();
+
+      console.log("resize");
     }
   
 }
