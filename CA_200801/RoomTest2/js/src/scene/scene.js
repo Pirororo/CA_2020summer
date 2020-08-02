@@ -112,13 +112,14 @@ export class Scene2 extends THREE.Scene {
 
         //少量線
         this._fewLine = new FewLine();
+        // this._fewLine.position.set(-30,0,0);
         this._fewLine.rotation.z = -45 * Math.PI/180;
         this._fewLine.visible = false;
         this.add(this._fewLine);
 
         //ちび三角
         this._miniTriangle = new MiniTriangle();
-        // this._miniTriangle.rotation.z = -45 * Math.PI/180;
+        // this._miniTriangle.position.set(0,30,0);
         this._miniTriangle.visible = false;
         this.add(this._miniTriangle);
 

@@ -157,17 +157,29 @@ export default class ManyLine extends THREE.Object3D {
     }
 
     createCurve(wid) {
-        let randomWid = Math.random()*window.innerWidth*0.2;
+        // let randomWid = Math.random()*window.innerWidth*0.2;
+        // // console.log(window.innerWidth);//1440
+        // var geometry = new THREE.Geometry();
+        // for( var i = 0; i < 2; i++ ) {
+        //     geometry.vertices.push( new THREE.Vector3(
+        //         -window.innerWidth/10+ randomWid,
+        //         window.innerHeight/4- window.innerHeight/4*i,
+        //         0
+        //     ));
+        //     // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
+        // }
+
+        let randomWid = (Math.random()*2-1);
         // console.log(window.innerWidth);//1440
         var geometry = new THREE.Geometry();
         for( var i = 0; i < 2; i++ ) {
             geometry.vertices.push( new THREE.Vector3(
-                -window.innerWidth/10+ randomWid,
-                window.innerHeight/4- window.innerHeight/4*i,
+                randomWid*200,
+                100- (80*i),
                 0
             ));
-            // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
         }
+
         return geometry;
     }
 
