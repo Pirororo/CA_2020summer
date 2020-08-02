@@ -192,7 +192,7 @@ export default class Triangle extends THREE.Object3D {
               this.targetBoxScl[ i] = Maf.randomInRange(0.2, 1.8);
 
               //opacity
-              if(this.nowBoxOpc[ i ]<0.5){
+              if(this.targetBoxOpc[ i ]<0.5){
                 this.targetBoxOpc[ i ] = Maf.randomInRange(0.8, 1);
               }else{
                 this.targetBoxOpc[ i ] = Maf.randomInRange(0, 0.2);

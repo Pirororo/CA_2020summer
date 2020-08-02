@@ -4,6 +4,7 @@ import {Camera} from '../camera/camera.js';
 import ManyLine from '../objects/ManyLine.js';
 import Triangle from '../objects/Triangle.js';
 import FewLine from '../objects/FewLine.js';
+import MiniTriangle from '../objects/MiniTriangle.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -99,7 +100,7 @@ export class Scene2 extends THREE.Scene {
 
         //複数線
         this._manyLine = new ManyLine();
-        this._manyLine.rotation.z = 45 * Math.PI/180;
+        // this._manyLine.rotation.z = 45 * Math.PI/180;
         this._manyLine.visible = false;
         this.add(this._manyLine);
 
@@ -114,6 +115,12 @@ export class Scene2 extends THREE.Scene {
         this._fewLine.rotation.z = -45 * Math.PI/180;
         this._fewLine.visible = false;
         this.add(this._fewLine);
+
+        //ちび三角
+        this._miniTriangle = new MiniTriangle();
+        // this._miniTriangle.rotation.z = -45 * Math.PI/180;
+        this._miniTriangle.visible = false;
+        this.add(this._miniTriangle);
 
         //円
 
@@ -132,6 +139,7 @@ export class Scene2 extends THREE.Scene {
                 this._triangle.visible = false;
                 this._fewLine.visible = false;
                 this._fewLine.frame = 0;
+                this._miniTriangle.visible = false;
             }
             this._manyLine.update();
         }
@@ -141,6 +149,7 @@ export class Scene2 extends THREE.Scene {
                 this._manyLine.visible = false;
                 this._fewLine.visible = false;
                 this._fewLine.frame = 0;
+                this._miniTriangle.visible = false;
             }
             this._triangle.update();
         }
@@ -149,8 +158,19 @@ export class Scene2 extends THREE.Scene {
                 this._fewLine.visible = true;
                 this._manyLine.visible = false;
                 this._triangle.visible = false;
+                this._miniTriangle.visible = false;
             }
             this._fewLine.update();
+        }
+        if(this.scene == 4){
+            if(this._miniTriangle.visible == false){
+                this._miniTriangle.visible = true;
+                this._manyLine.visible = false;
+                this._triangle.visible = false;
+                this._fewLine.visible = false;
+                this._fewLine.frame = 0;
+            }
+            this._miniTriangle.update();
         }
     }
 

@@ -27,7 +27,7 @@ export default class ManyLine extends THREE.Object3D {
 
         var Params = function(){
             this.curves = true;
-            this.amount = 50;
+            this.amount = 30;
             this.lineWidth = Math.random(0,2);
             
             // this.dashArray = 0.1;
@@ -101,14 +101,14 @@ export default class ManyLine extends THREE.Object3D {
 
         var opacitys = [];
         for(let i =0; i< this.params.amount; i++){
-            let opc = Math.random();
+            let opc = Math.random()+0.2;
             // console.log(opc);
             opacitys.push(opc);
         }
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = (~~(Math.random()*10))*0.1*0.5;
+            let wid = Maf.randomInRange( 0.1, 1.0);
             // console.log(wid);
             lineWidths.push(wid);
         }
@@ -157,13 +157,13 @@ export default class ManyLine extends THREE.Object3D {
     }
 
     createCurve(wid) {
-        let randomWid = Math.random()*window.innerWidth*0.4;
+        let randomWid = Math.random()*window.innerWidth*0.2;
         // console.log(window.innerWidth);//1440
         var geometry = new THREE.Geometry();
         for( var i = 0; i < 2; i++ ) {
             geometry.vertices.push( new THREE.Vector3(
-                -window.innerWidth/4+ randomWid,
-                -window.innerHeight/4+ window.innerHeight*i,
+                -window.innerWidth/10+ randomWid,
+                window.innerHeight/4- window.innerHeight/4*i,
                 0
             ));
             // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
@@ -180,7 +180,7 @@ export default class ManyLine extends THREE.Object3D {
         // if( params.autoRotate ) l.rotation.y += .125 * delta;
         // 	l.material.uniforms.visibility.value= params.animateVisibility ? (time/3000) % 1.0 : 1.0;
         
-        l.material.uniforms.dashOffset.value += 0.01;
+        l.material.uniforms.dashOffset.value -= 0.01;
     } );
 
     // console.log(this.lines.length);
