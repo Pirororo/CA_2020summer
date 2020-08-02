@@ -9,7 +9,7 @@ export class Camera extends THREE.PerspectiveCamera{
 
     
     // super(45, window.innerWidth / window.innerHeight, 10, 500);
-    super(45, window.innerWidth / window.innerHeight, 1,  1000);
+    super(60, window.innerWidth / window.innerHeight, 1, 500);
     // this._easing = this._easing.bind(this);
 
     this.camPos = new THREE.Vector3(0, 0, 200);
@@ -63,7 +63,7 @@ export class Camera extends THREE.PerspectiveCamera{
   /**
    * 毎フレームの更新をかけます。
    */
-  // update() {
+  update() {
 
   //   // TWEEN.update();
 
@@ -77,8 +77,8 @@ export class Camera extends THREE.PerspectiveCamera{
   //   // console.log(this.camPos.x);
 
 
-  //   // 原点に注目
-  //   this.lookAt(new THREE.Vector3(0, 0, 0));//これ大事！！！！
+    // 原点に注目
+    this.lookAt(new THREE.Vector3(0, 0, 0));//これ大事！！！！
 
   //   if(this.frame% 600 == 0){
   //     this.camTarget = new THREE.Vector3(
@@ -90,5 +90,5 @@ export class Camera extends THREE.PerspectiveCamera{
       
   //   }
 
-  // }
+  }
 }

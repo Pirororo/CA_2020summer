@@ -32,7 +32,7 @@ export default class ManyLine extends THREE.Object3D {
             
             // this.dashArray = 0.1;
             this.dashOffset = 0;
-            this.dashRatio = 0.7;
+            this.dashRatio = 0.4;
             this.taper = 'none';
             this.strokes = false;
             this.sizeAttenuation = true;
@@ -108,7 +108,7 @@ export default class ManyLine extends THREE.Object3D {
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 0.1, 1.0);
+            let wid = Maf.randomInRange( 0.05, 0.5);
             // console.log(wid);
             lineWidths.push(wid);
         }
