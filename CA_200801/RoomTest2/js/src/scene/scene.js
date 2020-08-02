@@ -3,6 +3,7 @@
 import {Camera} from '../camera/camera.js';
 import ManyLine from '../objects/ManyLine.js';
 import Triangle from '../objects/Triangle.js';
+import FewLine from '../objects/FewLine.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -99,16 +100,58 @@ export class Scene2 extends THREE.Scene {
         //複数線
         this._manyLine = new ManyLine();
         this._manyLine.rotation.z = 45 * Math.PI/180;
+        this._manyLine.visible = false;
         this.add(this._manyLine);
 
+        //三角形
         this._triangle = new Triangle();
         this._triangle.rotation.z = 45 * Math.PI/180;
+        this._triangle.visible = false;
         this.add(this._triangle);
+
+        //少量線
+        this._fewLine = new FewLine();
+        this._fewLine.rotation.z = 45 * Math.PI/180;
+        this._fewLine.visible = false;
+        this.add(this._fewLine);
+
+        //円
+
+        //四角
+
+        //グリッチ
+
+        this.scene = 3;
 
     }
 
     update(){
-        this._manyLine.update();
-        this._triangle.update();
+        if(this.scene == 1){
+            if(this._manyLine.visible == false){
+                this._manyLine.visible = true;
+                this._triangle.visible = false;
+                this._fewLine.visible = false;
+            }
+            this._manyLine.update();
+        }
+        if(this.scene == 2){
+            if(this._triangle.visible == false){
+                this._triangle.visible = true;
+                this._manyLine.visible = false;
+                this._fewLine.visible = false;
+            }
+            this._triangle.update();
+        }
+        if(this.scene == 3){
+            if(this._fewLine.visible == false){
+                this._fewLine.visible = true;
+                this._manyLine.visible = false;
+                this._triangle.visible = false;
+            }
+            this._fewLine.update();
+        }
     }
+
+
+
 }

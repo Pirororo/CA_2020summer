@@ -38,7 +38,7 @@ export default class ManyLine extends THREE.Object3D {
             this.sizeAttenuation = true;
             // this.animateWidth = false;
             this.spread = false;
-            // this.autoUpdate = true;
+            // this.autoUpdate = true;//これ、DATでいれた値を反映させるのに大事！！！
             // this.animateVisibility = false;
             this.animateDashOffset = true;
         };
@@ -158,7 +158,7 @@ export default class ManyLine extends THREE.Object3D {
 
     createCurve(wid) {
         let randomWid = Math.random()*window.innerWidth*0.4;
-        console.log(window.innerWidth);
+        // console.log(window.innerWidth);//1440
         var geometry = new THREE.Geometry();
         for( var i = 0; i < 2; i++ ) {
             geometry.vertices.push( new THREE.Vector3(

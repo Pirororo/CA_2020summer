@@ -38,7 +38,7 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //普通の三角
-        this.geoCirc = new THREE.CircleGeometry(10, 3);
+        this.geoCirc = new THREE.CircleGeometry(8, 3);
         this.matCirc = new THREE.MeshBasicMaterial({
           color: 0xcccccc,
           opacity: Maf.randomInRange( 0.3, 1.0 ),
@@ -57,7 +57,7 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //中抜き三角
-        this.geoRing = new THREE.RingGeometry(6, 10, 3, 1);
+        this.geoRing = new THREE.RingGeometry(3, 5, 3, 1);
         this.matRing = new THREE.MeshBasicMaterial({
             color: 0xcccccc,
             opacity: Maf.randomInRange( 0, 0.2 ),
@@ -161,40 +161,42 @@ export default class Triangle extends THREE.Object3D {
       //ターゲットの決定
       this.frame += 1;
 
-      if(this.frame%4 == 0){
+      if(this.frame%2 == 0){
 
           this.listNum += 1;
-          if(this.listNum >= this.NUM){
+          if(this.listNum > this.NUM-3){
               this.listNum = 0;
           }
 
-          //positions
-          let Randomselect = Math.random();
-          let PlusMinus = Math.random();
-          let lineLength = Maf.randomInRange(50, 80) ;
-          if(PlusMinus >0.5){ lineLength *= -1 }
+          for(let i = this.listNum; i< this.listNum+3; i++){
+              //positions
+              let Randomselect = Math.random();
+              let PlusMinus = Math.random();
+              let lineLength = Maf.randomInRange(30, 60) ;
+              if(PlusMinus >0.5){ lineLength *= -1 }
 
-          if(Randomselect >0.5){
-              if(this.targetBoxPos[3 * this.listNum + 0]> window.innerWidth/12 && lineLength>0){lineLength *= -1;}
-              if(this.targetBoxPos[3 * this.listNum + 0]< -window.innerWidth/12 && lineLength<0){lineLength *= -1;}
-              this.targetBoxPos[3 * this.listNum + 0] += lineLength;
-          }else{
-              if(this.targetBoxPos[3 * this.listNum + 1]> window.innerHeight/12 && lineLength>0){lineLength *= -1;}
-              if(this.targetBoxPos[3 * this.listNum + 1]< -window.innerHeight/12 && lineLength<0){lineLength *= -1;}
-              this.targetBoxPos[3 * this.listNum + 1] += lineLength;
-          }
+              if(Randomselect >0.5){
+                  if(this.targetBoxPos[3 * i + 0]> window.innerWidth/12 && lineLength>0){lineLength *= -1;}
+                  if(this.targetBoxPos[3 * i + 0]< -window.innerWidth/12 && lineLength<0){lineLength *= -1;}
+                  this.targetBoxPos[3 * i + 0] += lineLength;
+              }else{
+                  if(this.targetBoxPos[3 * i + 1]> window.innerHeight/12 && lineLength>0){lineLength *= -1;}
+                  if(this.targetBoxPos[3 * i + 1]< -window.innerHeight/12 && lineLength<0){lineLength *= -1;}
+                  this.targetBoxPos[3 * i + 1] += lineLength;
+              }
 
-          //rotate
-          this.targetBoxRot[ this.listNum ] = (~~(Math.random()*360))*3*Math.PI/180;
+              //rotate
+              this.targetBoxRot[ i ] = (~~(Math.random()*360))*3*Math.PI/180;
 
-          //scale
-          this.targetBoxScl[ this.listNum ] = Maf.randomInRange(0.2, 1.8);
+              //scale
+              this.targetBoxScl[ i] = Maf.randomInRange(0.2, 1.8);
 
-          //opacity
-          if(this.targetBoxOpc[ this.listNum ]<0.5){
-            this.targetBoxOpc[ this.listNum ] = Maf.randomInRange(0.8, 1);
-          }else{
-            this.targetBoxOpc[ this.listNum ] = Maf.randomInRange(0, 0.2);
+              //opacity
+              if(this.targetBoxOpc[ i ]<0.5){
+                this.targetBoxOpc[ i ] = Maf.randomInRange(0.8, 1);
+              }else{
+                this.targetBoxOpc[ i ] = Maf.randomInRange(0, 0.2);
+              }
           }
 
       }
