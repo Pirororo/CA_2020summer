@@ -105,13 +105,13 @@ export class Scene2 extends THREE.Scene {
 
         //三角形
         this._triangle = new Triangle();
-        this._triangle.rotation.z = 45 * Math.PI/180;
+        // this._triangle.rotation.z = 45 * Math.PI/180;
         this._triangle.visible = false;
         this.add(this._triangle);
 
         //少量線
         this._fewLine = new FewLine();
-        this._fewLine.rotation.z = 45 * Math.PI/180;
+        this._fewLine.rotation.z = -45 * Math.PI/180;
         this._fewLine.visible = false;
         this.add(this._fewLine);
 
@@ -121,7 +121,7 @@ export class Scene2 extends THREE.Scene {
 
         //グリッチ
 
-        this.scene = 3;
+        this.scene = 0;
 
     }
 
@@ -131,6 +131,7 @@ export class Scene2 extends THREE.Scene {
                 this._manyLine.visible = true;
                 this._triangle.visible = false;
                 this._fewLine.visible = false;
+                this._fewLine.frame = 0;
             }
             this._manyLine.update();
         }
@@ -139,6 +140,7 @@ export class Scene2 extends THREE.Scene {
                 this._triangle.visible = true;
                 this._manyLine.visible = false;
                 this._fewLine.visible = false;
+                this._fewLine.frame = 0;
             }
             this._triangle.update();
         }

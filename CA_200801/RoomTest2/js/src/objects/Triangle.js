@@ -38,7 +38,7 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //普通の三角
-        this.geoCirc = new THREE.CircleGeometry(8, 3);
+        this.geoCirc = new THREE.CircleGeometry(6, 3);
         this.matCirc = new THREE.MeshBasicMaterial({
           color: 0xcccccc,
           opacity: Maf.randomInRange( 0.3, 1.0 ),
@@ -57,7 +57,7 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //中抜き三角
-        this.geoRing = new THREE.RingGeometry(3, 5, 3, 1);
+        this.geoRing = new THREE.RingGeometry(3, 4, 3, 1);
         this.matRing = new THREE.MeshBasicMaterial({
             color: 0xcccccc,
             opacity: Maf.randomInRange( 0, 0.2 ),
@@ -151,7 +151,7 @@ export default class Triangle extends THREE.Object3D {
 
       //rotate //scale //opacity
       for(let i =0; i< this.NUM; i++){
-        this.nowBoxRot[i] += (this.targetBoxRot[i]-this.nowBoxRot[i]) *0.1;
+        // this.nowBoxRot[i] += (this.targetBoxRot[i]-this.nowBoxRot[i]) *0.1;
         this.nowBoxScl[i] += (this.targetBoxScl[i]-this.nowBoxScl[i]) *0.2;
         this.nowBoxOpc[i] += (this.targetBoxOpc[i]-this.nowBoxOpc[i]) *0.2;
       }
@@ -164,11 +164,11 @@ export default class Triangle extends THREE.Object3D {
       if(this.frame%2 == 0){
 
           this.listNum += 1;
-          if(this.listNum > this.NUM-3){
+          if(this.listNum > this.NUM-2){
               this.listNum = 0;
           }
 
-          for(let i = this.listNum; i< this.listNum+3; i++){
+          for(let i = this.listNum; i< this.listNum+2; i++){
               //positions
               let Randomselect = Math.random();
               let PlusMinus = Math.random();
