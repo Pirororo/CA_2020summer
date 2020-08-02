@@ -20,7 +20,7 @@ export default class Triangle extends THREE.Object3D {
     this.j=0;
     console.log(this.j);
 
-    this.sclLen = 1.6;
+    this.sclLen = 1.8;
 
 
     //BOX
@@ -160,7 +160,7 @@ export default class Triangle extends THREE.Object3D {
                 //positions
                 let j = ~~(i/6);
                 console.log(j);
-                this.targetBoxPos[3 * i + 1] = 2*j;
+                this.targetBoxPos[3 * i + 1] = this.sclLen/3*5 *j;
 
                 //rotate
                 this.targetBoxRot[ i ] = (~~(Math.random()*360))*3*Math.PI/180;
