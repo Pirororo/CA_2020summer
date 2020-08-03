@@ -4,6 +4,7 @@ import {Camera} from '../camera/camera.js';
 import ManyLine from '../objects/ManyLine.js';
 import Triangle from '../objects/Triangle.js';
 import FewLine from '../objects/FewLine.js';
+// import FewLine from '../objects/FewLine_confuse.js';
 import MiniTriangle from '../objects/MiniTriangle.js';
 
 /**

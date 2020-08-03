@@ -152,7 +152,7 @@ export default class ManyLine extends THREE.Object3D {
             //ターゲットの決定
             this.frame += 1;
             //線入ってくるとこ
-            if(this.frame > 30 && this.frame < 100){
+            if(this.frame > 0 && this.frame < 100){
                 if(this.frame%10 == 0){
     
                     this.listNum += 1;
@@ -160,20 +160,18 @@ export default class ManyLine extends THREE.Object3D {
                         this.listNum = 0;
                     }
     
-                    // for( var i = 0; i < 2; i++ ) {
-                        for(let j =this.listNum; j< this.listNum+1; j++){
-                            this.targetLinePos[ 3*2 * j + 0 ] = j*1;
-                            this.targetLinePos[ 3*2 * j + 1 ] = -40*0;
-                            this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                            this.targetLinePos[ 3*2 * j + 3 ] = j*1;
-                            this.targetLinePos[ 3*2 * j + 4 ] = -40*1;
-                            this.targetLinePos[ 3*2 * j + 5 ] = 0;
+                    for(let j =this.listNum; j< this.listNum+1; j++){
+                    for(let i =0; i< this.linePntNum; i++){
+                        
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 1 ] = -40*i;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
                         }
-                    // }
+                    }
                 }
     
             //線ゆれるとこ
-            }if(this.frame >= 100 && this.frame < 180){
+            }if(this.frame >= 100 && this.frame < 220){
     
                 if(this.frame%10 == 0){
     
@@ -185,15 +183,16 @@ export default class ManyLine extends THREE.Object3D {
                     let plusMinus;
                     if(this.listNum%2 ==0 ){plusMinus = -1;}else{plusMinus = 1;}
     
+                    for(let j =this.listNum; j< this.listNum+1; j++){
                     for(let i =0; i< this.linePntNum; i++){
-                        for(let j =this.listNum; j< this.listNum+1; j++){
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 0 ] = j*1;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 1 ] = plusMinus*40;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 2 ] = 0;
+                        
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 1 ] = plusMinus*40*i;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
                         }
                     }
     
-                }else if(this.frame%3 == 0){
+                }else if(this.frame%7 == 0){
     
                     this.listNum += 1;
                     if(this.listNum > this.params.amount){
@@ -202,21 +201,22 @@ export default class ManyLine extends THREE.Object3D {
     
                     let ran = Math.random()* 30;
                     let plusMinus;
-                    if(this.listNum%2 ==0 ){plusMinus = -1;}else{plusMinus = 1;}
+                    if(this.listNum%2 ==0 ){plusMinus = 1;}else{plusMinus = -1;}
+
+                    for(let j =this.listNum; j< this.listNum+1; j++){
                     for(let i =0; i< this.linePntNum; i++){
-                        for(let j =this.listNum; j< this.listNum+1; j++){
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 0 ] = j*1;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 1 ] = plusMinus* ran*i;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 2 ] = 0;
+                        
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 1 ] = plusMinus* ran*i;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
                         }
                     }
-    
                 }
     
             //線消えるとこ
-            }if(this.frame >= 140 && this.frame < 210){
+            }if(this.frame >= 220 && this.frame < 300){
     
-                if(this.frame%5 == 0){
+                if(this.frame%10 == 0){
     
                     this.listNum += 1;
                     if(this.listNum > this.params.amount){
@@ -226,11 +226,13 @@ export default class ManyLine extends THREE.Object3D {
     
                     let plusMinus;
                     if(this.listNum%2 ==0 ){plusMinus = -1;}else{plusMinus = 1;}
+
+                    for(let j =this.listNum; j< this.listNum+1; j++){
                     for(let i =0; i< this.linePntNum; i++){
-                        for(let j =this.listNum; j< this.listNum+1; j++){
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 0 ] = j*1;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 1 ] = plusMinus*80;
-                            this.targetLinePos[ 3* (this.linePntNum*j + i) + 2 ] = 0;
+                        
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 1 ] = plusMinus*80;
+                            this.targetLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
                         }
                     }
                 }
@@ -239,16 +241,16 @@ export default class ManyLine extends THREE.Object3D {
             
     
             //一定時間すぎたらはじめの位置へ
-            if(this.frame>= 210){
+            if(this.frame>= 300){
                 this.frame = 0;
                 for(let i =0; i< this.linePntNum; i++){
                     for(let j =0; j< this.params.amount; j++){
-                        this.nowLinePos[ 3* (this.linePntNum*j + i) + 0 ] = j*1;
-                        this.nowLinePos[ 3* (this.linePntNum*j + i) + 1 ] = 150;
-                        this.nowLinePos[ 3* (this.linePntNum*j + i) + 2 ] = 0;
-                        this.targetLinePos[ 3* (this.linePntNum*j + i) + 0 ] = j*1;
-                        this.targetLinePos[ 3* (this.linePntNum*j + i) + 1 ] = 150;
-                        this.targetLinePos[ 3* (this.linePntNum*j + i) + 2 ] = 0;
+                        this.nowLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                        this.nowLinePos[ 3*(this.linePntNum* j + i) + 1 ] = 150;
+                        this.nowLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
+                        this.targetLinePos[ 3*(this.linePntNum* j + i) + 0 ] = j*1;
+                        this.targetLinePos[ 3*(this.linePntNum* j + i) + 1 ] = 150;
+                        this.targetLinePos[ 3*(this.linePntNum* j + i) + 2 ] = 0;
                     }
                 }
                 this.listNum =-1;
