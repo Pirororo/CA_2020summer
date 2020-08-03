@@ -20,7 +20,7 @@ export default class Triangle extends THREE.Object3D {
     this.j=0;
     console.log(this.j);
 
-    this.sclLen = 1.8;
+    this.sclLen = 2.8;
 
 
     //BOX
@@ -67,17 +67,18 @@ export default class Triangle extends THREE.Object3D {
 
   startSetting(mesh, mat, i){
 
-    
 
-    if(i % 6 ==0){
-      this.j+=1;
-    }
+    // if(i % 6 ==0){
+    //   this.j+=1;
+    // }
 
     mesh.position.set(
-      this.sclLen/2*3*(i%6)+(i/3), -60, 0
+      this.sclLen/2*3*(i%6)+(i/3),
+      -60,
+      0
     );
 
-    this.j = 0;
+    // this.j = 0;
 
     this.centerPos;
 
@@ -148,7 +149,7 @@ export default class Triangle extends THREE.Object3D {
       //ターゲットの決定
       this.frame += 1;
 
-      if(this.frame >=10 && this.frame <70){
+      if(this.frame >=10 && this.frame <210){
         if(this.frame%2 == 0){
 
             this.listNum += 1;
@@ -177,8 +178,19 @@ export default class Triangle extends THREE.Object3D {
             }
         }
       }
-      if(this.frame >=70){this.frame =0;this.listNum =-1;}
-
+      if(this.frame >=210){
+        this.frame =0;
+        for(let i = 0; i< this.NUM*3; i++){
+          //positions
+          this.nowBoxPos[3 * i + 0] = this.sclLen/2*3*(i%6)+(i/3);
+          this.nowBoxPos[3 * i + 1] = -60;
+          this.nowBoxPos[3 * i + 2] = 0;
+          this.targetBoxPos[3 * i + 0] = this.sclLen/2*3*(i%6)+(i/3);
+          this.targetBoxPos[3 * i + 1] = -60;
+          this.targetBoxPos[3 * i + 2] = 0;
+        }
+        this.listNum =-1;
+      }
 
 
     //box
