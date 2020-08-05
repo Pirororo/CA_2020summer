@@ -19,34 +19,36 @@ export class Scene extends THREE.Scene {
         this.camera = new Camera();//thisにすること！！！最終的にはgame2.jsでsceneにaddする
 
         // 環境光源
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        // ambientLight.castShadow = true;
         // this.add(ambientLight);
 
-        // 平行光源
-        // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-        // this.add(directionalLight);
+        // // 平行光源
+        // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        // directionalLight.castShadow = true;
+        // // this.add(directionalLight);
 
         //スポットライト
         // add spotlight for the shadows
         var spotLight = new THREE.SpotLight(0xffffff);
-        // spotLight.castShadow = true;
-        spotLight.position.set(80, 60, 50);
-        spotLight.intensity = 1;
-        // spotLight.shadow.mapSize.width = 2048;
-        // spotLight.shadow.mapSize.height = 2048;
+        spotLight.castShadow = true;
+        spotLight.position.set(150, 150, 150);
+        spotLight.intensity = 0.3;
+        spotLight.shadow.mapSize.width = 2048;
+        spotLight.shadow.mapSize.height = 2048;
         // spotLight.shadow.camera.fov = 120;
         // spotLight.shadow.camera.near = 1;
         // spotLight.shadow.camera.far = 1000;
         // this.add(spotLight);
 
         //シェーダーのエフェクトをマスクするためシーン２種類にわけた
-        this.scene1 = new Scene1();
-        this.add(this.scene1);
+        // this.scene1 = new Scene1();
+        // this.add(this.scene1);
 
         this.scene2 = new Scene2();
         // this.scene2.add(ambientLight);
-        // // this.scene2.add(directionalLight);
-        // this.scene2.add(spotLight);
+        // this.scene2.add(directionalLight);
+        this.scene2.add(spotLight);
         this.add(this.scene2);
 
         
@@ -56,7 +58,7 @@ export class Scene extends THREE.Scene {
     update(){
         // TWEEN.update();
         this.camera.update();//lookAtで中心みてる
-        this.scene1.update();
+        // this.scene1.update();
         this.scene2.update();
     }
 
@@ -67,7 +69,6 @@ export class Scene1 extends THREE.Scene {
     constructor(){
 
         super();
-
 
         // //ライン
         // this._line = new Line();
@@ -99,15 +100,40 @@ export class Scene2 extends THREE.Scene {
 
         super();
 
+        // // ステージ
+        // let stageMesh = new THREE.Mesh(
+        //     new THREE.BoxGeometry(400, 0.1, 400),
+        //     new THREE.MeshPhongMaterial({
+        //         color: 0x98EAFF,
+        //         side: THREE.DoubleSide
+                
+        //     })
+        // );
+        // stageMesh.position.set(0,-50,0);
+        // stageMesh.receiveShadow = true;
+        // this.add(stageMesh);
+
+        // //BOX
+        // this.body = new THREE.Mesh(
+        // new THREE.BoxGeometry(10, 10, 10),
+        // new THREE.MeshLambertMaterial({
+        //     color: 0xff0000,
+        // })
+        // );
+        // this.body.position.set(0,0,0);
+        // this.body.castShadow = true;
+        // this.add(this.body);
+
         //複数線
         this._manyLine = new ManyLine();
         // this._manyLine.rotation.z = 45 * Math.PI/180;
         this._manyLine.visible = false;
+        this._manyLine.castShadow = true;
         this.add(this._manyLine);
 
         //三角形
         this._triangle = new Triangle();
-        // this._triangle.rotation.z = 45 * Math.PI/180;
+        // this._triangle.rotation.x = 90 * Math.PI/180;
         this._triangle.visible = false;
         this.add(this._triangle);
 

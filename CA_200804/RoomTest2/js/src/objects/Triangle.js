@@ -19,7 +19,7 @@ export default class Triangle extends THREE.Object3D {
 
 
     //BOX
-    this.NUM = 40;
+    this.NUM = 60;
     this.boxList = [];
     this.boxMatList = [];
 
@@ -38,11 +38,12 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //普通の三角
-        this.geoCirc = new THREE.CircleGeometry(6, 3);
+        this.geoCirc = new THREE.CircleGeometry(20, 3);
         this.matCirc = new THREE.MeshBasicMaterial({
-          color: 0xcccccc,
+          color: 0xffffff,
           opacity: Maf.randomInRange( 0.3, 1.0 ),
-          transparent: true
+          transparent: true,
+          side: THREE.DoubleSide
         });
 
         this.meshCirc = new THREE.Mesh(
@@ -57,11 +58,12 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //中抜き三角
-        this.geoRing = new THREE.RingGeometry(3, 4, 3, 1);
+        this.geoRing = new THREE.RingGeometry(10, 18, 3, 1);
         this.matRing = new THREE.MeshBasicMaterial({
-            color: 0xcccccc,
+            color: 0xffffff,
             opacity: Maf.randomInRange( 0, 0.2 ),
-            transparent: true
+            transparent: true,
+            side: THREE.DoubleSide
         });
         this.matRing.needsUpdate = true;
         this.meshRing = new THREE.Mesh(
@@ -77,13 +79,16 @@ export default class Triangle extends THREE.Object3D {
   startSetting(mesh, mat, i){
 
     mesh.position.set(
-        Maf.randomInRange( -window.innerWidth/12, window.innerWidth/12),
-        Maf.randomInRange( -window.innerHeight/12, window.innerHeight/12),
-        0
+        Maf.randomInRange( -100, 100),
+        Maf.randomInRange( -100, 100),
+        Maf.randomInRange( -100, 100)
     );
 
-    mesh.rotation.z = 0 * Math.PI / 180;
-    mesh.scale.set(0,0,0);
+    // mesh.rotation.z = 0 * Math.PI / 180;
+    mesh.scale.set(1,1,1);
+
+    // mesh.castShadow = true;
+    // mesh.receiveShadow = true;
     this.add(mesh);
 
     // 個々のmeshをリスト化して保存
@@ -102,18 +107,24 @@ export default class Triangle extends THREE.Object3D {
     // this.targetBoxPos.push(0, 0, 0);
     let Randomselect = Math.random();
     let lineLength = Maf.randomInRange(50, 80);
-    if(Randomselect >0.5){
-        if(this.nowBoxPos[3 * i + 0]> window.innerWidth/12 && lineLength>0){lineLength *= -1;}
-        if(this.nowBoxPos[3 * i + 0]< -window.innerWidth/12&& lineLength<0){lineLength *= -1;}
+    if(Randomselect >0.66){
+        if(this.nowBoxPos[3 * i + 0]> 100 && lineLength>0){lineLength *= -1;}
+        if(this.nowBoxPos[3 * i + 0]< -100&& lineLength<0){lineLength *= -1;}
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]+lineLength);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 2]);
-    }else{
-        if(this.nowBoxPos[3 * i + 0]> window.innerHeight/12 && lineLength>0){lineLength *= -1;}
-        if(this.nowBoxPos[3 * i + 0]< -window.innerHeight/12 && lineLength<0){lineLength *= -1;}
+    }else if(Randomselect >0.33){
+        if(this.nowBoxPos[3 * i + 0]> 100 && lineLength>0){lineLength *= -1;}
+        if(this.nowBoxPos[3 * i + 0]< -100&& lineLength<0){lineLength *= -1;}
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]+lineLength);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 2]);
+    }else{
+        if(this.nowBoxPos[3 * i + 0]> 100 && lineLength>0){lineLength *= -1;}
+        if(this.nowBoxPos[3 * i + 0]< -100 && lineLength<0){lineLength *= -1;}
+        this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]);
+        this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]);
+        this.targetBoxPos.push(this.nowBoxPos[3 * i + 2]+lineLength);
     }
 
     //rotate
@@ -146,13 +157,13 @@ export default class Triangle extends THREE.Object3D {
       //イージング
       //positions
       for(let i =0; i< this.NUM*3; i++){
-          this.nowBoxPos[i] += (this.targetBoxPos[i]-this.nowBoxPos[i]) *0.1;
+          this.nowBoxPos[i] += (this.targetBoxPos[i]-this.nowBoxPos[i]) *0.3;
       }
 
       //rotate //scale //opacity
       for(let i =0; i< this.NUM; i++){
-        // this.nowBoxRot[i] += (this.targetBoxRot[i]-this.nowBoxRot[i]) *0.1;
-        this.nowBoxScl[i] += (this.targetBoxScl[i]-this.nowBoxScl[i]) *0.2;
+        this.nowBoxRot[i] += (this.targetBoxRot[i]-this.nowBoxRot[i]) *0.1;
+        // this.nowBoxScl[i] += (this.targetBoxScl[i]-this.nowBoxScl[i]) *0.2;
         this.nowBoxOpc[i] += (this.targetBoxOpc[i]-this.nowBoxOpc[i]) *0.2;
       }
 
@@ -164,32 +175,36 @@ export default class Triangle extends THREE.Object3D {
       if(this.frame%2 == 0){
 
           this.listNum += 1;
-          if(this.listNum > this.NUM-2){
+          if(this.listNum > this.NUM-4){
               this.listNum = 0;
           }
 
-          for(let i = this.listNum; i< this.listNum+2; i++){
+          for(let i = this.listNum; i< this.listNum+4; i++){
               //positions
               let Randomselect = Math.random();
               let PlusMinus = Math.random();
               let lineLength = Maf.randomInRange(30, 60) ;
               if(PlusMinus >0.5){ lineLength *= -1 }
 
-              if(Randomselect >0.5){
-                  if(this.targetBoxPos[3 * i + 0]> window.innerWidth/12 && lineLength>0){lineLength *= -1;}
-                  if(this.targetBoxPos[3 * i + 0]< -window.innerWidth/12 && lineLength<0){lineLength *= -1;}
+              if(Randomselect >0.66){
+                  if(this.targetBoxPos[3 * i + 0]> 100 && lineLength>0){lineLength *= -1;}
+                  if(this.targetBoxPos[3 * i + 0]< -100 && lineLength<0){lineLength *= -1;}
                   this.targetBoxPos[3 * i + 0] += lineLength;
-              }else{
-                  if(this.targetBoxPos[3 * i + 1]> window.innerHeight/12 && lineLength>0){lineLength *= -1;}
-                  if(this.targetBoxPos[3 * i + 1]< -window.innerHeight/12 && lineLength<0){lineLength *= -1;}
+              }else if(Randomselect >0.33){
+                  if(this.targetBoxPos[3 * i + 1]> 100 && lineLength>0){lineLength *= -1;}
+                  if(this.targetBoxPos[3 * i + 1]< -100 && lineLength<0){lineLength *= -1;}
                   this.targetBoxPos[3 * i + 1] += lineLength;
+              }else{
+                  if(this.targetBoxPos[3 * i + 2]> 100 && lineLength>0){lineLength *= -1;}
+                  if(this.targetBoxPos[3 * i + 2]< -100 && lineLength<0){lineLength *= -1;}
+                  this.targetBoxPos[3 * i + 2] += lineLength;
               }
 
               //rotate
-              this.targetBoxRot[ i ] = (~~(Math.random()*360))*3*Math.PI/180;
+              this.targetBoxRot[ i ] = (~~(Math.random()*360))*2*Math.PI/180;
 
-              //scale
-              this.targetBoxScl[ i] = Maf.randomInRange(0.2, 1.8);
+              // //scale
+              // this.targetBoxScl[ i] = Maf.randomInRange(0.2, 1.8);
 
               //opacity
               if(this.nowBoxOpc[ i ]<0.5){
@@ -217,12 +232,12 @@ export default class Triangle extends THREE.Object3D {
         this.boxList[i].position.z = this.nowBoxPos[3 * i + 2];
 
         //rotate
-        this.boxList[i].rotation.z = this.nowBoxRot[i];
+        this.boxList[i].rotation.y = this.nowBoxRot[i];
 
-        //scale
-        this.boxList[i].scale.x = this.nowBoxScl[i];
-        this.boxList[i].scale.y = this.nowBoxScl[i];
-        this.boxList[i].scale.z = this.nowBoxScl[i];
+        // //scale
+        // this.boxList[i].scale.x = this.nowBoxScl[i];
+        // this.boxList[i].scale.y = this.nowBoxScl[i];
+        // this.boxList[i].scale.z = this.nowBoxScl[i];
 
         //opacity
         this.boxMatList[i].opacity = this.nowBoxOpc[i];

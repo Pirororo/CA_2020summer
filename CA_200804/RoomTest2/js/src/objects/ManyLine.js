@@ -27,12 +27,12 @@ export default class ManyLine extends THREE.Object3D {
 
         var Params = function(){
             this.curves = true;
-            this.amount = 30;
-            this.lineWidth = Math.random(0,2);
+            this.amount = 50;
+            // this.lineWidth = Math.random(0,2);
             
             // this.dashArray = 0.1;
             this.dashOffset = 0;
-            this.dashRatio = 0.4;
+            this.dashRatio = 0.8;
             this.taper = 'none';
             this.strokes = false;
             this.sizeAttenuation = true;
@@ -101,21 +101,21 @@ export default class ManyLine extends THREE.Object3D {
 
         var opacitys = [];
         for(let i =0; i< this.params.amount; i++){
-            let opc = Math.random()+0.2;
+            let opc = Maf.randomInRange( 0.3, 1.0);
             // console.log(opc);
             opacitys.push(opc);
         }
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 0.05, 0.5);
+            let wid = Maf.randomInRange( 0.5, 1.8);
             // console.log(wid);
             lineWidths.push(wid);
         }
         
         var dashArrays = [];
         for(let i =0; i< this.params.amount; i++){
-            let arrays= 0.1+((~~(Math.random()*60))*0.01);
+            let arrays= Maf.randomInRange(0.2, 4);
             // console.log(arrays);
             dashArrays.push(arrays);
         }
@@ -169,14 +169,16 @@ export default class ManyLine extends THREE.Object3D {
         //     // geometry.vertices.push( new THREE.Vector3( -window.innerWidth/5 +(20*wid), window.innerHeight*i, 0));
         // }
 
-        let randomWid = (Math.random()*2-1);
+        let randomX = Maf.randomInRange(-150, 150);
+        let randomZ = Maf.randomInRange(-150, 150);
         // console.log(window.innerWidth);//1440
         var geometry = new THREE.Geometry();
         for( var i = 0; i < 2; i++ ) {
             geometry.vertices.push( new THREE.Vector3(
-                randomWid*200,
-                100- (80*i),
-                0
+                randomX,
+                -150+ (300*i),
+                // randomZ,
+                Maf.randomInRange(-150, 150)
             ));
         }
 
@@ -192,7 +194,7 @@ export default class ManyLine extends THREE.Object3D {
         // if( params.autoRotate ) l.rotation.y += .125 * delta;
         // 	l.material.uniforms.visibility.value= params.animateVisibility ? (time/3000) % 1.0 : 1.0;
         
-        l.material.uniforms.dashOffset.value -= 0.01;
+        l.material.uniforms.dashOffset.value += 0.03;
     } );
 
     // console.log(this.lines.length);

@@ -20,9 +20,10 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0x000000), 1.0);
+      this._renderer.setClearColor(new THREE.Color(0x98EAFF), 1.0);
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
+      this._renderer.shadowMap.enabled = true;//影に必要
   
       // DOMを追加
       this._wrapper = document.getElementById('WebGL-output').appendChild(this._renderer.domElement);
