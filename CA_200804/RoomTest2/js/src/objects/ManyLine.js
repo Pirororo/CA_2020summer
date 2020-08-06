@@ -27,7 +27,7 @@ export default class ManyLine extends THREE.Object3D {
 
         var Params = function(){
             this.curves = true;
-            this.amount = 50;
+            this.amount = 100;
             // this.lineWidth = Math.random(0,2);
             
             // this.dashArray = 0.1;
@@ -101,14 +101,14 @@ export default class ManyLine extends THREE.Object3D {
 
         var opacitys = [];
         for(let i =0; i< this.params.amount; i++){
-            let opc = Maf.randomInRange( 0.3, 1.0);
+            let opc = Maf.randomInRange( 0.6, 1.0);
             // console.log(opc);
             opacitys.push(opc);
         }
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 0.5, 1.8);
+            let wid = Maf.randomInRange( 0.9, 1.0);
             // console.log(wid);
             lineWidths.push(wid);
         }
@@ -177,8 +177,8 @@ export default class ManyLine extends THREE.Object3D {
             geometry.vertices.push( new THREE.Vector3(
                 randomX,
                 -150+ (300*i),
-                // randomZ,
-                Maf.randomInRange(-150, 150)
+                randomZ
+                // Maf.randomInRange(-150, 150)
             ));
         }
 

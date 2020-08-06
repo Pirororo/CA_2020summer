@@ -20,7 +20,7 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0x98EAFF), 1.0);
+      this._renderer.setClearColor(new THREE.Color(0x87D4FF), 1.0);
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
       this._renderer.shadowMap.enabled = true;//影に必要
@@ -60,6 +60,12 @@ export class App{
       }
       if (event.key === 'f') {
         this._scene.scene2.scene = 4;
+      }
+      if (event.key === 'g') {
+        this._scene.scene2.scene = 5;
+      }
+      if (event.key === 'h') {
+        this._scene.scene2.scene = 6;
       }
 
     }

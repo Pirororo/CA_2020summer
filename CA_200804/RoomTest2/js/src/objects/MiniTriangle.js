@@ -3,7 +3,7 @@
 /**
  *カークラスです。
  */
-export default class Triangle extends THREE.Object3D {
+export default class MiniTriangle extends THREE.Object3D {
   /**
    * コンストラクターです。
    * @constructor
@@ -47,6 +47,7 @@ export default class Triangle extends THREE.Object3D {
         //普通の三角
         this.geoCirc = new THREE.CircleGeometry(1, 3);
         this.matCirc = new THREE.MeshBasicMaterial({
+        // this.matCirc = new THREE.MeshPhongMaterial({
           color: 0xcccccc,
           opacity: Maf.randomInRange( 0.3, 1.0 ),
           transparent: true
@@ -160,7 +161,6 @@ export default class Triangle extends THREE.Object3D {
             for(let i = this.listNum; i< this.listNum+1; i++){
                 //positions
                 let j = ~~(i/6);
-                console.log(j);
                 this.targetBoxPos[3 * i + 1] = this.sclLen*2 *j;
 
                 //rotate

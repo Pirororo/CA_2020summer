@@ -38,12 +38,14 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //普通の三角
-        this.geoCirc = new THREE.CircleGeometry(20, 3);
-        this.matCirc = new THREE.MeshBasicMaterial({
+        this.geoCirc = new THREE.CircleGeometry(17, 3);
+        // this.matCirc = new THREE.MeshBasicMaterial({
+        this.matCirc = new THREE.MeshPhongMaterial({
           color: 0xffffff,
           opacity: Maf.randomInRange( 0.3, 1.0 ),
           transparent: true,
-          side: THREE.DoubleSide
+          side: THREE.DoubleSide,
+          // specular: 0x000000,
         });
 
         this.meshCirc = new THREE.Mesh(
@@ -58,12 +60,14 @@ export default class Triangle extends THREE.Object3D {
     for (let i = 0; i < this.NUM/2; i++) {
 
         //中抜き三角
-        this.geoRing = new THREE.RingGeometry(10, 18, 3, 1);
-        this.matRing = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
+        this.geoRing = new THREE.RingGeometry(10, 15, 3, 1);
+        this.matRing = new THREE.MeshPhongMaterial({
+        // this.matRing = new THREE.MeshBasicMaterial({
+            color: 0xFFDEFF,
             opacity: Maf.randomInRange( 0, 0.2 ),
             transparent: true,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            // specular: 0x000000,
         });
         this.matRing.needsUpdate = true;
         this.meshRing = new THREE.Mesh(
@@ -87,8 +91,8 @@ export default class Triangle extends THREE.Object3D {
     // mesh.rotation.z = 0 * Math.PI / 180;
     mesh.scale.set(1,1,1);
 
-    // mesh.castShadow = true;
-    // mesh.receiveShadow = true;
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     this.add(mesh);
 
     // 個々のmeshをリスト化して保存
