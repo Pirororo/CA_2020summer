@@ -7,6 +7,7 @@ import FewLine from '../objects/FewLine.js';
 // import FewLine from '../objects/FewLine_confuse.js';
 import MiniTriangle from '../objects/MiniTriangle.js';
 import Wave from '../objects/Wave.js';
+import Rail from '../objects/Rail.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -157,6 +158,12 @@ export class Scene2 extends THREE.Scene {
         this._wave.visible = false;
         this.add(this._wave);
 
+        //レール
+        this._rail = new Rail();
+        // this._rail.rotation.x = 90 * Math.PI/180;
+        this._rail.visible = false;
+        this.add(this._rail);
+
         //円
 
         //四角
@@ -176,6 +183,7 @@ export class Scene2 extends THREE.Scene {
             this._fewLine.frame = 0;
             this._miniTriangle.visible = false;
             this._wave.visible = false;
+            this._rail.visible = false;
 
         }
 
@@ -216,14 +224,13 @@ export class Scene2 extends THREE.Scene {
             this._wave.update();
         }
 
-        // if(this.scene == 6){
-        //     if(this._wave.visible == false){
-        //         this.visibleFalse();
-        //         this._wave.visible = true;
-        //     }
-        //     this._miniTriangle.update();
-        // }
-
+        if(this.scene == 6){
+            if(this._rail.visible == false){
+                this.visibleFalse();
+                this._rail.visible = true;
+            }
+            this._rail.update();
+        }
 
     }
 
