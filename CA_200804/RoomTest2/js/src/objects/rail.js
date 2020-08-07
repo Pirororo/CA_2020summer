@@ -1,6 +1,6 @@
 import * as THREE from '../../libs/three.module.js';
 
-'use strict'
+// 'use strict'
 
 /**
  *　レールクラスです。
@@ -102,8 +102,8 @@ export default class Rail extends THREE.Object3D {
 
     init() {
 
-      plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1000, 1000 ), new THREE.MeshNormalMaterial( { side: THREE.DoubleSide,  } ) );
-      plane.material.visible = true;
+      this.plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1000, 1000 ), new THREE.MeshNormalMaterial( { side: THREE.DoubleSide,  } ) );
+      this.plane.material.visible = true;
       scene.add( plane );
 
       window.addEventListener( 'mousemove', onMouseMove );
@@ -111,11 +111,11 @@ export default class Rail extends THREE.Object3D {
       window.addEventListener( 'mousedown', onMouseDown );
       window.addEventListener( 'touchstart', onTouchStart );
       window.addEventListener( 'mouseup', onMouseEnd );
-      window.addEventListener( 'mouseout', onMouseEnd );
+      // window.addEventListener( 'mouseout', onMouseEnd );
       window.addEventListener( 'touchend', onTouchEnd );
       window.addEventListener( 'touchcancel', onTouchEnd );
 
-      window.addEventListener( 'resize', onWindowResize );
+      // window.addEventListener( 'resize', onWindowResize );
 
 
       // render();
@@ -128,8 +128,8 @@ export default class Rail extends THREE.Object3D {
 
       if( !meshes[ 0 ] ) {
         meshes[ 0 ] = this.prepareMesh();
-        nMouse[ 0 ] = new THREE.Vector2();
-        mouse[ 0 ] = new THREE.Vector2();
+        // nMouse[ 0 ] = new THREE.Vector2();
+        // mouse[ 0 ] = new THREE.Vector2();
       }
 
       this.userInteracting = true;
@@ -138,20 +138,6 @@ export default class Rail extends THREE.Object3D {
 
     }
 
-    onMouseEnd( e ) {
-
-      userInteracting = false;
-
-      var id = 0;
-      var m = meshes[ id ];
-      scene.remove( m );
-      delete meshes[ id ];
-      delete nMouse[ id ];
-      delete mouse[ id ];
-
-      e.preventDefault();
-
-    }
 
     onTouchStart( e ) {
 
@@ -160,8 +146,8 @@ export default class Rail extends THREE.Object3D {
       for( var j = 0; j < e.touches.length; j++ ) {
         if( !meshes[ e.touches[ j ].identifier ] ) {
           meshes[ e.touches[ j ].identifier ] = prepareMesh();
-          nMouse[ e.touches[ j ].identifier ] = new THREE.Vector2();
-          mouse[ e.touches[ j ].identifier ] = new THREE.Vector2();
+          // nMouse[ e.touches[ j ].identifier ] = new THREE.Vector2();
+          // mouse[ e.touches[ j ].identifier ] = new THREE.Vector2();
         }
       }
 
@@ -178,53 +164,27 @@ export default class Rail extends THREE.Object3D {
         var m = meshes[ id ];
         scene.remove( m );
         delete meshes[ id ];
-        delete nMouse[ id ];
-        delete mouse[ id ];
+        // delete nMouse[ id ];
+        // delete mouse[ id ];
       }
 
       e.preventDefault();
 
     }
 
-    onMouseMove ( e ) {
-
-      if( userInteracting ) {
-
-        nMouse[ 0 ].x = ( e.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-        nMouse[ 0 ].y = - ( e.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-        //checkIntersection( 0 );
-
-      }
-
-      e.preventDefault();
-
-    }
-
-    onTouchMove ( e ) {
-
-      for( var j = 0; j < e.changedTouches.length; j++ ) {
-        nMouse[ e.changedTouches[ j ].identifier ].x = ( e.changedTouches[ j ].clientX / renderer.domElement.clientWidth ) * 2 - 1;
-        nMouse[ e.changedTouches[ j ].identifier ].y = - ( e.changedTouches[ j ].clientY / renderer.domElement.clientHeight ) * 2 + 1;
-        //checkIntersection( e.changedTouches[ j ].identifier );
-      }
-
-      e.preventDefault();
-
-    }
 
     checkIntersection( id ) {
 
-      this.tmpVector.copy( nMouse[ id ] ).sub( mouse[ id ] ).multiplyScalar( .1 );
-      Maf.clamp( this.tmpVector.x, -1, 1 );
-      Maf.clamp( this.tmpVector.y, -1, 1 );
+      // this.tmpVector.copy( nMouse[ id ] ).sub( mouse[ id ] ).multiplyScalar( .1 );
+      // Maf.clamp( this.tmpVector.x, -1, 1 );
+      // Maf.clamp( this.tmpVector.y, -1, 1 );
 
-      mouse[ id ].add( this.tmpVector );
+      // mouse[ id ].add( this.tmpVector );
 
-      raycaster.setFromCamera( mouse[ id ], camera );
+      // raycaster.setFromCamera( mouse[ id ], camera );
 
-      // See if the ray from the camera into the world hits one of our meshes
-      var intersects = raycaster.intersectObject( plane );
+      // // See if the ray from the camera into the world hits one of our meshes
+      // var intersects = raycaster.intersectObject( plane );
 
       // Toggle rotation bool for meshes that we clicked
       if ( intersects.length > 0 ) {
@@ -251,52 +211,39 @@ export default class Rail extends THREE.Object3D {
 
     }
 
-// function onWindowResize() {
-
-// 	var w = container.clientWidth;
-// 	var h = container.clientHeight;
-
-// 	camera.aspect = w / h;
-// 	camera.updateProjectionMatrix();
-
-// 	renderer.setSize( w, h );
-
-// 	resolution.set( w, h );
-
-// }
 
 
+    check() {
 
-check() {
+      for( var i in nMouse ) { this.checkIntersection( i ); }
+      setTimeout( check, 20 );
 
-	for( var i in nMouse ) { this.checkIntersection( i ); }
-	setTimeout( check, 20 );
-
-}
-// check();
-
-update() {
-
-  this.check();//こっちかな？
-
-	angle += .05;
-
-	for( var i in meshes ) {
-      var mesh = meshes[ i ];
-      mesh.rotation.y = angle;
     }
+    // check();
 
-	/*for( var i in meshes ) {
-		var geo = meshes[ i ].geo;
-		for( var j = 0; j < geo.length; j+= 3 ) {
-			geo[ j ] *= 1.01;
-			geo[ j + 1 ] *= 1.01;
-			geo[ j + 2 ] *= 1.01;
-		}
-		meshes[ i ].g.setGeometry( geo );
-	}*/
+    update() {
+
+      this.check();//こっちかな？
+
+      angle += .05;
+
+      for( var i in meshes ) {
+          var mesh = meshes[ i ];
+          mesh.rotation.y = angle;
+        }
+
+      /*for( var i in meshes ) {
+        var geo = meshes[ i ].geo;
+        for( var j = 0; j < geo.length; j+= 3 ) {
+          geo[ j ] *= 1.01;
+          geo[ j + 1 ] *= 1.01;
+          geo[ j + 2 ] *= 1.01;
+        }
+        meshes[ i ].g.setGeometry( geo );
+      }*/
 
 
+    }
 }
 
 
@@ -375,4 +322,3 @@ update() {
 //      */
 //     update() {}
 //   }
-  

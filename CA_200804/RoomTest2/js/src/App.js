@@ -20,7 +20,7 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0x87D4FF), 1.0);
+      this._renderer.setClearColor(new THREE.Color(0x000000), 1.0);
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
       this._renderer.shadowMap.enabled = true;//影に必要
@@ -103,6 +103,20 @@ export class App{
 
       console.log("resize");
     }
+
+    // onWindowResize() {
+
+      // 	var w = container.clientWidth;
+      // 	var h = container.clientHeight;
+      
+      // 	camera.aspect = w / h;
+      // 	camera.updateProjectionMatrix();
+      
+      // 	renderer.setSize( w, h );
+      
+      // 	resolution.set( w, h );
+      
+      // }
   
 }
 

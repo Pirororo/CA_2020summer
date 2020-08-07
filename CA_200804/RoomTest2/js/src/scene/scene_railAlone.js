@@ -48,9 +48,9 @@ export class Scene extends THREE.Scene {
         // this.add(this.scene1);
 
         this.scene2 = new Scene2();
-        // this.scene2.add(ambientLight);
+        this.scene2.add(ambientLight);
         // this.scene2.add(directionalLight);
-        // this.scene2.add(spotLight);
+        this.scene2.add(spotLight);
         this.add(this.scene2);
 
         
@@ -71,9 +71,27 @@ export class Scene1 extends THREE.Scene {
     constructor(){
 
         super();
+
+        // //ライン
+        // this._line = new Line();
+        // this._line.position.set(0,0,0);
+        // this.add(this._line);
+
+
+        // //BOX
+        // this.body = new THREE.Mesh(
+        // new THREE.BoxGeometry(10, 10, 10),
+        // new THREE.MeshLambertMaterial({
+        //     color: 0xff0000,
+        // })
+        // );
+        // this.body.position.set(0,0,0);
+        // this.add(this.body);
+
     }
     
     update(){
+        // this._line.update();
     }
 
 }
@@ -83,6 +101,30 @@ export class Scene2 extends THREE.Scene {
     constructor(){
 
         super();
+
+        // // ステージ
+        // let stageMesh = new THREE.Mesh(
+        //     new THREE.BoxGeometry(500, 0.1, 500),
+        //     new THREE.MeshPhongMaterial({
+        //         color: 0x98EAFF,
+        //         side: THREE.DoubleSide,
+        //         specular: 0x000000 
+        //     })
+        // );
+        // stageMesh.position.set(0,-100,0);
+        // stageMesh.receiveShadow = true;
+        // this.add(stageMesh);
+
+        // //BOX
+        // this.body = new THREE.Mesh(
+        // new THREE.BoxGeometry(10, 10, 10),
+        // new THREE.MeshLambertMaterial({
+        //     color: 0xff0000,
+        // })
+        // );
+        // this.body.position.set(0,0,0);
+        // this.body.castShadow = true;
+        // this.add(this.body);
 
         //複数線
         this._manyLine = new ManyLine();
@@ -117,14 +159,10 @@ export class Scene2 extends THREE.Scene {
         this.add(this._wave);
 
         //レール
-        this._rail = [];
-        for(let i = 0; i< 10; i++){
-            this._rail[i] = new Rail();
-            this._rail[i].position.set(i*10,0,-100);
-            this._rail[i].visible = false;
-            this.add(this._rail[i]);
-        }
-        console.log(this._rail.length);
+        this._rail = new Rail();
+        this._rail.position.set(-100,0,0);;
+        this._rail.visible = false;
+        this.add(this._rail);
 
 
         //円
@@ -146,13 +184,7 @@ export class Scene2 extends THREE.Scene {
             this._fewLine.frame = 0;
             this._miniTriangle.visible = false;
             this._wave.visible = false;
-            // this._rail.visible = false;
-            // this._rail2.visible = false;
-
-            for(let i = 0; i< 10; i++){
-                this._rail[i].visible = false;
-            }
-
+            this._rail.visible = false;
         }
 
         if(this.scene == 1){
@@ -192,28 +224,13 @@ export class Scene2 extends THREE.Scene {
             this._wave.update();
         }
 
-        // if(this.scene == 6){
-        //     if(this._rail.visible == false){
-        //         this.visibleFalse();
-        //         this._rail.visible = true;
-        //         this._rail2.visible = true;
-        //     }
-            
-        //     this._rail.update();
-        //     this._rail2.update();
-        //     console.log("rail");
-        // }
-
         if(this.scene == 6){
-            if(this._rail[0].visible == false){
+            if(this._rail.visible == false){
                 this.visibleFalse();
-                for(let i = 0; i< 10; i++){
-                    this._rail[i].visible = true;
-                }
+                this._rail.visible = true;
             }
-            for(let i = 0; i< 10; i++){
-                this._rail[i].update();
-            }
+            this._rail.update();
+            console.log("rail");
         }
 
     }

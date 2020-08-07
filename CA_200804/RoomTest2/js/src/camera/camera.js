@@ -12,7 +12,7 @@ export class Camera extends THREE.PerspectiveCamera{
     super(60, window.innerWidth / window.innerHeight, 1, 500);
     // this._easing = this._easing.bind(this);
 
-    this.camPos = new THREE.Vector3(0, 0, 150);
+    this.camPos = new THREE.Vector3(0, 100, 150);
     this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
 
 
