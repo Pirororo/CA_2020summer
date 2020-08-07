@@ -84,43 +84,43 @@ export class Scene2 extends THREE.Scene {
 
         super();
 
-        //複数線
-        this._manyLine = new ManyLine();
-        // this._manyLine.rotation.z = 45 * Math.PI/180;
-        this._manyLine.visible = false;
-        this._manyLine.castShadow = true;
-        this.add(this._manyLine);
+        // //複数線
+        // this._manyLine = new ManyLine();
+        // // this._manyLine.rotation.z = 45 * Math.PI/180;
+        // this._manyLine.visible = false;
+        // this._manyLine.castShadow = true;
+        // this.add(this._manyLine);
 
-        //三角形
-        this._triangle = new Triangle();
-        // this._triangle.rotation.x = 90 * Math.PI/180;
-        this._triangle.visible = false;
-        this.add(this._triangle);
+        // //三角形
+        // this._triangle = new Triangle();
+        // // this._triangle.rotation.x = 90 * Math.PI/180;
+        // this._triangle.visible = false;
+        // this.add(this._triangle);
 
-        //少量線
-        this._fewLine = new FewLine();
-        // this._fewLine.position.set(-30,0,0);
-        this._fewLine.rotation.z = -45 * Math.PI/180;
-        this._fewLine.visible = false;
-        this.add(this._fewLine);
+        // //少量線
+        // this._fewLine = new FewLine();
+        // // this._fewLine.position.set(-30,0,0);
+        // this._fewLine.rotation.z = -45 * Math.PI/180;
+        // this._fewLine.visible = false;
+        // this.add(this._fewLine);
 
-        //ちび三角
-        this._miniTriangle = new MiniTriangle();
-        // this._miniTriangle.position.set(0,30,0);
-        this._miniTriangle.visible = false;
-        this.add(this._miniTriangle);
+        // //ちび三角
+        // this._miniTriangle = new MiniTriangle();
+        // // this._miniTriangle.position.set(0,30,0);
+        // this._miniTriangle.visible = false;
+        // this.add(this._miniTriangle);
 
-        //波
-        this._wave = new Wave();
-        this._wave.rotation.x = 90 * Math.PI/180;
-        this._wave.visible = false;
-        this.add(this._wave);
+        // //波
+        // this._wave = new Wave();
+        // this._wave.rotation.x = 90 * Math.PI/180;
+        // this._wave.visible = false;
+        // this.add(this._wave);
 
         //レール
         this._rail = [];
         for(let i = 0; i< 10; i++){
             this._rail[i] = new Rail();
-            this._rail[i].position.set(i*10,0,-100);
+            this._rail[i].position.set(i*10,0,-300);
             this._rail[i].visible = false;
             this.add(this._rail[i]);
         }
@@ -140,68 +140,56 @@ export class Scene2 extends THREE.Scene {
     update(){
 
         this.visibleFalse = function(){
-            this._manyLine.visible = false;
-            this._triangle.visible = false;
-            this._fewLine.visible = false;
-            this._fewLine.frame = 0;
-            this._miniTriangle.visible = false;
-            this._wave.visible = false;
-            // this._rail.visible = false;
-            // this._rail2.visible = false;
+            // this._manyLine.visible = false;
+            // this._triangle.visible = false;
+            // this._fewLine.visible = false;
+            // this._fewLine.frame = 0;
+            // this._miniTriangle.visible = false;
+            // this._wave.visible = false;
+            // // this._rail.visible = false;
+            // // this._rail2.visible = false;
 
-            for(let i = 0; i< 10; i++){
-                this._rail[i].visible = false;
-            }
+            // for(let i = 0; i< 10; i++){
+            //     this._rail[i].visible = false;
+            // }
 
-        }
-
-        if(this.scene == 1){
-            if(this._manyLine.visible == false){
-                this.visibleFalse();
-                this._manyLine.visible = true;
-            }
-            this._manyLine.update();
-        }
-        if(this.scene == 2){
-            if(this._triangle.visible == false){
-                this.visibleFalse();
-                this._triangle.visible = true;
-            }
-            this._triangle.update();
-        }
-        if(this.scene == 3){
-            if(this._fewLine.visible == false){
-                this.visibleFalse();
-                this._fewLine.visible = true;
-            }
-            this._fewLine.update();
-        }
-        if(this.scene == 4){
-            if(this._miniTriangle.visible == false){
-                this.visibleFalse();
-                this._miniTriangle.visible = true;
-            }
-            this._miniTriangle.update();
         }
 
-        if(this.scene == 5){
-            if(this._wave.visible == false){
-                this.visibleFalse();
-                this._wave.visible = true;
-            }
-            this._wave.update();
-        }
-
-        // if(this.scene == 6){
-        //     if(this._rail.visible == false){
+        // if(this.scene == 1){
+        //     if(this._manyLine.visible == false){
         //         this.visibleFalse();
-        //         this._rail.visible = true;
-        //         this._rail2.visible = true;
+        //         this._manyLine.visible = true;
         //     }
-            
-        //     this._rail.update();
-        //     this._rail2.update();
-        //     console.log("rail");
+        //     this._manyLine.update();
+        // }
+        // if(this.scene == 2){
+        //     if(this._triangle.visible == false){
+        //         this.visibleFalse();
+        //         this._triangle.visible = true;
+        //     }
+        //     this._triangle.update();
+        // }
+        // if(this.scene == 3){
+        //     if(this._fewLine.visible == false){
+        //         this.visibleFalse();
+        //         this._fewLine.visible = true;
+        //     }
+        //     this._fewLine.update();
+        // }
+        // if(this.scene == 4){
+        //     if(this._miniTriangle.visible == false){
+        //         this.visibleFalse();
+        //         this._miniTriangle.visible = true;
+        //     }
+        //     this._miniTriangle.update();
+        // }
+
+        // if(this.scene == 5){
+        //     if(this._wave.visible == false){
+        //         this.visibleFalse();
+        //         this._wave.visible = true;
+        //     }
+        //     this._wave.update();
         // }
 
         if(this.scene == 6){
