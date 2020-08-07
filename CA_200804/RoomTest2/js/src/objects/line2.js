@@ -35,12 +35,13 @@ export default class Line extends THREE.Object3D {
             this.strokes = false;
             this.curves = true;
             this.amount = 20;
-            this.lineWidth = Maf.randomInRange( 0.2, 2.0);
-            this.opacity = Maf.randomInRange( 0.6, 1.0);
+            this.lineWidth = Maf.randomInRange( 0.2, 1.3);
+            // this.opacity = Maf.randomInRange( 0.6, 1.0);
+            this.opacity = 1.0;
             
-            this.dashArray = Maf.randomInRange(0.1, 5);
-            this.dashOffset = (~~(Math.random()*60))*0.0001;
-            this.dashRatio = 0.1;
+            this.dashArray = Maf.randomInRange(0.8, 1.5);
+            this.dashOffset = Maf.randomInRange(0.0, 1.0);//(~~(Math.random()*60))*0.0001;
+            this.dashRatio = 0.2;
             this.taper = 'none';
             this.strokes = false;
             this.sizeAttenuation = true;
@@ -159,7 +160,7 @@ export default class Line extends THREE.Object3D {
                 // for( var i in this.mesheList ) { this.checkIntersection(i); }
                 this.checkIntersection(); 
 
-                this.mesh.material.uniforms.dashOffset.value -= 0.03;
+                this.mesh.material.uniforms.dashOffset.value += 0.06;
             }
 
 

@@ -524,12 +524,15 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'    if( useAlphaMap == 1. ) c.a *= texture2D( alphaMap, vUV * repeat ).a;',
 	'    if( c.a < alphaTest ) discard;',
 	'    if( useDash == 1. ){',
-	'        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',
+	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元の
+	'        c.a *= 0.2 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//0.2よりもちっちゃくするともっと光のたまっぽくなる
+	// '        c.a *= 1. *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',	
 	'    }',
 	'    gl_FragColor = c;',
-	// '    float lenY = abs((vUV.y * repeat.y)-0.5);',
-	// '    gl_FragColor.a /= lenY*40.0;',
-	'    gl_FragColor.a *= (vUV.x * repeat.x)* 1.0;',
+	
+	// '    float lenY = abs((vUV.y)-0.5);',
+	// '    gl_FragColor.a /= lenY* .5;',
+	// '    gl_FragColor.a *= (vUV.x * repeat.x)* 1.0;',
 	
 	'    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
