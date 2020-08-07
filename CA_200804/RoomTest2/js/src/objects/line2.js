@@ -35,7 +35,7 @@ export default class Line extends THREE.Object3D {
             this.strokes = false;
             this.curves = true;
             this.amount = 20;
-            this.lineWidth = Maf.randomInRange( 0.2, 1.3);
+            this.lineWidth = Maf.randomInRange( 0.3, 1.0);
             // this.opacity = Maf.randomInRange( 0.6, 1.0);
             this.opacity = 1.0;
             
