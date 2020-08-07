@@ -163,7 +163,6 @@ export default class Line extends THREE.Object3D {
                 this.mesh.material.uniforms.dashOffset.value += 0.06;
             }
 
-
             // this.matTime += this.matTimeSpeed;
             // if(this.matTime > 1000 ){this.matTime = 0;}
 
@@ -174,146 +173,34 @@ export default class Line extends THREE.Object3D {
     }
 
 
-    // getlineLength(){
-    //     return this.lineLength;
-    // }
-
-
-//**************************************************:
-
-
-// //     import * as THREE from "three";
-// // import { ShaderMaterial } from 'three';
-
-// export default class LightBar extends THREE.Object3D {
-
-//     /**
-//     * コンストラクターです。
-//     * @constructor
-//     */
-//     constructor(){
-//         super();
-//         this.createMeshMaterial_Grade = this.createMeshMaterial_Grade.bind(this);
-//         this.createMeshMaterial_Grade();
-
-//         // 平面をつくる（幅, 高さ, 横分割数, 縦分割数）
-//         const geo = new THREE.CylinderGeometry(600,600,400,64);
-//         var mat = [ this.meshMatGrade,this.meshMatRing, this.meshMatRing];
-
-//         this.lightBarmesh = new THREE.Mesh(geo, mat); 
-//         this.lightBarmesh.position.set(160, 200, 160);
-//         this.lightBarmesh.rotation.x = 0* Math.PI/180;
-
-//         this.add(this.lightBarmesh);
-
-//     }
-
-
-    createMeshMaterial_Grade(){
-        
-        // uniform変数を定義
-        this.uniforms = {
-            // uAspect: { value: this.w / this.h},
-            uAspect:    { value: 1 / 1 },
-            uTime:    { value: 100.0 },
-            color:    { value: new THREE.Color(0x734ca4) },
-            color2:    { value: new THREE.Color(0x4ea78e) },//0x4ea78
-            // alpha:    {},
-            resolution:    { value: new THREE.Vector2()} 
-        };
-
-        this.uniforms.resolution.value.x = 100;
-        this.uniforms.resolution.value.y = 100;
-
-
-        // 頂点シェーダーのソース
-        const vertexSource = `
-        varying vec2 vUv;
-        uniform float uAspect;
-
-        void main() {
-            // vUv = uv;
-
-            vec3 pos = position;
-            gl_Position = vec4(pos, 1.0);
-
-            // gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }
-        `;
-
-        // ピクセルシェーダーのソース
-        const fragmentSource = `
-        varying vec2 vUv;
-        uniform float uAspect;
-        uniform float uTime;
-        uniform vec3 color;
-        uniform vec3 color2;
-
-        void main() {
-
-
-            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0 );
-            
-            // vec2 uv = vec2( vUv.x * uAspect, vUv.y );
-            // vec2 center = vec2( 0.5 * uAspect, 0.0 );
-            // vec2  p = uv - center;
-            
-            //グラデ
-            // // vec2 q = mod(p, 0.142857) - 0.0;
-            // // float f = 0.2 / abs(q.x) ; 
-            // // vec3 gradate  = color2 /(f) ; 
-            // vec3 gradate = color * uv.x + color2 * (1.0 - uv.x);
-            // gl_FragColor = vec4(gradate, 1.0 );
-
-            // //輪っか
-            // vec2 uv = vec2( vUv.x * uAspect, vUv.y );
-            // vec2 center = vec2( .5 * uAspect, .5 );
-            // vec2  p = uv - center;
-            // float radius = uTime;// 時間で半径をアニメーションさせる
-            // float lightness = 0.0002/ abs(length(p)- radius);
-            // float radius2 = uTime - 0.35;// 時間で半径をアニメーションさせる
-            // float lightness2 = 0.0002/ abs(length(p)- radius2);
-            // float radius3 = uTime - 0.4;// 時間で半径をアニメーションさせる
-            // float lightness3 = 0.0002/ abs(length(p)- radius3);
-
-            // float radiusP = uTime + 0.0;// 時間で半径をアニメーションさせる
-            // float lightnessP = 0.0002/ abs(length(p)- radiusP);// 半径を距離で割る
-
-            // vec3 outColor = (lightness + lightness2 + lightness3 +lightnessP)* color2;
-            // gl_FragColor = vec4( vec3( outColor ),0.5 );
-
-
-
-            // //横ライン
-            // // vec2 center = vec2( 0.5 * uAspect, 0.0 );
-            // // vec2  p = uv - center;
-            // float radius = uTime;// 時間で半径をアニメーションさせる
-            // float lightness = 0.0002/ abs(length(p)- radius);
-            // float radius2 = uTime - 0.2;// 時間で半径をアニメーションさせる
-            // float lightness2 = 0.002/ abs(length(p)- radius2);
-            // float radius3 = uTime - 0.4;// 時間で半径をアニメーションさせる
-            // float lightness3 = 0.002/ abs(length(p)- radius3);
-            // float radius4 = uTime + 0.2;// 時間で半径をアニメーションさせる
-            // float lightness4 = 0.002/ abs(length(p)- radius4);
-            // vec3 outColor = (lightness + lightness2 + lightness3 + lightness4)* color2;
-            // gl_FragColor = vec4( vec3( outColor ),0.5 );
-            // // gl_FragColor = vec4( vec3( outColor )+vec3( gradate ),0.5 );
-        }
-        `;
-
-        // シェーダーソースを渡してマテリアルを作成
-        this.meshMatGrade = new THREE.ShaderMaterial({
-            vertexShader: vertexSource,
-            fragmentShader: fragmentSource,
-            // wireframe: true,
-            uniforms: this.uniforms,
-            transparent: true,
-            opacity:1.0,
-            // blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide,
-        });
-
-        return this.meshMatGrade;
-    }
-
 }
+
+const distortion_uniforms = {
+uDistortionX: new THREE.Uniform(new THREE.Vector2(80, 3)),
+uDistortionY: new THREE.Uniform(new THREE.Vector2(-40, 2.5))
+};
+
+const distortion_vertex = `
+#define PI 3.14159265358979
+uniform vec2 uDistortionX;
+uniform vec2 uDistortionY;
+
+    float nsin(float val){
+    return sin(val) * 0.5+0.5;
+    }
+vec3 getDistortion(float progress){
+        progress = clamp(progress, 0.,1.);
+        float xAmp = uDistortionX.r;
+        float xFreq = uDistortionX.g;
+        float yAmp = uDistortionY.r;
+        float yFreq = uDistortionY.g;
+        return vec3( 
+            xAmp * nsin(progress* PI * xFreq   - PI / 2. ) ,
+            yAmp * nsin(progress * PI *yFreq - PI / 2.  ) ,
+            0.
+        );
+    }
+`;
+  
+
+

@@ -7,7 +7,7 @@ import FewLine from '../objects/FewLine.js';
 // import FewLine from '../objects/FewLine_confuse.js';
 import MiniTriangle from '../objects/MiniTriangle.js';
 import Wave from '../objects/Wave.js';
-import Rail from '../objects/line2.js';
+import Rail from '../objects/rail.js';
 
 /**
  * シーンクラス：カメラとライト
