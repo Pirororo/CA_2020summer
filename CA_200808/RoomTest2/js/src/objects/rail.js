@@ -22,9 +22,9 @@ export default class Line extends THREE.Object3D {
             this.amount = 20;
             this.lineWidth = Maf.randomInRange( 0.1, 0.6);
             this.opacity = 1.0;
-            this.dashArray = Maf.randomInRange(0.8, 1.5);
+            this.dashArray = Maf.randomInRange(0.7, 1.1);
             this.dashOffset = Maf.randomInRange(0.0, 1.0);//(~~(Math.random()*60))*0.0001;
-            this.dashRatio = 0.2;
+            this.dashRatio = 0.4;
             this.taper = 'none';
             this.strokes = false;
             this.sizeAttenuation = true;
@@ -43,7 +43,7 @@ export default class Line extends THREE.Object3D {
 
     prepareMesh() {
 
-        var geo = new Float32Array( 150 * 3 );//点は100個
+        var geo = new Float32Array( 200 * 3 );//点は100個
         for( var j = 0; j < geo.length; j += 3 ) {//最初の点の位置。全部いれてる
             let distortion  = this.getDistortion(j/geo.length);
             geo[ j ] = distortion.x;
@@ -56,7 +56,7 @@ export default class Line extends THREE.Object3D {
 
         let material = new MeshLineMaterial( {
             // color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
-            color: new THREE.Color( 0x67FFFF),//4CFFCF//2734F2
+            color: new THREE.Color( 0x0500A1),//4CFFCF//2734F2//67FFFF水色
             opacity: this.params.opacity,
             dashArray: this.params.dashArray,
             dashOffset: this.params.dashOffset,
@@ -108,8 +108,8 @@ export default class Line extends THREE.Object3D {
         let yFreq = uDistortionY.y;
 
         return new THREE.Vector3( 
-            xAmp * Math.sin(progress* Math.PI *xFreq) ,
-            yAmp * Math.sin(progress* Math.PI *yFreq) ,
+            xAmp * Math.sin(progress* Math.PI *xFreq*1) ,
+            yAmp * Math.sin(progress* Math.PI *yFreq*1) ,
             0.
         );
     }
@@ -118,10 +118,10 @@ export default class Line extends THREE.Object3D {
     update(){
 
             this.frame += 1;
-            if(this.frame% 4 == 0){
+            // if(this.frame% 2 == 0){
                 this.checkIntersection(); 
-                this.mesh.material.uniforms.dashOffset.value -= 0.04;
-            }
+                this.mesh.material.uniforms.dashOffset.value -= 0.01;
+            // }
 
     }
 

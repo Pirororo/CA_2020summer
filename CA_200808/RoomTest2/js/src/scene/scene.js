@@ -62,15 +62,15 @@ export class Scene extends THREE.Scene {
 
         //moveカメラ用
         this.currentPoint = new THREE.Vector3(
-            this.scene2._rail[0].mesh.geo[3*140+0],
-            this.scene2._rail[0].mesh.geo[3*140+1]+30,
-            this.scene2._rail[0].mesh.geo[3*140+2]
+            this.scene2._rail[0].mesh.geo[3*190+0],
+            this.scene2._rail[0].mesh.geo[3*190+1]+20,
+            this.scene2._rail[0].mesh.geo[3*190+2]
         );
 
         this.nextPoint = new THREE.Vector3(
-            this.scene2._rail[0].mesh.geo[3*130+0],
-            this.scene2._rail[0].mesh.geo[3*130+1]+30,
-            this.scene2._rail[0].mesh.geo[3*130+2]
+            this.scene2._rail[0].mesh.geo[3*180+0],
+            this.scene2._rail[0].mesh.geo[3*180+1]+20,
+            this.scene2._rail[0].mesh.geo[3*180+2]
         );
 
         // console.log(this.currentPoint);

@@ -526,7 +526,7 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'    if( useDash == 1. ){',
 	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
 	// '        c.a *= 0.3 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
-	'        c.a *= 1.2 *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆
+	'        c.a *= 2. *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆
 	'    }',
 
 	'    gl_FragColor = c;',
