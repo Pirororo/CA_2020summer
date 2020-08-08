@@ -58,8 +58,29 @@ export class Scene extends THREE.Scene {
     }
 
     update(){
-        // TWEEN.update();
         this.camera.update();//lookAtで中心みてる
+
+        // //moveカメラ用
+        // this.currentPoint = new THREE.Vector3(
+        //     this.scene2._rail[0].mesh.geo[3*140+0],
+        //     this.scene2._rail[0].mesh.geo[3*140+1]+20,
+        //     this.scene2._rail[0].mesh.geo[3*140+2]
+        // );
+
+        // this.nextPoint = new THREE.Vector3(
+        //     this.scene2._rail[0].mesh.geo[3*130+0],
+        //     this.scene2._rail[0].mesh.geo[3*130+1]+20,
+        //     this.scene2._rail[0].mesh.geo[3*130+2]
+        // );
+
+        // // console.log(this.currentPoint);
+        // // this.nextPoint = this._rail[0]._points[this._frame +1];
+        // this.camera.position.copy(this.currentPoint);
+        // this.camera.lookAt(this.nextPoint);
+
+
+
+
         // this.scene1.update();
         this.scene2.update();
     }

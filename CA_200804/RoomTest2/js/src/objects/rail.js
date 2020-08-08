@@ -20,7 +20,7 @@ export default class Line extends THREE.Object3D {
         let Params = function(){
             this.curves = true;
             this.amount = 20;
-            this.lineWidth = Maf.randomInRange( 0.1, 0.6);
+            this.lineWidth = Maf.randomInRange( 0.1, 0.9);
             this.opacity = 1.0;
             this.dashArray = Maf.randomInRange(0.8, 1.5);
             this.dashOffset = Maf.randomInRange(0.0, 1.0);//(~~(Math.random()*60))*0.0001;
@@ -43,7 +43,7 @@ export default class Line extends THREE.Object3D {
 
     prepareMesh() {
 
-        var geo = new Float32Array( 100 * 3 );//点は100個
+        var geo = new Float32Array( 150 * 3 );//点は100個
         for( var j = 0; j < geo.length; j += 3 ) {//最初の点の位置。全部いれてる
             let distortion  = this.getDistortion(j/geo.length);
             geo[ j ] = distortion.x;
@@ -56,7 +56,7 @@ export default class Line extends THREE.Object3D {
 
         let material = new MeshLineMaterial( {
             // color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
-            color: new THREE.Color( 0xffffff),
+            color: new THREE.Color( 0x67FFFF),//4CFFCF//2734F2
             opacity: this.params.opacity,
             dashArray: this.params.dashArray,
             dashOffset: this.params.dashOffset,
@@ -99,8 +99,8 @@ export default class Line extends THREE.Object3D {
 
     getDistortion(progress){
 
-        let uDistortionX = new THREE.Vector2(80, 3);
-        let uDistortionY = new THREE.Vector2(-50, 4);
+        let uDistortionX = new THREE.Vector2(100, 5);
+        let uDistortionY = new THREE.Vector2(-80, 3);
 
         let xAmp = uDistortionX.x;
         let xFreq = uDistortionX.y;
@@ -120,7 +120,7 @@ export default class Line extends THREE.Object3D {
             this.frame += 1;
             if(this.frame% 4 == 0){
                 this.checkIntersection(); 
-                this.mesh.material.uniforms.dashOffset.value += 0.06;
+                this.mesh.material.uniforms.dashOffset.value -= 0.06;
             }
 
     }
