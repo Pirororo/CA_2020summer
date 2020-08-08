@@ -36,6 +36,8 @@ export class App{
 
       window.addEventListener('keyup', this._keyEvent);
 
+
+
   
       // フレーム毎の更新
       this._update();
@@ -85,6 +87,10 @@ export class App{
   
       requestAnimationFrame(this._update);
       this._renderer.render(this._scene, this._scene.camera);
+
+      // //カメラポジションの取得
+      // var position = this._scene.camera.matrixWorld.getPosition().clone();
+      // console.log(position);
   
     }
   

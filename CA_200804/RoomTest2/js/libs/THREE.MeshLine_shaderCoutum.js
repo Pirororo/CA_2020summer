@@ -524,16 +524,15 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'    if( useAlphaMap == 1. ) c.a *= texture2D( alphaMap, vUV * repeat ).a;',
 	'    if( c.a < alphaTest ) discard;',
 	'    if( useDash == 1. ){',
-	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元の
+	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
 	'        c.a *= 0.3 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
-	// '        c.a *= 1. *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',	
+	// '        c.a *= 1. *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆
 	'    }',
+
 	'    gl_FragColor = c;',
-	
-	// '    float lenY = abs((vUV.y)-0.5);',
-	// '    gl_FragColor.a /= lenY* .5;',
-	// '    gl_FragColor.a *= (vUV.x * repeat.x)* 1.0;',
-	
+	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
+	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
+	// '    gl_FragColor.a *= (vUV.x * repeat.x)* 1.0;',//奥が薄くなる
 	'    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
 	THREE.ShaderChunk.fog_fragment,

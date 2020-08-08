@@ -118,10 +118,11 @@ export class Scene2 extends THREE.Scene {
 
         //レール
         this._rail = [];
-        this._railNum = 20;
+        this._railNum = 15;
         for(let i = 0; i< this._railNum; i++){
             this._rail[i] = new Rail();
-            this._rail[i].position.set(Maf.randomInRange(-50, 50),0,-300);
+            // this._rail[i].position.set(Maf.randomInRange(-50, 50),0,-300);
+            this._rail[i].position.set(Maf.randomInRange(-80, 80),0,0);
             this._rail[i].visible = false;
             this.add(this._rail[i]);
         }
