@@ -8,6 +8,7 @@ import FewLine from '../objects/FewLine.js';
 import MiniTriangle from '../objects/MiniTriangle.js';
 import Wave from '../objects/Wave.js';
 import Rail from '../objects/rail.js';
+import Wall from '../objects/Wall.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -149,7 +150,12 @@ export class Scene2 extends THREE.Scene {
             this._rail[i].visible = false;
             this.add(this._rail[i]);
         }
-        console.log(this._rail.length);
+
+        //壁
+        this._wall = new Wall();
+        this._wall.position.set(0,0,-500);
+        this._wall.visible = false;
+        this.add(this._wall);
 
 
         //円
@@ -218,6 +224,14 @@ export class Scene2 extends THREE.Scene {
         // }
 
         if(this.scene == 6){
+
+
+            if(this._wall.visible == false){
+                this.visibleFalse();
+                this._wall.visible = true;
+            }
+            this._wall.update();
+
             if(this._rail[0].visible == false){
                 this.visibleFalse();
                 for(let i = 0; i< this._railNum; i++){

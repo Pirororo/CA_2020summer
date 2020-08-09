@@ -13,14 +13,14 @@ export class Camera extends THREE.PerspectiveCamera{
 
     // this._easing = this._easing.bind(this);
 
-    // this.camPos = new THREE.Vector3(0, 20, 150);
+    this.camPos = new THREE.Vector3(0, 20, 150);
     // this.camPos = new THREE.Vector3(-14, -16, 443);//真後ろひき
     // this.camPos = new THREE.Vector3(88, -123, 467);//右後方ひき
     // this.camPos = new THREE.Vector3(-184, -84, 39);//左横ひき
     // this.camPos = new THREE.Vector3(11, -78, 86);//下アップ
     // this.camPos = new THREE.Vector3(37, -78, 16);//上アップ
 
-    // this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
+    this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
 
 
     // this.frame =0;
@@ -52,7 +52,7 @@ export class Camera extends THREE.PerspectiveCamera{
 
     // // 原点に注目
     // // this.lookAt(new THREE.Vector3(-50, -50, 0));//これ大事！！！！
-    // this.lookAt(new THREE.Vector3(0, 0, 0));//これ大事！！！！
+    this.lookAt(new THREE.Vector3(0, 0, 0));//これ大事！！！！
 
     // if(this.frame% 300 == 0){
     //   // this.camTarget = new THREE.Vector3(
