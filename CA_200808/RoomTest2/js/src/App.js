@@ -4,17 +4,14 @@
  * メインアプリクラスです。
  */
 export class App{
-  //  export default class App{
       /**
      * @constructor
      * @param sceneInstance
      */
     constructor(sceneInstance){
-      //この中からconstructer外部のmethodを呼び出すためにはbindする必要がある
       this._update = this._update.bind(this);
       this._resize = this._resize.bind(this);
-      // this._keyEvent = this._keyEvent.bind(this);
-  
+
       // シーン
       this._scene = sceneInstance;
   
@@ -45,36 +42,6 @@ export class App{
   
     }
 
-    // _keyEvent(event){
-    //   // if (event.isComposing || event.keyCode === 229) {
-    //   //   return;
-    //   // }
-    //   // // 何かをする
-
-    //   // let KEY = event.key;
-    //   if (event.key === 'a') {
-    //     this._scene.scene2.scene = 1;
-    //   }
-    //   if (event.key === 's') {
-    //     this._scene.scene2.scene = 2;
-    //   }
-    //   if (event.key === 'd') {
-    //     this._scene.scene2.scene = 3;
-    //   }
-    //   if (event.key === 'f') {
-    //     this._scene.scene2.scene = 4;
-    //   }
-    //   if (event.key === 'g') {
-    //     this._scene.scene2.scene = 5;
-    //   }
-    //   if (event.key === 'h') {
-    //     this._scene.scene2.scene = 6;
-    //   }
-
-    // }
-
-  
-  
     /**
     * フレーム毎の更新をします。
     */
