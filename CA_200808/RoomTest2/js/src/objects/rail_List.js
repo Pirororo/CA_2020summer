@@ -128,15 +128,17 @@ export default class Line extends THREE.Object3D {
 
         this.meshList.push(this.mesh);
 
+        console.log(this.meshList.length);
+
         // return this.mesh;
     }
 
 
-    // checkIntersection(){
-    checkIntersection(i){
+    checkIntersection(){
+    // checkIntersection(i){
 
         // this.mesh = this.meshes[ 0 ];
-        this.mesh = this.meshList[ i ];
+        // this.mesh = this.meshList[ i ];
         var geo = this.mesh.geo;
         var g = this.mesh.g;
 
@@ -162,7 +164,8 @@ export default class Line extends THREE.Object3D {
           geo[ j ] = j/3 *4;
         //   geo[ j ] = d * Math.sin( (this.angle +(j/3))*3*Math.PI/180);
           geo[ j + 1 ] = d * Math.sin( (this.angle +(j/3))*8*Math.PI/180);
-          geo[ j + 2 ] = i*5;
+          geo[ j + 2 ] = 0;
+        //   geo[ j + 2 ] = i*5;
         }
 
         g.setGeometry( geo );
@@ -173,16 +176,18 @@ export default class Line extends THREE.Object3D {
     update(){
         this.frame += 1;
         if(this.frame% 4 == 0){
-            // for( var i in this.mesheList ) { this.checkIntersection(i); }
-            // this.checkIntersection(); 
+            // for( var i in this.meshList ) { this.checkIntersection(i); }
+            this.checkIntersection(); 
 
-            for( let i =0; i< this.mesheList; i++ ) { this.checkIntersection(i); }
+            // for( let i =0; i< this.meshList.length; i++ ) { this.checkIntersection(i); }
 
             // this.meshList.forEach( function( l, i ) {
             //     // if( params.animateWidth ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
             //     l.material.uniforms.dashOffset.value += 0.03;
+                // this.checkIntersection(i);
+
             // } );
-            // // this.mesh.material.uniforms.dashOffset.value += 0.03;
+            // this.mesh.material.uniforms.dashOffset.value += 0.03;
         }
 
 

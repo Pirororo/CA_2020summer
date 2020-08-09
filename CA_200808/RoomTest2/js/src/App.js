@@ -13,7 +13,7 @@ export class App{
       //この中からconstructer外部のmethodを呼び出すためにはbindする必要がある
       this._update = this._update.bind(this);
       this._resize = this._resize.bind(this);
-      this._keyEvent = this._keyEvent.bind(this);
+      // this._keyEvent = this._keyEvent.bind(this);
   
       // シーン
       this._scene = sceneInstance;
@@ -38,39 +38,40 @@ export class App{
 
 
 
-  
+      this._scene.scene2.scene = 6;
+
       // フレーム毎の更新
       this._update();
   
     }
 
-    _keyEvent(event){
-      // if (event.isComposing || event.keyCode === 229) {
-      //   return;
-      // }
-      // // 何かをする
+    // _keyEvent(event){
+    //   // if (event.isComposing || event.keyCode === 229) {
+    //   //   return;
+    //   // }
+    //   // // 何かをする
 
-      // let KEY = event.key;
-      if (event.key === 'a') {
-        this._scene.scene2.scene = 1;
-      }
-      if (event.key === 's') {
-        this._scene.scene2.scene = 2;
-      }
-      if (event.key === 'd') {
-        this._scene.scene2.scene = 3;
-      }
-      if (event.key === 'f') {
-        this._scene.scene2.scene = 4;
-      }
-      if (event.key === 'g') {
-        this._scene.scene2.scene = 5;
-      }
-      if (event.key === 'h') {
-        this._scene.scene2.scene = 6;
-      }
+    //   // let KEY = event.key;
+    //   if (event.key === 'a') {
+    //     this._scene.scene2.scene = 1;
+    //   }
+    //   if (event.key === 's') {
+    //     this._scene.scene2.scene = 2;
+    //   }
+    //   if (event.key === 'd') {
+    //     this._scene.scene2.scene = 3;
+    //   }
+    //   if (event.key === 'f') {
+    //     this._scene.scene2.scene = 4;
+    //   }
+    //   if (event.key === 'g') {
+    //     this._scene.scene2.scene = 5;
+    //   }
+    //   if (event.key === 'h') {
+    //     this._scene.scene2.scene = 6;
+    //   }
 
-    }
+    // }
 
   
   
