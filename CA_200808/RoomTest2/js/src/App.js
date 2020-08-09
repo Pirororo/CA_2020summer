@@ -20,7 +20,7 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0xC7FF73), 1.0);//C7FFE4
+      this._renderer.setClearColor(new THREE.Color(0xA4F917), 1.0);//C7FFE4//C7FF73
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
       this._renderer.shadowMap.enabled = true;//影に必要
@@ -80,6 +80,7 @@ export class App{
     _update() {
   
       this._renderer.autoClear = true;//これ大事〜！trueだと色が毎回背景白にクリアされちゃう、逆にtrueにしないと背景色ぬられない
+      // this._renderer.autoClear = false;
   
       // シーンの更新
       this._scene.update();

@@ -56,7 +56,7 @@ export default class Line extends THREE.Object3D {
 
         let material = new MeshLineMaterial( {
             // color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
-            color: new THREE.Color( 0x0500A1),//4CFFCF//2734F2//67FFFF水色
+            color: new THREE.Color( 0xffffff),//4CFFCF//2734F2//67FFFF水色
             opacity: this.params.opacity,
             dashArray: this.params.dashArray,
             dashOffset: this.params.dashOffset,
@@ -120,7 +120,7 @@ export default class Line extends THREE.Object3D {
             this.frame += 1;
             // if(this.frame% 2 == 0){
                 this.checkIntersection(); 
-                this.mesh.material.uniforms.dashOffset.value -= 0.01;
+                this.mesh.material.uniforms.dashOffset.value += 0.003;
             // }
 
     }

@@ -63,14 +63,14 @@ export class Scene extends THREE.Scene {
 
         //moveカメラ用
         this.currentPoint = new THREE.Vector3(
-            this.scene2._rail[0].mesh.geo[3*190+0],
-            this.scene2._rail[0].mesh.geo[3*190+1]+20,
-            this.scene2._rail[0].mesh.geo[3*190+2]
+            this.scene2._rail[0].mesh.geo[3*185+0],
+            this.scene2._rail[0].mesh.geo[3*185+1]+10,
+            this.scene2._rail[0].mesh.geo[3*185+2]
         );
 
         this.nextPoint = new THREE.Vector3(
             this.scene2._rail[0].mesh.geo[3*180+0],
-            this.scene2._rail[0].mesh.geo[3*180+1]+20,
+            this.scene2._rail[0].mesh.geo[3*180+1]+5,
             this.scene2._rail[0].mesh.geo[3*180+2]
         );
 
@@ -143,10 +143,19 @@ export class Scene2 extends THREE.Scene {
         //レール
         this._rail = [];
         this._railNum = 15;
+
         for(let i = 0; i< this._railNum; i++){
             this._rail[i] = new Rail();
             // this._rail[i].position.set(Maf.randomInRange(-50, 50),0,-300);
-            this._rail[i].position.set(Maf.randomInRange(-30, 30),0,0);
+            if(i ==0 ){
+                this._rail[i].position.set(0,0,0);
+            }else {
+                this._rail[i].position.set(
+                    Maf.randomInRange(-20, 20),
+                    Maf.randomInRange(-10, 3),
+                    Maf.randomInRange(-10, 10),
+                );
+            }
             this._rail[i].visible = false;
             this.add(this._rail[i]);
         }
@@ -226,11 +235,11 @@ export class Scene2 extends THREE.Scene {
         if(this.scene == 6){
 
 
-            if(this._wall.visible == false){
-                this.visibleFalse();
-                this._wall.visible = true;
-            }
-            this._wall.update();
+            // if(this._wall.visible == false){
+            //     this.visibleFalse();
+            //     this._wall.visible = true;
+            // }
+            // this._wall.update();
 
             if(this._rail[0].visible == false){
                 this.visibleFalse();
