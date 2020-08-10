@@ -22,8 +22,7 @@ export default class Line extends THREE.Object3D {
 
         let Params = function(){
             this.amount = 15;
-            // this.color = "#c2dc94";
-            this.color = 0xffffff;
+            this.color = 0xC7FF73;
             // this.color = "#ffffff";
             this.lineWidthMax = 0.3;
             this.lineWidthMin = 0.1;
