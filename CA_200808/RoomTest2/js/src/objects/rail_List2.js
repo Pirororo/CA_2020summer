@@ -22,13 +22,13 @@ export default class Line extends THREE.Object3D {
 
         let Params = function(){
             this.amount = 15;
-            this.color = 0xC7FF73;
+            this.color = 0xC7FF73;//黄緑
             // this.color = "#ffffff";
             this.lineWidthMax = 0.3;
             this.lineWidthMin = 0.1;
-            this.dashArray = 0.3;
-            this.dashRatio = 0.6;
-            this.dashGradate = 1.7;//白は1.7以上じゃないと見えない。他の色は下げても見える。
+            this.dashArray = 0.2;//黄緑0.2  白0.3
+            this.dashRatio = 0.1;//黄緑0.1  白0.6
+            this.dashGradate = 0.9;////黄緑0.9  白1.7 白は1.7以上じゃないと見えない。他の色は下げても見える。
             this.backGradate = 0.4;
             this.dashOffsetSpeed = 0.004;
 
