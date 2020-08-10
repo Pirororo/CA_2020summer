@@ -9,7 +9,7 @@ export class Camera extends THREE.PerspectiveCamera{
 
     
     // super(45, window.innerWidth / window.innerHeight, 10, 500);
-    super(90, window.innerWidth / window.innerHeight, 1, 500);//fov広い方が遠近感出る
+    super(90, window.innerWidth / window.innerHeight, 1, 1000);//fov広い方が遠近感出る
 
     // this._easing = this._easing.bind(this);
 

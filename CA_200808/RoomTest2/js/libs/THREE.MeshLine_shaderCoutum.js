@@ -509,6 +509,8 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'uniform float visibility;',
 	'uniform float alphaTest;',
 	'uniform vec2 repeat;',
+	'uniform float dashGradate;',//custom
+	'uniform float backGradate;',//custom
 	'',
 	'varying vec2 vUV;',
 	'varying vec4 vColor;',
@@ -525,14 +527,14 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'    if( c.a < alphaTest ) discard;',
 	'    if( useDash == 1. ){',
 	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
-	'        c.a *= 0.5 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
-	// '        c.a *= 2. *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆
+	// '        c.a *= 0.1 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
+	'        c.a *= dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
 	'    }',
 
 	'    gl_FragColor = c;',
 	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
 	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
-	// '    gl_FragColor.a *= (vUV.x +0.5)* 0.5;',//奥が薄くなる
+	'    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
 	'    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
 	THREE.ShaderChunk.fog_fragment,
@@ -564,6 +566,9 @@ function MeshLineMaterial( parameters ) {
 				visibility: {value: 1 },
 				alphaTest: {value: 0 },
 				repeat: { value: new THREE.Vector2( 1, 1 ) },
+
+				dashGradate: { value: 1.0 },//custom
+				backGradate: { value: 0.1 },//custom
 			}
 		),
 
@@ -701,6 +706,24 @@ function MeshLineMaterial( parameters ) {
 			},
 			set: function ( value ) {
 				this.uniforms.dashRatio.value = value;
+			}
+		},
+		dashGradate: {//custom
+			enumerable: true,
+			get: function () {
+				return this.uniforms.dashGradate.value;
+			},
+			set: function ( value ) {
+				this.uniforms.dashGradate.value = value;
+			}
+		},
+		backGradate: {//custom
+			enumerable: true,
+			get: function () {
+				return this.uniforms.backGradate.value;
+			},
+			set: function ( value ) {
+				this.uniforms.backGradate.value = value;
 			}
 		},
 		useDash: {

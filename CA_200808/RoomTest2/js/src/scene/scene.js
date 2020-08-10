@@ -24,17 +24,30 @@ export class Scene extends THREE.Scene {
         // this.camera.update();//lookAtで中心みてる
 
         //moveカメラ用
+        // this.currentPoint = new THREE.Vector3(
+        //     this.scene2._rail.mesh.geo[3*195+0],
+        //     this.scene2._rail.mesh.geo[3*195+1]+10,
+        //     this.scene2._rail.mesh.geo[3*195+2]
+        // );
+
+        // this.nextPoint = new THREE.Vector3(
+        //     this.scene2._rail.mesh.geo[3*184+0],
+        //     this.scene2._rail.mesh.geo[3*184+1]+20,
+        //     this.scene2._rail.mesh.geo[3*184+2]
+        // );
+
         this.currentPoint = new THREE.Vector3(
-            this.scene2._rail.mesh.geo[3*195+0],
-            this.scene2._rail.mesh.geo[3*195+1]+10,
-            this.scene2._rail.mesh.geo[3*195+2]
+            this.scene2._rail.mesh.geo[3*5+0],
+            this.scene2._rail.mesh.geo[3*5+1]+10,
+            this.scene2._rail.mesh.geo[3*5+2]
         );
 
         this.nextPoint = new THREE.Vector3(
-            this.scene2._rail.mesh.geo[3*194+0],
-            this.scene2._rail.mesh.geo[3*194+1]+10,
-            this.scene2._rail.mesh.geo[3*194+2]
+            this.scene2._rail.mesh.geo[3*15+0],
+            this.scene2._rail.mesh.geo[3*15+1]+10,
+            this.scene2._rail.mesh.geo[3*15+2]
         );
+
 
         this.camera.position.copy(this.currentPoint);
         this.camera.lookAt(this.nextPoint);
@@ -94,22 +107,22 @@ export class Scene2 extends THREE.Scene {
     }
 
     update(){
-            // if(this._wall.visible == false){
-            //     this.visibleFalse();
-            //     this._wall.visible = true;
-            // }
-            // this._wall.update();
+        // if(this._wall.visible == false){
+        //     this.visibleFalse();
+        //     this._wall.visible = true;
+        // }
+        // this._wall.update();
 
-            // if(this._rail[0].visible == false){
-            //     for(let i = 0; i< this._railNum; i++){
-            //         this._rail[i].visible = true;
-            //     }
-            // }
-            // for(let i = 0; i< this._railNum; i++){
-            //     this._rail[i].update();
-            // }
+        // if(this._rail[0].visible == false){
+        //     for(let i = 0; i< this._railNum; i++){
+        //         this._rail[i].visible = true;
+        //     }
+        // }
+        // for(let i = 0; i< this._railNum; i++){
+        //     this._rail[i].update();
+        // }
 
-            this._rail.update();
+        this._rail.update();
 
 
     }
