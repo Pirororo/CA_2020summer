@@ -23,13 +23,10 @@ export class Camera extends THREE.PerspectiveCamera{
     this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
 
 
-    // this.frame =0;
+    this.frame =0;
 
-    // // this.camPos = new THREE.Vector3(14, -16, 0);
-    // // this.camTarget = new THREE.Vector3(88, -123, 0);
-
-    // this.camPos = new THREE.Vector3(-14, 16, 443);
-    // this.camTarget = new THREE.Vector3(-88, 123, 467);
+    this.camPos = new THREE.Vector3(-14, 16, 443);
+    this.camTarget = new THREE.Vector3(-88, 123, 467);
 
   }
 
@@ -38,39 +35,44 @@ export class Camera extends THREE.PerspectiveCamera{
   /**
    * 毎フレームの更新をかけます。
    */
-  update() {
+  update(currentPoint, centerPoint) {
 
 
-    // this.frame += 1;
-    // // this.camPos += (this.camTarget - this.camPos)*0.02;
-    // this.camPos.x += (this.camTarget.x - this.camPos.x)*0.01;
-    // this.camPos.y += (this.camTarget.y - this.camPos.y)*0.01;
-    // this.camPos.z += (this.camTarget.z - this.camPos.z)*0.01;
-
-    // this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
-
+    this.frame += 1;
 
     // // 原点に注目
     // // this.lookAt(new THREE.Vector3(-50, -50, 0));//これ大事！！！！
-    this.lookAt(new THREE.Vector3(0, 0, 0));//これ大事！！！！
+    // this.lookAt(railCenterPoint);//これ大事！！！！
 
-    // if(this.frame% 300 == 0){
-    //   // this.camTarget = new THREE.Vector3(
-    //   //   (2*Math.random()-1)*-100,
-    //   //   (Math.random())*-100,
-    //   //   Maf.randomInRange( 200, -200)
-    //   // );//-150~150
-    //   // this.camPos = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+    this.lookAt(new THREE.Vector3(
+      0,
+      0,
+      centerPoint.z
+    ));//これ大事！！！！
 
-    //   this.camTarget = new THREE.Vector3(
-    //     (2*Math.random()-1)*100,
-    //     (Math.random())*100,
-    //     Maf.randomInRange( 400, 700)
-    //   );
+    if(this.frame == 1){
 
-    //   this.camPos = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
-      
-    // }
+      this.camTarget = new THREE.Vector3(
+        // (2*Math.random()-1)*100,
+        // (Math.random())*100,
+        // Maf.randomInRange( 400, 700)
+        0,
+        300,
+        centerPoint.z-0 
+      );
+
+      this.camPos = new THREE.Vector3(this.position.x, this.position.y-100, this.position.z);
+      // this.camPos = currentPoint;
+      console.log(currentPoint.x);
+    }
+
+    this.camPos.x += (this.camTarget.x - this.camPos.x)*0.02;
+    this.camPos.y += (this.camTarget.y - this.camPos.y)*0.02;
+    this.camPos.z += (this.camTarget.z - this.camPos.z)*0.02;
+
+    this.position.set(this.camPos.x,this.camPos.y,this.camPos.z);
+
+
 
   }
 }

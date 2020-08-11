@@ -11,6 +11,7 @@ export class App{
     constructor(sceneInstance){
       this._update = this._update.bind(this);
       this._resize = this._resize.bind(this);
+      this._keyEvent = this._keyEvent.bind(this);
 
       // シーン
       this._scene = sceneInstance;
@@ -34,13 +35,29 @@ export class App{
       window.addEventListener('keyup', this._keyEvent);
 
 
-
-      this._scene.scene2.scene = 6;
-
       // フレーム毎の更新
       this._update();
   
     }
+
+    _keyEvent(event){
+      // if (event.isComposing || event.keyCode === 229) {
+      //   return;
+      // }
+      // // 何かをする
+
+      if (event.key === 'a') {
+        this._scene.scene = 1;//_keyEventをbind しないとここの_sceneの中身を参照できない！！！
+        // console.log(this._scene.scene)
+      }
+
+      if (event.key === 's') {
+        this._scene.scene = 0;
+        // console.log(this._scene.scene)
+      }
+
+    }
+
 
     /**
     * フレーム毎の更新をします。

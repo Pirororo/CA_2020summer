@@ -18,23 +18,11 @@ export class Scene extends THREE.Scene {
         this.scene2 = new Scene2();
         this.add(this.scene2);
 
+        this.scene = 0;
+
     }
 
     update(){
-        // this.camera.update();//lookAtで中心みてる
-
-        //moveカメラ用
-        // this.currentPoint = new THREE.Vector3(
-        //     this.scene2._rail.mesh.geo[3*195+0],
-        //     this.scene2._rail.mesh.geo[3*195+1]+10,
-        //     this.scene2._rail.mesh.geo[3*195+2]
-        // );
-
-        // this.nextPoint = new THREE.Vector3(
-        //     this.scene2._rail.mesh.geo[3*184+0],
-        //     this.scene2._rail.mesh.geo[3*184+1]+20,
-        //     this.scene2._rail.mesh.geo[3*184+2]
-        // );
 
         this.currentPoint = new THREE.Vector3(
             this.scene2._rail.mesh.geo[3*5+0],
@@ -42,15 +30,29 @@ export class Scene extends THREE.Scene {
             this.scene2._rail.mesh.geo[3*5+2]
         );
 
-        this.nextPoint = new THREE.Vector3(
-            this.scene2._rail.mesh.geo[3*15+0],
-            this.scene2._rail.mesh.geo[3*15+1]+10,
-            this.scene2._rail.mesh.geo[3*15+2]
-        );
 
+        if(this.scene == 0){
+            this.nextPoint = new THREE.Vector3(
+                this.scene2._rail.mesh.geo[3*15+0],
+                this.scene2._rail.mesh.geo[3*15+1]+10,
+                this.scene2._rail.mesh.geo[3*15+2]
+            );
 
-        this.camera.position.copy(this.currentPoint);
-        this.camera.lookAt(this.nextPoint);
+            this.camera.position.copy(this.currentPoint);
+            this.camera.lookAt(this.nextPoint);
+
+            if(this.camera.frame != 0){this.camera.frame = 0;}//this.scene == 1用
+        }
+
+        if(this.scene == 1){
+            this.centerPoint = new THREE.Vector3(
+                this.scene2._rail.mesh.geo[3*200+0],
+                this.scene2._rail.mesh.geo[3*200+1],
+                this.scene2._rail.mesh.geo[3*200+2]
+            );
+            
+            this.camera.update(this.currentPoint, this.centerPoint);//lookAtで中心みてる
+        }
 
 
         // this.scene1.update();
@@ -121,6 +123,7 @@ export class Scene2 extends THREE.Scene {
         // for(let i = 0; i< this._railNum; i++){
         //     this._rail[i].update();
         // }
+
 
         this._rail.update();
 
