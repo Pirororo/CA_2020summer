@@ -20,6 +20,7 @@ export default class ManyLine extends THREE.Object3D {
 
         this.frame = 0;
         this.listNum = -1;
+        this.space = 1.5;//ライン間のスペース
 
         this.meshList = [];//mesh
         this.gList = [];//meshline
@@ -32,7 +33,7 @@ export default class ManyLine extends THREE.Object3D {
             this.curves = true;
             this.opacity = 1;
             this.amount = 5;
-            this.lineWidth = 0.4;
+            this.lineWidth = 0.2;
             // this.dashArray = 0.1;
             // this.dashOffset = 0;
             // this.dashRatio = 0.7;
@@ -100,10 +101,10 @@ export default class ManyLine extends THREE.Object3D {
         // positions
         // 現在のpositions
         this.nowLinePos.push(
-            j*1,
+            j*this.space,
             150,
             0,
-            j*1,
+            j*this.space,
             150,
             0
         );
@@ -164,10 +165,10 @@ export default class ManyLine extends THREE.Object3D {
 
                 // for( var i = 0; i < 2; i++ ) {
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = -40*0;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = -40*1;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
@@ -187,19 +188,19 @@ export default class ManyLine extends THREE.Object3D {
                 
                 if(this.listNum%2 ==0 ){
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = -40;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = -40;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
                 }else{
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = 40;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = 40;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
@@ -215,10 +216,10 @@ export default class ManyLine extends THREE.Object3D {
                 let ran = Math.random()* 30;
                 // for( var i = 0; i < 2; i++ ) {
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = ran*1;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = -ran*1;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
@@ -237,19 +238,19 @@ export default class ManyLine extends THREE.Object3D {
 
                 if(this.listNum%2 ==0 ){
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = -80;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = -80;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
                 }else{
                     for(let j =this.listNum; j< this.listNum+1; j++){
-                        this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 1 ] = 80;
                         this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                        this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                        this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                         this.targetLinePos[ 3*2 * j + 4 ] = 80;
                         this.targetLinePos[ 3*2 * j + 5 ] = 0;
                     }
@@ -261,16 +262,16 @@ export default class ManyLine extends THREE.Object3D {
             this.frame = 0;
             if(this.frame == 0){
                 for(let j =0; j< this.params.amount; j++){
-                    this.nowLinePos[ 3*2 * j + 0 ] = j*1;
+                    this.nowLinePos[ 3*2 * j + 0 ] = j*this.space;
                     this.nowLinePos[ 3*2 * j + 1 ] = 350;
                     this.nowLinePos[ 3*2 * j + 2 ] = 0;
-                    this.nowLinePos[ 3*2 * j + 3 ] = j*1;
+                    this.nowLinePos[ 3*2 * j + 3 ] = j*this.space;
                     this.nowLinePos[ 3*2 * j + 4 ] = 350;
                     this.nowLinePos[ 3*2 * j + 5 ] = 0;
-                    this.targetLinePos[ 3*2 * j + 0 ] = j*1;
+                    this.targetLinePos[ 3*2 * j + 0 ] = j*this.space;
                     this.targetLinePos[ 3*2 * j + 1 ] = 350;
                     this.targetLinePos[ 3*2 * j + 2 ] = 0;
-                    this.targetLinePos[ 3*2 * j + 3 ] = j*1;
+                    this.targetLinePos[ 3*2 * j + 3 ] = j*this.space;
                     this.targetLinePos[ 3*2 * j + 4 ] = 350;
                     this.targetLinePos[ 3*2 * j + 5 ] = 0;
                 }

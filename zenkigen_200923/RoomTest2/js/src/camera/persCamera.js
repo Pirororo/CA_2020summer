@@ -1,6 +1,6 @@
 // import * as THREE from '../../libs/three.module.js';
 
-export class Camera extends THREE.PerspectiveCamera{
+export default class Camera extends THREE.PerspectiveCamera{
   /**
    * コンストラクターです。
    * @constructor

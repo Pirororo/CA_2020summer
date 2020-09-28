@@ -1,6 +1,7 @@
 // import * as THREE from '../../libs/three.module.js';
 // import {Camera, RoomCamera, MoveCamera} from '../camera/camera.js';
-import {Camera} from '../camera/camera.js';
+import persCamera from '../camera/persCamera.js';
+import CACamera from '../camera/CACamera.js';
 import ManyLine from '../objects/ManyLine.js';
 import Triangle from '../objects/Triangle.js';
 import FewLine from '../objects/FewLine.js';
@@ -11,7 +12,8 @@ import Rail from '../objects/rail_beforeList.js';
 import Circle from '../objects/Circle.js';
 import Sea from '../objects/Sea.js';
 import SeaData from '../objects/SeaData.js';
-import Rails from '../objects/waveLine.js';
+import WaveLine from '../objects/waveLine.js';
+import CArails from '../objects/CArails.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -22,9 +24,12 @@ export class Scene extends THREE.Scene {
 
         super();
 
-        this.camera = new Camera();//thisにすること！！！最終的にはgame2.jsでsceneにaddする
+        this.camMode = null;
+        this._persCamera = new persCamera();//thisにする
+        this._orthoCamera = new THREE.OrthographicCamera( innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000 );
+        this._caCamera = new CACamera();//thisにする
 
-        // this.camera = new THREE.OrthographicCamera( innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000 );
+        this.camera = this._persCamera; //初期値
 
 
         // 環境光源
@@ -48,7 +53,7 @@ export class Scene extends THREE.Scene {
         // spotLight.shadow.camera.fov = 120;
         // spotLight.shadow.camera.near = 1;
         // spotLight.shadow.camera.far = 1000;
-        // this.add(spotLight);
+        this.add(spotLight);
 
         //シェーダーのエフェクトをマスクするためシーン２種類にわけた
         // this.scene1 = new Scene1();
@@ -66,7 +71,26 @@ export class Scene extends THREE.Scene {
 
     update(){
         // TWEEN.update();
-        this.camera.update();//lookAtで中心みてる
+        if(this.camera == this._persCamera){
+            this.camera.update();//lookAtで中心みてる
+        }
+        if(this.camera == this._caCamera){
+            // this.camera.update();//lookAtで中心みてる
+            this.currentPoint = new THREE.Vector3(
+                this.scene2._rails.mesh.geo[3*5+0],
+                this.scene2._rails.mesh.geo[3*5+1]+10,
+                this.scene2._rails.mesh.geo[3*5+2]
+            );
+
+            this.nextPoint = new THREE.Vector3(
+                this.scene2._rails.mesh.geo[3*15+0],
+                this.scene2._rails.mesh.geo[3*15+1]+10,
+                this.scene2._rails.mesh.geo[3*15+2]
+            );
+
+            this.camera.position.copy(this.currentPoint);
+            this.camera.lookAt(this.nextPoint);  
+        }
         // this.scene1.update();
         this.scene2.update();
     }
@@ -148,7 +172,7 @@ export class Scene2 extends THREE.Scene {
 
         //少量線
         this._fewLine = new FewLine();
-        // this._fewLine.position.set(-30,0,0);
+        this._fewLine.position.set(0,0,30);
         this._fewLine.rotation.z = -45 * Math.PI/180;
         this._fewLine.visible = false;
         this.add(this._fewLine);
@@ -197,10 +221,17 @@ export class Scene2 extends THREE.Scene {
         this.add(this._seaData);
 
         //CAのレール
-        this._rails = new Rails();
+        this._waveLine = new WaveLine();
+        this._waveLine.position.set(0,0,0);;
+        this._waveLine.visible = false;
+        this.add(this._waveLine);
+
+        //CAのレール
+        this._rails = new CArails();
         this._rails.position.set(0,0,0);;
         this._rails.visible = false;
         this.add(this._rails);
+
         //四角
 
         //グリッチ
@@ -222,6 +253,7 @@ export class Scene2 extends THREE.Scene {
             this._circle.visible = false;
             this._sea.visible = false;
             this._seaData.visible = false;
+            this._waveLine.visible = false;
             this._rails.visible = false;
         }
         
@@ -296,6 +328,14 @@ export class Scene2 extends THREE.Scene {
         }
 
         if(this.scene == 10){
+            if(this._waveLine.visible == false){
+                this.visibleFalse();
+                this._waveLine.visible = true;
+            }
+            this._waveLine.update();
+        }
+        
+        if(this.scene == 11){
             if(this._rails.visible == false){
                 this.visibleFalse();
                 this._rails.visible = true;
