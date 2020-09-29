@@ -63,7 +63,7 @@
         vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
         //gl_PointSize = clamp(scale * ( 200.0 / - mvPosition.z ), 0.1, 4.0);
-        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.1, 4.0);
+        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.5, 8.0);
         //gl_PointSize = scale * ( 10.0 * mvPosition.z );
         //gl_PointSize = 3.0;
 
@@ -87,9 +87,8 @@
 
     </script>
 
-
-
     <div id="WebGL-output"></div>
+    <div id="WebGL-picture"></div>
 
     <!-- これは最後によみこむ！ -->
     <script type="module" src="js/src/main.js"></script>

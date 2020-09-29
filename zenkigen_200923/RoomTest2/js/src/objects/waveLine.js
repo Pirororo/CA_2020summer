@@ -41,7 +41,7 @@ export default class Rails extends THREE.Object3D {
             // this.curves = true;
             // this.amount = 20;
             // this.lineWidth = 0.2;
-            // // this.lineWidth = Math.random(0.1,1);
+            // this.lineWidth = Math.random(0.1,1);
             
             // this.dashArray = 0.9;
             // this.dashOffset = 0;
@@ -57,7 +57,7 @@ export default class Rails extends THREE.Object3D {
 
 
             // this.amount = 100;
-            this.lineWidth = 0.2;
+            // this.lineWidth = 0.2;
             this.dashArray = 0.9;
             this.dashOffset = 0;
             this.dashRatio = 0.1;
@@ -115,7 +115,8 @@ export default class Rails extends THREE.Object3D {
         for(let Time =0; Time < TimeNum; Time++){
             curveList.push(new THREE.Vector3( posX[Time], posY[Time], posZ[Time] ));
         }
-        var curve = new THREE.CatmullRomCurve3(curveList, true,"centripetal");//centripetal, chordal and catmullrom.
+        // var curve = new THREE.CatmullRomCurve3(curveList, true,"centripetal");//centripetal, chordal and catmullrom.
+        var curve = new THREE.CatmullRomCurve3(curveList);
 
         var points = curve.getPoints(pointNum);
         console.log(points[12].x);
@@ -183,13 +184,14 @@ export default class Rails extends THREE.Object3D {
             useMap: params.strokes,
             // color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
             color: new THREE.Color( 0xffffff),
-            opacity: 0.2,//params.strokes ? .5 : 1,
+            opacity: 0.05,//params.strokes ? .5 : 1,
             dashArray: params.dashArray,
             dashOffset: params.dashOffset,
             dashRatio: params.dashRatio,
             // resolution: resolution,
             // sizeAttenuation: params.sizeAttenuation,
-            lineWidth: params.lineWidth,
+            // lineWidth: params.lineWidth,
+            lineWidth: Math.random(0.01,0.05),
             // near: camera.near,
             // far: camera.far,
             // depthWrite: false,
@@ -261,7 +263,8 @@ export default class Rails extends THREE.Object3D {
         // var curveObject = new THREE.Line( geometry, material );
 
         //taper:wavy
-        g.setGeometry( geo, function( p ) { return 1.4 + Math.sin( 70 * p + (i*10)) } ); 
+        g.setGeometry( geo, function( p ) { return 1.1 + 0.4*Math.sin( 70 * p + (i*10)) } ); 
+        // g.setGeometry( geo); 
 
     }
 

@@ -14,6 +14,7 @@ import Sea from '../objects/Sea.js';
 import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
+import PictWaver from '../objects/PictWaver.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -24,11 +25,10 @@ export class Scene extends THREE.Scene {
 
         super();
 
-        this.camMode = null;
+        //カメラ
         this._persCamera = new persCamera();//thisにする
         this._orthoCamera = new THREE.OrthographicCamera( innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000 );
         this._caCamera = new CACamera();//thisにする
-
         this.camera = this._persCamera; //初期値
 
 
@@ -220,7 +220,7 @@ export class Scene2 extends THREE.Scene {
         this._seaData.visible = false;
         this.add(this._seaData);
 
-        //CAのレール
+        //波の線(NIIデータ)
         this._waveLine = new WaveLine();
         this._waveLine.position.set(0,0,0);;
         this._waveLine.visible = false;
@@ -232,7 +232,11 @@ export class Scene2 extends THREE.Scene {
         this._rails.visible = false;
         this.add(this._rails);
 
-        //四角
+        //画像ゆらゆら
+        this._pictWaver = new PictWaver();
+        this._pictWaver.position.set(0,0,0);;
+        this._pictWaver.visible = false;
+        this.add(this._pictWaver);
 
         //グリッチ
 
@@ -255,6 +259,7 @@ export class Scene2 extends THREE.Scene {
             this._seaData.visible = false;
             this._waveLine.visible = false;
             this._rails.visible = false;
+            this._pictWaver.visible = false;
         }
         
 
@@ -341,6 +346,14 @@ export class Scene2 extends THREE.Scene {
                 this._rails.visible = true;
             }
             this._rails.update();
+        }
+
+        if(this.scene == 12){
+            if(this._pictWaver.visible == false){
+                this.visibleFalse();
+                this._pictWaver.visible = true;
+            }
+            this._pictWaver.update();
         }
 
 

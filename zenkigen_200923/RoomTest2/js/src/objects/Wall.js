@@ -1,4 +1,4 @@
-export default class Wall extends THREE.Object3D {
+export default class PictWaver extends THREE.Object3D {
 // class LightsSticks {
     constructor() {
 
@@ -18,7 +18,8 @@ export default class Wall extends THREE.Object3D {
         vertexShader: sideSticksVertex,
         // This ones actually need double side
         side: THREE.DoubleSide,
-        uniforms: this.uniforms
+        uniforms: this.uniforms,
+        // map: texture
       });
 
     //   material.onBeforeCompile = shader => {
@@ -46,6 +47,7 @@ export default class Wall extends THREE.Object3D {
   }
   
   const sideSticksVertex = `
+
     void main(){
         // gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
         gl_Position = vec4( position, 1.0 );
@@ -55,6 +57,7 @@ export default class Wall extends THREE.Object3D {
 
     uniform vec2 uResolution;
     uniform float uTime;
+    uniform sampler2D uTex;
 
         vec3 palette(in float time, in vec3 colorA, in vec3 colorB, in vec3 colorC, in vec3 colorD) {
             return colorA + colorB * cos(6.28318 * (colorC * time + colorD));
