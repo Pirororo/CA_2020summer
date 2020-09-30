@@ -43,6 +43,11 @@ export class App{
       
       // フレーム毎の更新
       this._update();
+
+
+
+      this._scene.scene2.scene = 12;
+      this._scene.camera = this._scene._orthoCamera;
   
     }
 
