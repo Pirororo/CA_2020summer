@@ -15,6 +15,7 @@ import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
+import Ring from '../objects/Ring.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -238,6 +239,12 @@ export class Scene2 extends THREE.Scene {
         this._pictWaver.visible = false;
         this.add(this._pictWaver);
 
+        //ふわリング
+        this._ring = new Ring();
+        this._ring.position.set(0,0,0);;
+        this._ring.visible = false;
+        this.add(this._ring);
+
         //グリッチ
 
         this.scene = 0;
@@ -260,6 +267,7 @@ export class Scene2 extends THREE.Scene {
             this._waveLine.visible = false;
             this._rails.visible = false;
             this._pictWaver.visible = false;
+            this._ring.visible = false;
         }
         
 
@@ -354,6 +362,14 @@ export class Scene2 extends THREE.Scene {
                 this._pictWaver.visible = true;
             }
             this._pictWaver.update();
+        }
+
+        if(this.scene == 13){
+            if(this._ring.visible == false){
+                this.visibleFalse();
+                this._ring.visible = true;
+            }
+            this._ring.update();
         }
 
 

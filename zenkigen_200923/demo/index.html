@@ -9,7 +9,8 @@
 
     <script src="js/libs/Maf.js"></script>
     <script src="js/libs/THREE.MeshLine_shaderCoutum.js"></script>
-    <script src="js/libs/perlin-noise-simplex.js"></script>
+    <!-- <script src="js/libs/perlin-noise-simplex.js"></script> -->
+    <script src="js/libs/SimplexNoise.js"></script>
 
 
     <!-- fps表示とDAT表示に必要なjs -->
@@ -63,7 +64,7 @@
         vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
         //gl_PointSize = clamp(scale * ( 200.0 / - mvPosition.z ), 0.1, 4.0);
-        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.5, 8.0);
+        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.1, 8.0)*1.1;
         //gl_PointSize = scale * ( 10.0 * mvPosition.z );
         //gl_PointSize = 3.0;
 

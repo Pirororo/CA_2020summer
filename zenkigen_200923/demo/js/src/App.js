@@ -130,7 +130,7 @@ export class App{
       if(this.frame%480 ==0){
         this.sceneNUM += 1;
       }
-      if(this.sceneNUM >=4){
+      if(this.sceneNUM >=5){
         this.sceneNUM = 0;
         this.frame = 0;
       }
@@ -141,15 +141,19 @@ export class App{
       }
       if (this.sceneNUM == 1) {
         this._scene.scene2.scene = 8;
-        this._scene.camera = this._scene._persCamera
+        this._scene.camera = this._scene._persCamera;
       }
       if (this.sceneNUM == 2) {
         this._scene.scene2.scene = 9;
-        this._scene.camera = this._scene._persCamera
+        this._scene.camera = this._scene._persCamera;
       }
       if (this.sceneNUM == 3) {
         this._scene.scene2.scene = 10;
-        this._scene.camera = this._scene._persCamera
+        this._scene.camera = this._scene._persCamera;
+      }
+      if (this.sceneNUM == 4) {
+        this._scene.scene2.scene = 13;
+        this._scene.camera = this._scene._persCamera;
       }
       
   
