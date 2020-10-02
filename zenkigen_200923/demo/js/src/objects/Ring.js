@@ -22,7 +22,7 @@ export default class Ring extends THREE.Object3D {
       color: 0xffffff,
       wireframe: true,
       transparent:true,
-      opacity:0.7,
+      opacity:0.5,
       // blending:THREE.AdditiveBlending
     });
     
@@ -86,8 +86,8 @@ export default class Ring extends THREE.Object3D {
     for (let i = 0; i < this.noise_seed_list.length; i++) {
       for (let deg = 0; deg < 360; deg += 3) {
         let noise_location = new THREE.Vector2(
-          radius * Math.cos(deg * Math.PI/180 )+this.frame*1.0, 
-          radius * Math.sin(deg * Math.PI/180 )+this.frame*1.0
+          radius * Math.cos(deg * Math.PI/180 )+this.frame*0.5, 
+          radius * Math.sin(deg * Math.PI/180 )+this.frame*0.5
         )
         // auto noise_location = vec2(radius * cos(deg * DEG_TO_RAD), radius * sin(deg * DEG_TO_RAD));
         let noise_param = THREEmap(this.simplexNoise.noise(this.noise_seed_list[i], noise_location.x * 0.005, noise_location.y * 0.005, this.noise_param_list[i]), 0, 1, 0.5, 1.2);
