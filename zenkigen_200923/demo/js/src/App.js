@@ -127,7 +127,7 @@ export class App{
       // console.log(position);
 
       this.frame += 1;
-      if(this.frame%300 ==0){
+      if(this.frame%480 ==0){
         this.sceneNUM += 1;
       }
       if(this.sceneNUM >=4){
