@@ -18,7 +18,7 @@ export class App{
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0xA76EFF), 1.0);//C7FFE4//C7FF73//A4F917
+      this._renderer.setClearColor(new THREE.Color(0x000000), 1.0);//C7FFE4//C7FF73//A4F917
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
       this._renderer.shadowMap.enabled = true;//影に必要
@@ -126,19 +126,19 @@ export class App{
       // var position = this._scene.camera.matrixWorld.getPosition().clone();
       // console.log(position);
 
-      this.frame += 1;
-      if(this.frame%480 ==0){
-        this.sceneNUM += 1;
-      }
-      if(this.sceneNUM >=5){
-        this.sceneNUM = 0;
-        this.frame = 0;
-      }
+      // this.frame += 1;
+      // if(this.frame%480 ==0){
+      //   this.sceneNUM += 1;
+      // }
+      // if(this.sceneNUM >=5){
+      //   this.sceneNUM = 0;
+      //   this.frame = 0;
+      // }
 
-      if (this.sceneNUM == 0) {
-        this._scene.scene2.scene = 7;
-        this._scene.camera = this._scene._orthoCamera;
-      }
+      // if (this.sceneNUM == 0) {
+      //   this._scene.scene2.scene = 7;
+      //   this._scene.camera = this._scene._orthoCamera;
+      // }
       if (this.sceneNUM == 1) {
         this._scene.scene2.scene = 8;
         this._scene.camera = this._scene._persCamera;
@@ -151,10 +151,11 @@ export class App{
         this._scene.scene2.scene = 10;
         this._scene.camera = this._scene._persCamera;
       }
-      if (this.sceneNUM == 4) {
+      if (this.sceneNUM == 0) {
         this._scene.scene2.scene = 13;
         this._scene.camera = this._scene._persCamera;
       }
+
       
   
   

@@ -8,8 +8,12 @@
     <script src="js/libs/three.min.js"></script>
 
     <script src="js/libs/Maf.js"></script>
-    <script src="js/libs/THREE.MeshLine_shaderCoutum.js"></script>
-    <script src="js/libs/perlin-noise-simplex.js"></script>
+    <!-- <script src="js/libs/THREE.MeshLine_shaderCoutum.js"></script> -->
+    <script src="js/libs/THREE.MeshLine_overpaint.js"></script>
+    <!-- <script src="js/libs/perlin-noise-simplex.js"></script> -->
+    <script src="js/libs/SimplexNoise.js"></script>
+    <script src="js/src/utils/THREE.ConstantSpline.js"></script>
+    
 
 
     <!-- fps表示とDAT表示に必要なjs -->
@@ -40,10 +44,12 @@
       body {
         width: 100%;
         height: 100%;
+        background-image:url(../RoomTest2/js/src/img/bg_04.jpg);
         /* margin: 0;
         padding: 0; */
         /* overflow: hidden; */
       }
+      
 
       #WebGL-output {
         width: 100%;
@@ -54,6 +60,8 @@
 
 </head>
 <body>
+<!-- <body　background='../RoomTest2/js/src/img/bg_04.jpg'> -->
+  
     <script type="x-shader/x-vertex" id="vertexshader">
 
       attribute float scale;

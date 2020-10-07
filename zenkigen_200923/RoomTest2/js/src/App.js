@@ -15,10 +15,12 @@ export class App{
 
       // シーン
       this._scene = sceneInstance;
+
+      // var texture = new THREE.TextureLoader().load( '../RoomTest2/js/src/img/bg_04.jpg' );//1024*1024
   
       //レンダラー
       this._renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this._renderer.setClearColor(new THREE.Color(0xA76EFF), 1.0);//C7FFE4//C7FF73//A4F917
+      this._renderer.setClearColor(new THREE.Color(0xA76EFF), 0.0);//C7FFE4//C7FF73//A4F917
       this._renderer.setSize(window.innerWidth, window.innerHeight);
       this._renderer.setPixelRatio(1);
       this._renderer.shadowMap.enabled = true;//影に必要
@@ -46,8 +48,8 @@ export class App{
 
 
 
-      this._scene.scene2.scene = 12;
-      this._scene.camera = this._scene._orthoCamera;
+      // this._scene.scene2.scene = 12;
+      // this._scene.camera = this._scene._orthoCamera;
   
     }
 
@@ -104,6 +106,14 @@ export class App{
       if (event.key === 'c') {
         this._scene.scene2.scene = 12;
         this._scene.camera = this._scene._orthoCamera;
+      }
+      if (event.key === 'v') {
+        this._scene.scene2.scene = 13;
+        this._scene.camera = this._scene._persCamera;
+      }
+      if (event.key === 'b') {
+        this._scene.scene2.scene = 14;
+        this._scene.camera = this._scene._persCamera;
       }
 
     }

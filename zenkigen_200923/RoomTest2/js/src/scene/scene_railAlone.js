@@ -15,6 +15,10 @@ import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
+// import Ring from '../objects/Ring.js';
+// import Ring from '../objects/Ring_1st.js';
+import Ring from '../objects/Ring_4th_shaderMat.js';
+import Overpaint from '../objects/Overpaint.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -53,7 +57,13 @@ export class Scene extends THREE.Scene {
         // spotLight.shadow.camera.fov = 120;
         // spotLight.shadow.camera.near = 1;
         // spotLight.shadow.camera.far = 1000;
-        this.add(spotLight);
+        // this.add(spotLight);
+
+        var spotLight_overpaint = new THREE.SpotLight(0xffffff);
+        spotLight_overpaint.castShadow = true;
+        spotLight_overpaint.position.set(0, 0, 0);
+        spotLight_overpaint.intensity = 0.9;
+        this.add(spotLight_overpaint);
 
         //シェーダーのエフェクトをマスクするためシーン２種類にわけた
         // this.scene1 = new Scene1();
@@ -238,6 +248,18 @@ export class Scene2 extends THREE.Scene {
         this._pictWaver.visible = false;
         this.add(this._pictWaver);
 
+        //ふわリング
+        this._ring = new Ring();
+        this._ring.position.set(0,0,0);;
+        this._ring.visible = false;
+        this.add(this._ring);
+
+        //塗り重ね
+        this._overpaint = new Overpaint();
+        this._overpaint.position.set(0,0,0);;
+        this._overpaint.visible = false;
+        this.add(this._overpaint);
+
         //グリッチ
 
         this.scene = 0;
@@ -260,6 +282,9 @@ export class Scene2 extends THREE.Scene {
             this._waveLine.visible = false;
             this._rails.visible = false;
             this._pictWaver.visible = false;
+            this._ring.visible = false;
+            this._overpaint.visible = false;
+            
         }
         
 
@@ -354,6 +379,22 @@ export class Scene2 extends THREE.Scene {
                 this._pictWaver.visible = true;
             }
             this._pictWaver.update();
+        }
+
+        if(this.scene == 13){
+            if(this._ring.visible == false){
+                this.visibleFalse();
+                this._ring.visible = true;
+            }
+            this._ring.update();
+        }
+
+        if(this.scene == 14){
+            if(this._overpaint.visible == false){
+                this.visibleFalse();
+                this._overpaint.visible = true;
+            }
+            this._overpaint.update();
         }
 
 

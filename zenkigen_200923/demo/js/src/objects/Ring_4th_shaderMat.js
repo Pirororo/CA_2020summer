@@ -1,6 +1,3 @@
-//https://threejs.org/examples/#webgl_rtt
-//Three.jsの公式のshaderMaterialに色々サンプルあるよ
-
 // import * as THREE from '../../libs/three.module.js';
 // import { convertCSVtoArray2D, loadCSV } from "../utils/AssetsLoader.js";
 

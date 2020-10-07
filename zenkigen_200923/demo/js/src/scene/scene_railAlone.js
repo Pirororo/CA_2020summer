@@ -16,6 +16,7 @@ import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
 import Ring from '../objects/Ring.js';
+// import Ring from '../objects/Ring_1st.js';
 
 /**
  * シーンクラス：カメラとライト
