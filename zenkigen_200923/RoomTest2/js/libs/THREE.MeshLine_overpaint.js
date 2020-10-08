@@ -535,7 +535,7 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
 	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
 	'    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
-	'    gl_FragColor.a *= vUV.y +0.5;',
+	'    gl_FragColor.a *= vUV.y +0.3;',
 	'    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
 	THREE.ShaderChunk.fog_fragment,
