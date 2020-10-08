@@ -57,13 +57,13 @@ export class Scene extends THREE.Scene {
         // spotLight.shadow.camera.fov = 120;
         // spotLight.shadow.camera.near = 1;
         // spotLight.shadow.camera.far = 1000;
-        // this.add(spotLight);
+        this.add(spotLight);
 
-        var spotLight_overpaint = new THREE.SpotLight(0xffffff);
-        spotLight_overpaint.castShadow = true;
-        spotLight_overpaint.position.set(0, 0, 0);
-        spotLight_overpaint.intensity = 0.9;
-        this.add(spotLight_overpaint);
+        // var spotLight_overpaint = new THREE.SpotLight(0xffffff);
+        // spotLight_overpaint.castShadow = true;
+        // spotLight_overpaint.position.set(0, 0, 0);
+        // spotLight_overpaint.intensity = 0.9;
+        // this.add(spotLight_overpaint);
 
         //シェーダーのエフェクトをマスクするためシーン２種類にわけた
         // this.scene1 = new Scene1();
