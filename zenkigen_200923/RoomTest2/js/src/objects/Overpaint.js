@@ -25,17 +25,17 @@ export default class Overpaint extends THREE.Object3D {
 
         this.lines = [];
         this.time = 0;
-        this.clock = THREE.Clock();
+        this.clock =  new THREE.Clock();
 
         var Params = function(){
             // this.curves = true;
             this.circles = true;
-            this.amount = 50;
+            this.amount = 30;
             // this.lineWidth = Math.random();
             
-            this.dashArray = 0.1;
-            this.dashOffset = 10.0;
-            this.dashRatio = 0.5;
+            this.dashArray = 0.0;
+            this.dashOffset = 0.0;
+            this.dashRatio = 0.0;
             this.taper = 'none';
             this.strokes = false;
             this.sizeAttenuation = true;
@@ -49,16 +49,32 @@ export default class Overpaint extends THREE.Object3D {
 
         this.params = new Params();
 
-        var TAU = 2 * Math.PI/2;
+        var TAU = 2 * Math.PI/4;
         this.hexagonGeometry = new THREE.Geometry();
-        for( var j = 0; j < TAU - .1; j += TAU / 100/2 ) {
+        for( var j = 0; j < TAU - .1; j += TAU / 100/1 ) {
             var v = new THREE.Vector3();
-            v.set( Math.cos( j+(Math.PI/180*180) ), Math.sin( j+(Math.PI/180*180) ), 0 );
+            v.set( Math.cos( j+(Math.PI/180*240) ), Math.sin( j+(Math.PI/180*240) ), 0 );
+            // v.set( Math.cos( j+(Math.PI/180*60) ), Math.sin( j+(Math.PI/180*60) ), 0 );
             this.hexagonGeometry.vertices.push( v );
         }
         this.hexagonGeometry.vertices.push( this.hexagonGeometry.vertices[ 0 ].clone() );
 
         window.addEventListener( 'load', this.init());
+
+        this.lightMesh = new THREE.Mesh(
+            new THREE.CircleGeometry(500, 64),
+            new THREE.ShaderMaterial({
+                transparent:true,//これ、gl_FragColorのアルファ設定に必要！！！！！！
+                // defaultAttributeValues:{
+                //   'alpha': this.alphas
+                // },
+                uniforms: {resolution: {value: new THREE.Vector2( window.innerWidth, window.innerHeight )}},
+                vertexShader: vertex,
+                fragmentShader: fragment
+              })
+        );
+
+        // this.add(this.lightMesh);
 
     }
 
@@ -97,13 +113,15 @@ export default class Overpaint extends THREE.Object3D {
 
         var colors = [
             // 0xFFEDE1,//siro
-            0x70c1b3,//midori
-            0xBE63F2,
-            0x6965DB,
-            0x3DA1F5,
-            0x93EDE1,
-            // 0xf4f1bb,//
-	        0x7B31F0,//
+            // 0xBE63F2,//紫、ピンク
+            // 0x6965DB,//青紫
+            0x98DEFF,//くすんだ青
+            // 0x93EDE1,//シアン
+            0x7B31F0,//紫
+            0x4300F5,//青
+            0xAA21F5,//うす紫
+            0xC771F5//うすピンク
+
         ];
 
         var opacitys = [];
@@ -115,7 +133,7 @@ export default class Overpaint extends THREE.Object3D {
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 8, 15);
+            let wid = Maf.randomInRange( 5, 50);
             // console.log(wid);
             lineWidths.push(wid);
         }
@@ -140,7 +158,8 @@ export default class Overpaint extends THREE.Object3D {
             useMap: this.params.strokes,
             color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
             // color: new THREE.Color( 0xffffff),
-            opacity: opacitys[ ~~Maf.randomInRange( 0, opacitys.length ) ],
+            // opacity: opacitys[ ~~Maf.randomInRange( 0, opacitys.length ) ],
+            opacity: 0.0,
             dashArray: dashArrays[ ~~Maf.randomInRange( 0, dashArrays.length ) ],
             dashOffset: dashOffsets[ ~~Maf.randomInRange( 0, dashOffsets.length ) ],
             // dashRatio: this.params.dashRatio,
@@ -157,20 +176,21 @@ export default class Overpaint extends THREE.Object3D {
             depthTest: false,
             // alphaTest: this.params.strokes ? .5 : 0.0,
             transparent: true,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            time: 0.0,
         });
 
         var mesh = new THREE.Mesh( this.g.geometry, material );
 
         if( this.params.circles ) {
-            var r = 150;
-            
-            mesh.position.set( 0, Maf.randomInRange( -r, r )+450, 170 );
+            var r = 180;
+            mesh.position.set( 0, Maf.randomInRange( -r, r )+400, 200);
+            // mesh.position.set( 100, Maf.randomInRange( -r, r )+400-700, 260-360 );
             // mesh.position.set( 0,0,0 );
             var s = 500 + 10 * Math.random();
             mesh.scale.set( s,s,s );
             // mesh.rotation.set( Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI );
-            mesh.rotation.set(10 *Math.PI/180, 15 *Math.PI/180, 0 );
+            mesh.rotation.set(15 *Math.PI/180, 15 *Math.PI/180, 0 );
             
         }
 
@@ -246,20 +266,64 @@ export default class Overpaint extends THREE.Object3D {
 
 
     update(){
-        // var delta = clock.getDelta();
-        // var t = this.clock.getElapsedTime();
+        // var delta = this.clock.getDelta();//0.015~0.020
+        var t = this.clock.getElapsedTime();
         // this.time += 1.0;
         this.lines.forEach( function( l, i ) {
             // if( params.opacity ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
             // if( params.autoRotate ) l.rotation.y += .125 * delta;
             // l.material.uniforms.visibility.value = this.params.animateVisibility ? (this.time/3000) % 1.0 : 1.0;
-            // l.material.uniforms.opacity.value= t* 0.5;
-            l.material.uniforms.dashOffset.value -= 0.006;
+            l.material.uniforms.opacity.value = (Math.sin(t*10)+1)/2;
+            l.material.uniforms.time.value = t;
+            // l.material.uniforms.dashOffset.value -= 0.009;
         } );
 
     // console.log(this.lines.length);
 
     }
-
 }
+
+const vertex= `
+// attribute float alpha;
+// varying float vAlpha;
+varying vec3 vPosition;
+
+void main(){
+    // vAlpha = alpha;
+    vPosition = position;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    // gl_Position = vec4( position, 1.0 );//こっちにしてcircleGeometryのサイズ0.5にすると画面のwidth,heightの0.5の大きさの楕円になる。
+}
+`;
+
+const fragment = `
+// varying float vAlpha;
+varying vec3 vPosition;
+uniform vec2 resolution;
+
+void main(){
+    // //右上
+    // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
+    // float len = length(p- vec2(1.0, 1.0)); 
+    // //ど真ん中
+    // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
+    // float len = length(p- vec2(0.0, 0.0)); 
+
+    // //右上
+    // vec2 p = gl_FragCoord.xy/ resolution;
+    // float len = length(p- vec2(2.0, 2.0)); 
+    // //左下
+    // vec2 p = gl_FragCoord.xy/ resolution;
+    // float len = length(p- vec2(0.0, 0.0)); 
+    // //ど真ん中
+    // vec2 p = gl_FragCoord.xy/ resolution;
+    // float len = length(p- vec2(1.0, 1.0)); 
+
+    float len = length(vPosition-  vec3(0.0));
+    
+    // gl_FragColor = vec4( vec3(1.0,0.0,0.0), vAlpha*0.5);
+    gl_FragColor = vec4( vec3(1.0), 1.0/pow(len, 0.1) *0.2);
+}
+`;
+
 

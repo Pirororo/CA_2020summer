@@ -425,6 +425,7 @@ THREE.ShaderChunk[ 'meshline_vert' ] = [
 	'uniform float near;',
 	'uniform float far;',
 	'uniform float sizeAttenuation;',
+	'uniform float time;',
 	'',
 	'varying vec2 vUV;',
 	'varying vec4 vColor;',
@@ -449,6 +450,7 @@ THREE.ShaderChunk[ 'meshline_vert' ] = [
 	'',
 	'    mat4 m = projectionMatrix * modelViewMatrix;',
 	'    vec4 finalPosition = m * vec4( position, 1.0 );',
+	'    finalPosition.y += (cos(time/0.5)+1.0)/2.0 * 60.0 -30.0;',//追加
 	'    vec4 prevPos = m * vec4( previous, 1.0 );',
 	'    vec4 nextPos = m * vec4( next, 1.0 );',
 	'',
@@ -528,15 +530,16 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'    if( useDash == 1. ){',
 	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
 	// '        c.a *= 0.1 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
-	'        c.a *= dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
+	// '        c.a *= dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
 	'    }',
 
 	'    gl_FragColor = c;',
 	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
 	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
-	'    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
-	'    gl_FragColor.a *= vUV.y +0.3;',
+	// '    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
+	'    gl_FragColor.a *= (1.0-vUV.y)* 0.9 +0.0;',
 	'    gl_FragColor.a *= step(vCounters, visibility);',
+	'    gl_FragColor.a += 0.5;',
 	'',
 	THREE.ShaderChunk.fog_fragment,
 	'}'
@@ -570,6 +573,7 @@ function MeshLineMaterial( parameters ) {
 
 				dashGradate: { value: 1.0 },//custom
 				backGradate: { value: 0.1 },//custom
+				time: { value: 0.0 },//custom
 			}
 		),
 
@@ -763,6 +767,15 @@ function MeshLineMaterial( parameters ) {
 				this.uniforms.repeat.value.copy( value );
 			}
 		},
+		opacity: {
+			enumerable: true,
+			get: function () {
+				return this.uniforms.time.value;
+			},
+			set: function ( value ) {
+				this.uniforms.time.value = value;
+			}
+		},
 	});
 
 	this.setValues( parameters );
@@ -794,6 +807,7 @@ MeshLineMaterial.prototype.copy = function ( source ) {
 	this.visibility = source.visibility;
 	this.alphaTest = source.alphaTest;
 	this.repeat.copy( source.repeat );
+	this.time = source.time;
 
 	return this;
 
