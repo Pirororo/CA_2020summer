@@ -23,14 +23,27 @@ export default class Overpaint extends THREE.Object3D {
         // console.log(positions.length);//30000
 
 
-        this.lines = [];
-        this.time = 0;
-        this.clock =  new THREE.Clock();
+        // this.opacitySpeed = 0.01;
+        // this.backMesh = new THREE.Mesh(
+        //     new THREE.PlaneGeometry(window.innerWidth*1.5, window.innerHeight*1.5),
+        //     // new THREE.SphereGeometry(1000,32,32),
+        //     new THREE.MeshBasicMaterial({
+        //         color: 0x98DEFF,
+        //         transparent:true,
+        //         opacity: 0.0,
+        //         side: THREE.DoubleSide,
+        //         // needsUpdate:true
+        //     })
+        // );
+        // this.add(this.backMesh);
+        // this.backMesh.position.set(0,0,-500);
+
+
 
         var Params = function(){
             // this.curves = true;
             this.circles = true;
-            this.amount = 30;
+            this.amount = 40;
             // this.lineWidth = Math.random();
             
             this.dashArray = 0.0;
@@ -46,34 +59,35 @@ export default class Overpaint extends THREE.Object3D {
             this.animateDashOffset = true;
             // this.strokes = true;
         };
-
         this.params = new Params();
 
+        this.lines = [];
+        this.clock =  new THREE.Clock();
+        
         var TAU = 2 * Math.PI/4;
         this.hexagonGeometry = new THREE.Geometry();
         for( var j = 0; j < TAU - .1; j += TAU / 100/1 ) {
             var v = new THREE.Vector3();
             v.set( Math.cos( j+(Math.PI/180*240) ), Math.sin( j+(Math.PI/180*240) ), 0 );
-            // v.set( Math.cos( j+(Math.PI/180*60) ), Math.sin( j+(Math.PI/180*60) ), 0 );
             this.hexagonGeometry.vertices.push( v );
         }
-        this.hexagonGeometry.vertices.push( this.hexagonGeometry.vertices[ 0 ].clone() );
+        // this.hexagonGeometry.vertices.push( this.hexagonGeometry.vertices[ 0 ].clone() );//最後の点
 
         window.addEventListener( 'load', this.init());
 
-        this.lightMesh = new THREE.Mesh(
-            new THREE.CircleGeometry(500, 64),
-            new THREE.ShaderMaterial({
-                transparent:true,//これ、gl_FragColorのアルファ設定に必要！！！！！！
-                // defaultAttributeValues:{
-                //   'alpha': this.alphas
-                // },
-                uniforms: {resolution: {value: new THREE.Vector2( window.innerWidth, window.innerHeight )}},
-                vertexShader: vertex,
-                fragmentShader: fragment
-              })
-        );
-
+        // //円形の光用メッシュ
+        // this.lightMesh = new THREE.Mesh(
+        //     new THREE.CircleGeometry(500, 64),
+        //     new THREE.ShaderMaterial({
+        //         transparent:true,//これ、gl_FragColorのアルファ設定に必要！！！！！！
+        //         // defaultAttributeValues:{
+        //         //   'alpha': this.alphas
+        //         // },
+        //         uniforms: {resolution: {value: new THREE.Vector2( window.innerWidth, window.innerHeight )}},
+        //         vertexShader: vertex,
+        //         fragmentShader: fragment
+        //       })
+        // );
         // this.add(this.lightMesh);
 
     }
@@ -92,7 +106,7 @@ export default class Overpaint extends THREE.Object3D {
     
     createLine(j) {
         if( this.params.circles ) this.makeLine( this.hexagonGeometry );
-        if( this.params.curves ) this.makeLine( this.createCurve(j) );
+        // if( this.params.curves ) this.makeLine( this.createCurve(j) );
     }
     
 
@@ -183,7 +197,7 @@ export default class Overpaint extends THREE.Object3D {
         var mesh = new THREE.Mesh( this.g.geometry, material );
 
         if( this.params.circles ) {
-            var r = 180;
+            var r = 160;
             mesh.position.set( 0, Maf.randomInRange( -r, r )+400, 200);
             // mesh.position.set( 100, Maf.randomInRange( -r, r )+400-700, 260-360 );
             // mesh.position.set( 0,0,0 );
@@ -268,62 +282,69 @@ export default class Overpaint extends THREE.Object3D {
     update(){
         // var delta = this.clock.getDelta();//0.015~0.020
         var t = this.clock.getElapsedTime();
-        // this.time += 1.0;
         this.lines.forEach( function( l, i ) {
             // if( params.opacity ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
             // if( params.autoRotate ) l.rotation.y += .125 * delta;
             // l.material.uniforms.visibility.value = this.params.animateVisibility ? (this.time/3000) % 1.0 : 1.0;
-            l.material.uniforms.opacity.value = (Math.sin(t*10)+1)/2;
-            l.material.uniforms.time.value = t;
+            l.material.uniforms.opacity.value = (Math.sin(t*3)+1)/2+0.2;
+            l.material.uniforms.time.value = t + i*1;//i入れて正解だったぽい
             // l.material.uniforms.dashOffset.value -= 0.009;
         } );
 
-    // console.log(this.lines.length);
+        this.backMesh.material.opacity += this.opacitySpeed;
+        if(this.backMesh.material.opacity > 1.0){
+            this.opacitySpeed *= -1;
+        }else if(this.backMesh.material.opacity <= 0.0){
+            this.backMesh.material.opacity =0.0;
+        }
+
 
     }
 }
 
-const vertex= `
-// attribute float alpha;
-// varying float vAlpha;
-varying vec3 vPosition;
 
-void main(){
-    // vAlpha = alpha;
-    vPosition = position;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-    // gl_Position = vec4( position, 1.0 );//こっちにしてcircleGeometryのサイズ0.5にすると画面のwidth,heightの0.5の大きさの楕円になる。
-}
-`;
+// //円形の光用メッシュ
+// const vertex= `
+// // attribute float alpha;
+// // varying float vAlpha;
+// varying vec3 vPosition;
 
-const fragment = `
-// varying float vAlpha;
-varying vec3 vPosition;
-uniform vec2 resolution;
+// void main(){
+//     // vAlpha = alpha;
+//     vPosition = position;
+//     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+//     // gl_Position = vec4( position, 1.0 );//こっちにしてcircleGeometryのサイズ0.5にすると画面のwidth,heightの0.5の大きさの楕円になる。
+// }
+// `;
 
-void main(){
-    // //右上
-    // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
-    // float len = length(p- vec2(1.0, 1.0)); 
-    // //ど真ん中
-    // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
-    // float len = length(p- vec2(0.0, 0.0)); 
+// const fragment = `
+// // varying float vAlpha;
+// varying vec3 vPosition;
+// uniform vec2 resolution;
 
-    // //右上
-    // vec2 p = gl_FragCoord.xy/ resolution;
-    // float len = length(p- vec2(2.0, 2.0)); 
-    // //左下
-    // vec2 p = gl_FragCoord.xy/ resolution;
-    // float len = length(p- vec2(0.0, 0.0)); 
-    // //ど真ん中
-    // vec2 p = gl_FragCoord.xy/ resolution;
-    // float len = length(p- vec2(1.0, 1.0)); 
+// void main(){
+//     // //右上
+//     // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
+//     // float len = length(p- vec2(1.0, 1.0)); 
+//     // //ど真ん中
+//     // vec2 p = (gl_FragCoord.xy/ resolution)-1.0;
+//     // float len = length(p- vec2(0.0, 0.0)); 
 
-    float len = length(vPosition-  vec3(0.0));
+//     // //右上
+//     // vec2 p = gl_FragCoord.xy/ resolution;
+//     // float len = length(p- vec2(2.0, 2.0)); 
+//     // //左下
+//     // vec2 p = gl_FragCoord.xy/ resolution;
+//     // float len = length(p- vec2(0.0, 0.0)); 
+//     // //ど真ん中
+//     // vec2 p = gl_FragCoord.xy/ resolution;
+//     // float len = length(p- vec2(1.0, 1.0)); 
+
+//     float len = length(vPosition-  vec3(0.0));
     
-    // gl_FragColor = vec4( vec3(1.0,0.0,0.0), vAlpha*0.5);
-    gl_FragColor = vec4( vec3(1.0), 1.0/pow(len, 0.1) *0.2);
-}
-`;
+//     // gl_FragColor = vec4( vec3(1.0,0.0,0.0), vAlpha*0.5);
+//     gl_FragColor = vec4( vec3(1.0), 1.0/pow(len, 0.1) *0.2);
+// }
+// `;
 
 
