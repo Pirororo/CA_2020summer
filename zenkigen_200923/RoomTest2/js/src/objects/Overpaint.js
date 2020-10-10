@@ -291,12 +291,12 @@ export default class Overpaint extends THREE.Object3D {
             // l.material.uniforms.dashOffset.value -= 0.009;
         } );
 
-        this.backMesh.material.opacity += this.opacitySpeed;
-        if(this.backMesh.material.opacity > 1.0){
-            this.opacitySpeed *= -1;
-        }else if(this.backMesh.material.opacity <= 0.0){
-            this.backMesh.material.opacity =0.0;
-        }
+        // this.backMesh.material.opacity += this.opacitySpeed;
+        // if(this.backMesh.material.opacity > 1.0){
+        //     this.opacitySpeed *= -1;
+        // }else if(this.backMesh.material.opacity <= 0.0){
+        //     this.backMesh.material.opacity =0.0;
+        // }
 
 
     }
