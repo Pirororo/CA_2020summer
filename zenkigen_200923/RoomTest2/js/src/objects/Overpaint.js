@@ -1,6 +1,6 @@
 // import * as THREE from '../../libs/three.module.js';
 // import * as THREE from '../../libs/three.js';
-// import {} from '../../libs/THREE.MeshLine.js';
+// import {} from '../../libs/THREE.MeshLine_overpaint.js';
 
 /**
  *　ラインクラスです。

@@ -65,7 +65,7 @@
         vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
         //gl_PointSize = clamp(scale * ( 200.0 / - mvPosition.z ), 0.1, 4.0);
-        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.1, 8.0)*1.1;
+        gl_PointSize = clamp(( 1000.0 / - mvPosition.z ), 0.1, 8.0)*1.2;
         //gl_PointSize = scale * ( 10.0 * mvPosition.z );
         //gl_PointSize = 3.0;
 
@@ -83,7 +83,7 @@
 
         if ( length( gl_PointCoord - vec2( 0.5, 0.5 ) ) > 0.475 ) discard;
 
-        gl_FragColor = vec4( color, 0.5 );
+        gl_FragColor = vec4( color, 0.8 );
 
       }
 

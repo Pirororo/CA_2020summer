@@ -31,7 +31,7 @@ export class Scene extends THREE.Scene {
 
         //カメラ
         this._persCamera = new persCamera();//thisにする
-        this._orthoCamera = new THREE.OrthographicCamera( innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000 );
+        this._orthoCamera = new THREE.OrthographicCamera( innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 100 );
         this._caCamera = new CACamera();//thisにする
         this.camera = this._persCamera; //初期値
 
