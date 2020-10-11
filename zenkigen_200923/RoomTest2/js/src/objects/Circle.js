@@ -74,8 +74,8 @@ export default class Circle extends THREE.Object3D {
       // 0x93EDE1
 
       0x98DEFF,//くすんだ青
-      0x93EDE1,//シアン
-      // 0x7B31F0,//紫
+      // 0x93EDE1,//シアン
+      0x7B31F0,//紫
       0x4300F5,//青
       // 0xAA21F5,//うす紫
       0xC771F5//うすピンク

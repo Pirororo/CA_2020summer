@@ -53,7 +53,7 @@ export class Scene extends THREE.Scene {
         // spotLight.position.set(0, 250, 250);
         // spotLight.intensity = 0.6;
         spotLight.position.set(0, 0, 400);
-        spotLight.intensity = 0.99;
+        spotLight.intensity = 0.6;
         // spotLight.shadow.mapSize.width = 2048;
         // spotLight.shadow.mapSize.height = 2048;
         // spotLight.shadow.camera.fov = 120;
