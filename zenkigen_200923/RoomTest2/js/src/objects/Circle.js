@@ -14,8 +14,8 @@ export default class Circle extends THREE.Object3D {
 
     super();
 
-    this.frame = 0;
-    this.listNum = 0;
+    this.frame = -1;
+    this.listNum = -1;
     this.createCircle = this.createCircle.bind(this);
     this.startSetting = this.startSetting.bind(this);
 
@@ -41,7 +41,7 @@ export default class Circle extends THREE.Object3D {
     // ];
 
 
-    this.NUM = 7;
+    this.NUM = 14;
     this.boxList = [];
     this.boxMatList = [];
 
@@ -74,10 +74,10 @@ export default class Circle extends THREE.Object3D {
       // 0x93EDE1
 
       0x98DEFF,//くすんだ青
-      // 0x93EDE1,//シアン
-      0x7B31F0,//紫
+      0x93EDE1,//シアン
+      // 0x7B31F0,//紫
       0x4300F5,//青
-      0xAA21F5,//うす紫
+      // 0xAA21F5,//うす紫
       0xC771F5//うすピンク
     ];
 
@@ -119,7 +119,8 @@ export default class Circle extends THREE.Object3D {
     );
 
     // mesh.rotation.z = 0 * Math.PI / 180;
-    mesh.scale.set(10,10,10);
+    // mesh.scale.set(10,10,10);
+    mesh.scale.set(1,1,1);
 
     // mesh.castShadow = true;
     // mesh.receiveShadow = true;
@@ -139,18 +140,17 @@ export default class Circle extends THREE.Object3D {
     // ターゲットのpositions
     // this.targetBoxPos.push(0, 0, 0);
     let Randomselect = Math.random();
-    // let lineLength = Maf.randomInRange(0.02, 0.01);
-    let lineLength = 0;
+    let lineLength = Maf.randomInRange(100, 200);
     if(Randomselect >0.5){
         if(this.nowBoxPos[3 * i + 0]> window.innerWidth/2 -100 && lineLength>0){ lineLength *= -1;}
         if(this.nowBoxPos[3 * i + 0]< -window.innerWidth/2 +100&& lineLength<0){lineLength *= -1;}
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]+lineLength);
-        this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]);
+        this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]+lineLength);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 2]);
     }else{
         if(this.nowBoxPos[3 * i + 1]> window.innerHeight/2 -100 && lineLength>0){lineLength *= -1;}
         if(this.nowBoxPos[3 * i + 1]< -window.innerHeight/2 +100&& lineLength<0){lineLength *= -1;}
-        this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]);
+        this.targetBoxPos.push(this.nowBoxPos[3 * i + 0]+lineLength);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 1]+lineLength);
         this.targetBoxPos.push(this.nowBoxPos[3 * i + 2]);
     }
@@ -171,13 +171,15 @@ export default class Circle extends THREE.Object3D {
 
     // ターゲットのscale
     // this.targetBoxScl.push(60);
-    this.targetBoxScl.push(this.dateValue);
+    // this.targetBoxScl.push(this.dateValue);
+    this.targetBoxScl.push(0.9);
 
     //opacity
     // 現在のopacity
-    this.nowBoxOpc.push(mat.opacity);
-    // ターゲットのscale
-    this.targetBoxOpc.push(0.7);
+    // this.nowBoxOpc.push(mat.opacity);
+    this.nowBoxOpc.push(1.0- (i*0.02));
+    // ターゲットのopacity
+    this.targetBoxOpc.push(0.0);
 
   }
 
@@ -229,7 +231,7 @@ export default class Circle extends THREE.Object3D {
       //イージング
       //positions
       for(let i =0; i< this.NUM*3; i++){
-        this.nowBoxPos[i] += (this.targetBoxPos[i]-this.nowBoxPos[i]) *0.03;
+        this.nowBoxPos[i] += (this.targetBoxPos[i]-this.nowBoxPos[i]) *0.02;
       }
       //rotate //scale //opacity
       for(let i =0; i< this.boxList.length; i++){
@@ -241,39 +243,55 @@ export default class Circle extends THREE.Object3D {
         // this.boxSpeed[i] = this.lineLength;
         // this.nowBoxScl[i] += this.boxSpeed[i];
         this.nowBoxScl[i] += (this.targetBoxScl[i]-this.nowBoxScl[i]) *0.03;
-        this.nowBoxOpc[i] += (this.targetBoxOpc[i]-this.nowBoxOpc[i]) *0.01;
+        this.nowBoxOpc[i] += (this.targetBoxOpc[i]-this.nowBoxOpc[i]) *0.03;
       }
 
       //box
-      for(let i =0; i< this.boxList.length; i++){
+      this.frame += 1;
+      if(this.frame%10 == 0){this.listNum += 1;}
+      
+      if(this.listNum > this.NUM-1){
+          this.listNum = 0;
+      }
+      console.log(this.listNum);
+      for(let i =this.listNum; i< this.listNum+1; i++){
+      // for(let i =0; i< this.boxList.length; i++){
           //rotate
           // this.boxList[i].rotation.y = this.nowBoxRot[i];
 
-          if(this.nowBoxScl[i]>= this.targetBoxScl[i]*0.99){
+          if(this.nowBoxScl[i]>= this.targetBoxScl[i]*0.95){
             // this.boxList[i].position.x = Maf.randomInRange( -350, 350);
             // this.boxList[i].position.y = Maf.randomInRange( -180,180);
             // this.boxList[i].position.z = Maf.randomInRange( -10, 10);
 
             //positions
-            this.nowBoxPos[3 * i + 0] = Maf.randomInRange( -window.innerWidth/2, window.innerWidth/2);
-            this.nowBoxPos[3 * i + 1] = Maf.randomInRange( -window.innerHeight/2, window.innerHeight/2);
+            this.nowBoxPos[3 * i + 0] = Maf.randomInRange( -window.innerWidth/2, window.innerWidth/2-100);
+            this.nowBoxPos[3 * i + 1] = Maf.randomInRange( -window.innerHeight/2, window.innerHeight/2-100);
             this.nowBoxPos[3 * i + 2] = -10;
 
             let Randomselect = Math.random();
             let PlusMinus = Math.random();
-            // let lineLength = Maf.randomInRange(10, 30);
-            let lineLength = 0;
-            if(PlusMinus >0.5){ lineLength *= -1;}
+            let lineLengthX = Maf.randomInRange(100, 200);
+            let lineLengthY = Maf.randomInRange(50, 150);
+            // if(PlusMinus >0.5){ lineLength *= -1;}
 
-            if(Randomselect >0.5){
-                if(this.nowBoxPos[3 * i + 0]> window.innerWidth/2 -0 && lineLength>0){ lineLength *= -1;}
-                if(this.nowBoxPos[3 * i + 0]< -window.innerWidth/2 +0&& lineLength<0){lineLength *= -1;}
-                this.targetBoxPos[3 * i + 0] = this.nowBoxPos[3 * i + 0] +lineLength;
-            }else{
-                if(this.nowBoxPos[3 * i + 1]> window.innerHeight/2 -0 && lineLength>0){ lineLength *= -1;}
-                if(this.nowBoxPos[3 * i + 1]< -window.innerHeight/2 +0&& lineLength<0){lineLength *= -1;}
-                this.targetBoxPos[3 * i + 1] = this.nowBoxPos[3 * i + 1] +lineLength;
-            }
+            // if(this.nowBoxPos[3 * i + 0]> window.innerWidth/2 -50){ lineLengthX *= -1;}
+            // if(this.nowBoxPos[3 * i + 1]> window.innerHeight/2 -50){lineLengthY *= -1;}
+                this.targetBoxPos[3 * i + 0] = this.nowBoxPos[3 * i + 0] +lineLengthX;
+                this.targetBoxPos[3 * i + 1] = this.nowBoxPos[3 * i + 1] +lineLengthY;
+            
+
+            // if(Randomselect >0.5){
+            //     if(this.nowBoxPos[3 * i + 0]> window.innerWidth/2 -0 && lineLength>0){ lineLength *= -1;}
+            //     if(this.nowBoxPos[3 * i + 0]< -window.innerWidth/2 +0&& lineLength<0){lineLength *= -1;}
+            //     this.targetBoxPos[3 * i + 0] = this.nowBoxPos[3 * i + 0] +lineLength;
+            //     this.targetBoxPos[3 * i + 1] = this.nowBoxPos[3 * i + 1] +lineLength;
+            // }else{
+            //     if(this.nowBoxPos[3 * i + 1]> window.innerHeight/2 -0 && lineLength>0){ lineLength *= -1;}
+            //     if(this.nowBoxPos[3 * i + 1]< -window.innerHeight/2 +0&& lineLength<0){lineLength *= -1;}
+            //     this.targetBoxPos[3 * i + 0] = this.nowBoxPos[3 * i + 0] +lineLength;
+            //     this.targetBoxPos[3 * i + 1] = this.nowBoxPos[3 * i + 1] +lineLength;
+            // }
   
             this.nowBoxScl[i] = 5.0;
             this.TimesList[i] += 1;//0行目を題名にする場合は前におく
@@ -282,10 +300,12 @@ export default class Circle extends THREE.Object3D {
             this.getDateValue(i);
             this.targetBoxScl[i] = this.dateValue;
 
-            this.nowBoxOpc[i] = 1.3;
-            this.targetBoxOpc[i] = 0.1;
+            this.nowBoxOpc[i] = 2.0;
+            this.targetBoxOpc[i] = 0.0;
           }
+      }
 
+      for(let i =0; i< this.boxList.length; i++){
           //positions
           this.boxList[i].position.x = this.nowBoxPos[3 * i + 0];
           this.boxList[i].position.y = this.nowBoxPos[3 * i + 1];

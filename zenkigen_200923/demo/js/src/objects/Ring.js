@@ -82,7 +82,9 @@ export default class Ring extends THREE.Object3D {
           this.noise_seed_list[i], 
           noise_location.x * 0.005*1.4, 
           noise_location.y * 0.005*1.4, 
-          this.noise_param_list[i]), 0, 1, 0.80, 1.0);
+          this.noise_param_list[i]
+          ), 0, 1, 0.80, 1.0
+        );
 
         this.positions[posNum] = radius * noise_param * Math.cos(deg * Math.PI/180);
         posNum +=1;
