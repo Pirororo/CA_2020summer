@@ -482,10 +482,11 @@ THREE.ShaderChunk[ 'meshline_vert' ] = [
 	'',
 	'    //vec2 normal = ( cross( vec3( dir, 0. ), vec3( 0., 0., 1. ) ) ).xy;',
 	'    vec2 normal = vec2( -dir.y, dir.x );',
-	'    normal.y /= aspect;',
+	'    normal.x /= aspect;',
 	'    normal *= .5 * w;',
 	'',
-	'    vec4 offset = vec4( normal * side, 0.0, 1.0 );',
+	// '    vec4 offset = vec4( vec2(normal.y, normal.x) * side, 0.0, 1.0 );',
+	'    vec4 offset = vec4( normal* side, 0.0, 1.0 );',
 	'    finalPosition.xy += offset.xy;',
 	'',
 	'    gl_Position = finalPosition;',
@@ -525,22 +526,21 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'',
 	
 	'    vec4 c = vColor;',
-	'    if( useMap == 1. ) c *= texture2D( map, vUV * repeat );',
-	'    if( useAlphaMap == 1. ) c.a *= texture2D( alphaMap, vUV * repeat ).a;',
-	'    if( c.a < alphaTest ) discard;',
-	'    if( useDash == 1. ){',
+	// '    if( useMap == 1. ) c *= texture2D( map, vUV * repeat );',
+	// '    if( useAlphaMap == 1. ) c.a *= texture2D( alphaMap, vUV * repeat ).a;',
+	// '    if( c.a < alphaTest ) discard;',
+	// '    if( useDash == 1. ){',
 	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
 	// '        c.a *= 0.1 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
 	// '        c.a *= dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
-	'    }',
+	// '    }',
 
 	'    gl_FragColor = c;',
 	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
 	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
 	// '    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
-	'    gl_FragColor.a *= (1.0-vUV.y)* 0.9 +0.0;',
-	'    gl_FragColor.a *= step(vCounters, visibility);',
-	'    gl_FragColor.a += 0.5;',
+	'    gl_FragColor.a += (1.0-vUV.y)* 1.0 -1.0;',
+	// '    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
 	THREE.ShaderChunk.fog_fragment,
 	'}'
