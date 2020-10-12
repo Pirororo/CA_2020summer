@@ -126,14 +126,14 @@ export class App{
       // var position = this._scene.camera.matrixWorld.getPosition().clone();
       // console.log(position);
 
-      // this.frame += 1;
-      // if(this.frame%480 ==0){
-      //   this.sceneNUM += 1;
-      // }
-      // if(this.sceneNUM >=3){
-      //   this.sceneNUM = 0;
-      //   this.frame = 0;
-      // }
+      this.frame += 1;
+      if(this.frame%480 ==0){
+        this.sceneNUM += 1;
+      }
+      if(this.sceneNUM >=3){
+        this.sceneNUM = 0;
+        this.frame = 0;
+      }
 
       // if (this.sceneNUM == 0) {
       //   this._scene.scene2.scene = 7;
