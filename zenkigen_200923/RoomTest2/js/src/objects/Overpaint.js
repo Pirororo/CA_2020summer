@@ -286,9 +286,9 @@ export default class Overpaint extends THREE.Object3D {
             // if( params.opacity ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
             // if( params.autoRotate ) l.rotation.y += .125 * delta;
             // l.material.uniforms.visibility.value = this.params.animateVisibility ? (this.time/3000) % 1.0 : 1.0;
-            l.material.uniforms.opacity.value = (Math.sin(t*0.9 -Math.PI/180 *90) +1)/2*1.5;
+            l.material.uniforms.opacity.value = (Math.sin(t*1.3 -Math.PI/180 *90) +1)/2*1.5;
             // l.material.uniforms.opacity.value = 1.2;
-            l.material.uniforms.time.value = t + i*1;//i入れて正解だったぽい
+            l.material.uniforms.time.value = t + i*0.2;//i入れて正解だったぽい
             // l.material.uniforms.dashOffset.value -= 0.009;
         } );
 
