@@ -66,7 +66,7 @@ export default class Circle extends THREE.Object3D {
 
     this.colors = [
       // 0xFFEDE1,
-      // // 0xE4EDE1,//siro
+      0xE4EDE1,//siro
       // 0x70c1b3,
       // 0xBE63F2,
       // 0x6965DB,
@@ -74,17 +74,17 @@ export default class Circle extends THREE.Object3D {
       // 0x93EDE1
 
       0x98DEFF,//くすんだ青
-      // 0x93EDE1,//シアン
+      0x93EDE1,//シアン
       0x7B31F0,//紫
       0x4300F5,//青
-      // 0xAA21F5,//うす紫
-      0xC771F5//うすピンク
+      // 0xAA21F5,//うす紫、意外と濃い
+      // 0xC771F5,//うすピンク
     ];
 
     for (let i = 0; i < NUM; i++) {
 
       //普通の三角
-      this.geoCirc = new THREE.CircleGeometry(1, 64);
+      this.geoCirc = new THREE.SphereGeometry(1, 64,64);
       // this.matCirc = new THREE.MeshBasicMaterial({
       this.matCirc = new THREE.MeshPhongMaterial({
         // color: 0xffffff,
@@ -203,7 +203,7 @@ export default class Circle extends THREE.Object3D {
           // console.group();
           // console.log("Data from csv");
           // console.dir(this.data);
-          console.log(this.data[0][0]);
+          // console.log(this.data[0][0]);
           // console.groupEnd();
 
           this.DATAisOK = true;
@@ -253,7 +253,7 @@ export default class Circle extends THREE.Object3D {
       if(this.listNum > this.NUM-1){
           this.listNum = 0;
       }
-      console.log(this.listNum);
+      // console.log(this.listNum);
       for(let i =this.listNum; i< this.listNum+1; i++){
       // for(let i =0; i< this.boxList.length; i++){
           //rotate
@@ -300,7 +300,7 @@ export default class Circle extends THREE.Object3D {
             this.getDateValue(i);
             this.targetBoxScl[i] = this.dateValue;
 
-            this.nowBoxOpc[i] = 2.0;
+            this.nowBoxOpc[i] = 4.0;
             this.targetBoxOpc[i] = 0.0;
           }
       }

@@ -44,8 +44,16 @@ export default class Ring extends THREE.Object3D {
     this.geometry.setDrawRange( 0, this.newValue );//このthis.newValueを更新させていく
 
     this.mesh = new THREE.Mesh( this.geometry, material );
-    this.add( this.mesh );
-
+    this.mesh2 = new THREE.Mesh( this.geometry, material );
+    this.mesh3 = new THREE.Mesh( this.geometry, material );
+    // this.add( this.mesh );
+    this.meshList = new THREE.Group();
+    this.meshList.add(this.mesh);
+    this.mesh2.rotateZ(120);
+    this.meshList.add(this.mesh2);
+    this.mesh3.rotateZ(240);
+    this.meshList.add(this.mesh3);
+    this.add(this.meshList);
 
     this.noise_seed_list = [];
     this.noise_param_list = [];
@@ -58,52 +66,28 @@ export default class Ring extends THREE.Object3D {
 
 
 
-    //普通の線リング
-    this.frame = 0;
-    this.thetaSeg = 120;
-    this.phiSeg = 2;
-    this.ringWid = 2.5;
-    this.ringGeometry = new THREE.RingGeometry( 1, 2, this.thetaSeg, this.phiSeg-1);
-    this.planeMesh = new THREE.Mesh(
-        this.ringGeometry,
-        new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            // wireframe: true
-            transparent: true,
-            opacity: 0.2
-        })
-    );
-    this.planeMesh2 = new THREE.Mesh(
-        this.ringGeometry,
-        new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            // wireframe: true
-            transparent: true,
-            opacity: 0.1
-        })
-    );
-    this.planeMesh3 = new THREE.Mesh(
-        this.ringGeometry,
-        new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            // wireframe: true
-            transparent: true,
-            opacity: 0.1
-        })
-    );
+    // //meshリング
+    // this.frame = 0;
+    // this.planeGeometry = new THREE.PlaneGeometry(800, 100, 360, 1);
+    // this.planeMesh = new THREE.Mesh(
+    //     this.planeGeometry,
+    //     new THREE.MeshBasicMaterial({
+    //     // new THREE.MeshPhongMaterial({
+    //         color: 0xffffff,
+    //         side: THREE.DoubleSide,
+    //         wireframe: true
+    //     })
+    // );
+    // // for ( let i = 0; i < this.planeGeometry.vertices.length; i++ ) {
+    // //     var planeVertex = this.planeGeometry.vertices[ i ];
+    // //     planeVertex.z = 20 *Math.sin( (i%(16+1)) *30*Math.PI/180)+5*this.simplexNoise.noise( planeVertex.x / 10, planeVertex.y / 10 );
+    // // }
+    // // console.log(this.geometry.vertices);//4425
+    // this.planeMesh.position.set(0,0,0);
+    // // this.planeMesh.receiveShadow = true;
+    // this.add(this.planeMesh);
 
-    this.meshList = new THREE.Group();
-    this.meshList.add(this.planeMesh);
-    this.planeMesh2.rotateZ(120);
-    this.meshList.add(this.planeMesh2);
-    this.planeMesh3.rotateZ(240);
-    this.meshList.add(this.planeMesh3);
-    this.add(this.meshList);
-
-}
+  }
 
 
   update() {
@@ -182,28 +166,24 @@ export default class Ring extends THREE.Object3D {
 
 
 
-    //普通の線リング
-    this.frame += 1;
+    // //meshリング
+    // this.frame += 0.01;
     // if(this.frame > 130){this.frame = 0;} 
-    let tau = 360/ this.thetaSeg;
-    
-    for ( let i = 0; i < this.phiSeg; i++ ) {
-      for ( let j = 0; j < this.thetaSeg; j++ ) {
-    // for ( let i = 0; i < this.ringGeometry.vertices.length; i++ ) {
-        var planeVertex = this.ringGeometry.vertices[ i*this.thetaSeg +j ];
-        let hure = 10*Math.sin((j*tau +(this.frame*0.2))*5 *Math.PI/180+ (1.5 *this.simplexNoise.noise( planeVertex.x *0.003, planeVertex.y *0.003 )));
-        this.ringWid = 4* Math.cos((j*tau)*Math.PI/180)
-
-          planeVertex.x = 
-            // (19 +(1*i)) *Math.sin(j*tau *Math.PI/180);
-            ((210 +(this.ringWid*i) +hure) *Math.sin((j*tau)*Math.PI/180));
-          planeVertex.y = 
-            // (19 +(1*i)) *Math.cos(j*tau *Math.PI/180);
-            ((210 +(this.ringWid*i) +hure) *Math.cos((j*tau)*Math.PI/180));
-      }
-    }
-    this.ringGeometry.verticesNeedUpdate = true;
-    // this.planeMesh.geometry.attributes.position.needsUpdate = true;
+    // // let tau = 360/ (this.planeGeometry.vertices.length-100);
+    // let tau = 360/ 360;
+    // for ( let i = 0; i < this.planeGeometry.vertices.length; i++ ) {
+    //     var planeVertex = this.planeGeometry.vertices[ i ];
+    //     planeVertex.x = 
+    //       20 *Math.sin((i*tau +(this.frame*0.1))*5 *Math.PI/180)
+    //       + (10 *this.simplexNoise.noise( planeVertex.x / 5, planeVertex.y / 5 )*0.2)
+    //       + (150 *Math.sin((i*tau)*Math.PI/180));
+    //     planeVertex.y = 
+    //       20 *Math.cos((i*tau +(this.frame*0.1))*5 *Math.PI/180)
+    //       + (10*this.simplexNoise.noise( planeVertex.x / 5, planeVertex.y / 5 )*0.2)
+    //       + (150 *Math.cos((i*tau)*Math.PI/180));
+    // }
+    // this.planeGeometry.verticesNeedUpdate = true;
+    // // this.planeMesh.geometry.attributes.position.needsUpdate = true;
   }
 }
 

@@ -23,6 +23,7 @@ export default class Rails extends THREE.Object3D {
 
         this.frame = 0;
         this.Times = 0;
+        this.NUM = 7;
 
         this.amp = 30;
         this.amp2 = 20
@@ -36,6 +37,7 @@ export default class Rails extends THREE.Object3D {
         this.prepareMesh = this.prepareMesh.bind(this);
         this.checkIntersection = this.checkIntersection.bind(this);
         this.angle = 0;
+        this.simplexNoise = new SimplexNoise;
 
         let Params = function(){
             // this.curves = true;
@@ -65,7 +67,7 @@ export default class Rails extends THREE.Object3D {
             // this.sizeAttenuation = true;
             this.animateWidth = false;
             this.spread = false;
-            this.autoRotate = true;
+            this.autoRotate = false;
             this.autoUpdate = true;
             this.animateVisibility = false;
             this.animateDashOffset = false;
@@ -74,7 +76,7 @@ export default class Rails extends THREE.Object3D {
     }
 
     createLines() {
-        for(let i =0; i < 7; i++){
+        for(let i =0; i < this.NUM; i++){
             this.prepareMesh(i);
         }
     }
@@ -93,10 +95,11 @@ export default class Rails extends THREE.Object3D {
         var posX = [];
         var posY = [];
         var posZ = [];
-        for(let Time =0; Time < TimeNum; Time++){
-            posX[Time] = 25*(Time - TimeNum/2);
+        for(let Time =0; Time < TimeNum+1; Time++){
+            posX[Time] = window.innerWidth/(TimeNum-0) *(Time - (TimeNum)/2);
             posY[Time] = this.getDateValue(Time, i);
-            posZ[Time] = 25*Math.sin(Time*Math.PI/180);
+            // posZ[Time] = 25*Math.sin(Time*Math.PI/180);
+            posZ[Time] = 0;
         }
         // posY[i] = this.getDateValue(ix+this.time, 0);
 
@@ -115,8 +118,10 @@ export default class Rails extends THREE.Object3D {
         for(let Time =0; Time < TimeNum; Time++){
             curveList.push(new THREE.Vector3( posX[Time], posY[Time], posZ[Time] ));
         }
-        // var curve = new THREE.CatmullRomCurve3(curveList, true,"centripetal");//centripetal, chordal and catmullrom.
-        var curve = new THREE.CatmullRomCurve3(curveList);
+        
+        curveList.push(new THREE.Vector3( posX[TimeNum], (posY[0])/1, posZ[TimeNum]));
+        var curve = new THREE.CatmullRomCurve3(curveList, false,"catmullrom");//centripetal, chordal and catmullrom.
+        // var curve = new THREE.CatmullRomCurve3(curveList);
 
         var points = curve.getPoints(pointNum);
         console.log(points[12].x);
@@ -137,15 +142,15 @@ export default class Rails extends THREE.Object3D {
         //taper:wavy
         g.setGeometry( geo, function( p ) { return 1 + Math.sin( 50 * p * i ) } ); 
 
-        var opacitys = [];
-        for(let i =0; i< this.params.amount; i++){
-            let opc = Maf.randomInRange( 0.6, 1.0);
-            opacitys.push(opc);
-        }
+        // var opacitys = [];
+        // for(let i =0; i< this.params.amount; i++){
+        //     let opc = Maf.randomInRange( 0.6, 1.0);
+        //     opacitys.push(opc);
+        // }
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 0.9, 1.0);
+            let wid = Maf.randomInRange( 0.9, 0.5);
             lineWidths.push(wid);
         }
         
@@ -181,24 +186,27 @@ export default class Rails extends THREE.Object3D {
 
 
             // map: strokeTexture,
-            useMap: params.strokes,
+            // useMap: params.strokes,
             // color: new THREE.Color( colors[ ~~Maf.randomInRange( 0, colors.length ) ] ),
             color: new THREE.Color( 0xffffff),
-            opacity: 0.05,//params.strokes ? .5 : 1,
-            dashArray: params.dashArray,
-            dashOffset: params.dashOffset,
-            dashRatio: params.dashRatio,
+            // opacity: 0.02,//params.strokes ? .5 : 1,
+            opacity: Maf.randomInRange( 0.02, 0.06 ),//params.strokes ? .5 : 1,
+            dashArray: 1.0,
+            // dashArray: Maf.randomInRange( 0.8, 1.0 ),
+            // dashArray: dashArrays[ ~~Maf.randomInRange( 0, dashArrays.length )],
+            dashOffset: 1.0,
+            dashRatio: 0.0,
             // resolution: resolution,
             // sizeAttenuation: params.sizeAttenuation,
             // lineWidth: params.lineWidth,
-            lineWidth: Math.random(0.01,0.05),
+            lineWidth: 0.5,
             // near: camera.near,
             // far: camera.far,
             // depthWrite: false,
             // depthTest: !params.strokes,
             // alphaTest: params.strokes ? .5 : 0,
             transparent: true,
-            side: THREE.DoubleSide,
+            side: THREE.FrontSide,
 
         });
 
@@ -215,6 +223,7 @@ export default class Rails extends THREE.Object3D {
         this.add( this.meshList[i] );
 
         // return this.mesh;
+        // console.log(geo.length/3);//500
     }
 
 
@@ -229,21 +238,36 @@ export default class Rails extends THREE.Object3D {
         this.angle+=1;
         if(this.angle >360){this.angle = 0;}
 
-        for( var j = 0; j < geo.length; j+= 3 ) {
-          geo[ j ] = geo[ j ] * 1.0;
+        for( var j = 0; j < geo.length-2; j+= 3 ) {
+        //   geo[ j ] = geo[ j ] * 1.0;
           shake[j/3] = this.amp *Math.sin(geo[ j ] * this.freq * Math.PI/180);
-          geoy[j/3] = geoy[j/3 + 1];
-          geo[ j + 1 ] = geoy[j/3] + shake[j/3];
+          let over = j/3 + 0 +Math.floor(this.freqGeoy)+i*1;
+        //   let over = j/3 + 1;
+          geoy[j/3] = geoy[over];
+          if(over >=(geoy.length)){
+            // geoy[j/3] = geoy[0];
+            geoy[j/3] = geoy[over -(geoy.length)];
+          }
+          geo[ j + 1 ] = 0.9*geoy[j/3] + shake[j/3];
+
+        //   geo[ j + 1 ] = geoy[j/3];
         //   geo[ j + 1 ] = geo[ j + 4 ] * 1.0 + this.shake[j/3];
-          geo[ j + 2 ] = geo[ j + 5 ] * 1.0;
+        //   geo[ j + 2 ] = geo[ j + 5 ] * 1.0;
         }
 
-        geo[ geo.length - 3 ] = geo[ geo.length - 3 ];
-        shake[shake.length -1] = this.amp *Math.sin(geo[ geo.length - 3 ] * this.freq * Math.PI/180) ;
-        geoy[geoy.length -1] = geoy[0];
-        geo[ geo.length - 2 ] = geoy[geoy.length -1] + shake[geo.length -1];
-        // geo[ geo.length - 2 ] = geo[1] + this.shake[geo.length -1];
-        geo[ geo.length - 1 ] = geo[2];
+
+        // geo[ geo.length-2 ] = geo[ j ] * 1.0;
+        // shake[j/3] = this.amp *Math.sin(geo[ j ] * this.freq * Math.PI/180);
+        // let over = j/3 + 0 +Math.floor(this.freqGeoy)+i*0.0;
+        // //   let over = j/3 + 1;
+        // geoy[geo.length-1] = geoy[over];
+        // if(over >=(geoy.length)){
+        //     // geoy[j/3] = geoy[0];
+        //     geoy[geo.length-1] = geoy[over -(geoy.length)];
+        // }
+        // geo[ geo.length ] = geo[ j + 5 ] * 1.0;
+
+
 
         // //Create a closed wavey loop
         // var curve = new THREE.CatmullRomCurve3( [
@@ -288,10 +312,12 @@ export default class Rails extends THREE.Object3D {
     update(){
         this.frame += 1;
         if(this.frame% 2 == 0){
-            for(let i =0; i < 7; i++){
+            for(let i =0; i < this.NUM; i++){
             // for( var i in this.meshList ) { 
                 
-                this.freq = (Math.sin(this.frame * 0.005))*0.3 +0.7;
+                this.freq = (Math.cos(this.frame * 0.005))*0.1+0.4;
+                this.freqGeoy = (Math.cos(this.frame * 0.02))*0.001;
+                // if(this.freqGeoy == 1){this.frame =0;}
                 this.checkIntersection(i); 
             }
             

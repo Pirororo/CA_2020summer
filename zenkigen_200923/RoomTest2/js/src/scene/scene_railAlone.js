@@ -15,10 +15,12 @@ import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
-// import Ring from '../objects/Ring.js';
+import Ring from '../objects/Ring.js';
 // import Ring from '../objects/Ring_1st.js';
-import Ring from '../objects/Ring_4th_shaderMat.js';
+// import Ring from '../objects/Ring_4th_shaderMat.js';
+// import Overpaint from '../objects/Overpaint_old.js';
 import Overpaint from '../objects/Overpaint.js';
+
 
 /**
  * シーンクラス：カメラとライト
@@ -42,9 +44,9 @@ export class Scene extends THREE.Scene {
         this.add(ambientLight);
 
         // 平行光源
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        const directionalLight = new THREE.DirectionalLight(0x0000ff, 0.9);
         // directionalLight.castShadow = true;
-        this.add(directionalLight);
+        // this.add(directionalLight);
 
         //スポットライト
         // add spotlight for the shadows
@@ -52,8 +54,8 @@ export class Scene extends THREE.Scene {
         // spotLight.castShadow = true;
         // spotLight.position.set(0, 250, 250);
         // spotLight.intensity = 0.6;
-        spotLight.position.set(0, 0, 400);
-        spotLight.intensity = 0.6;
+        spotLight.position.set(0, 0, 350);//
+        spotLight.intensity = 1.0;
         // spotLight.shadow.mapSize.width = 2048;
         // spotLight.shadow.mapSize.height = 2048;
         // spotLight.shadow.camera.fov = 120;

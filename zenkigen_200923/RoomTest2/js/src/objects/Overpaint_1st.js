@@ -43,7 +43,7 @@ export default class Overpaint extends THREE.Object3D {
         var Params = function(){
             // this.curves = true;
             this.circles = true;
-            this.amount = 50;
+            this.amount = 40;
             // this.lineWidth = Math.random();
             
             this.dashArray = 0.0;
@@ -105,7 +105,7 @@ export default class Overpaint extends THREE.Object3D {
     }
     
     createLine(j) {
-        if( this.params.circles ) this.makeLine( this.hexagonGeometry, j );
+        if( this.params.circles ) this.makeLine( this.hexagonGeometry );
         // if( this.params.curves ) this.makeLine( this.createCurve(j) );
     }
     
@@ -118,7 +118,7 @@ export default class Overpaint extends THREE.Object3D {
     //     this.lines = [];
     //   }
     
-    makeLine( geo ,j) {
+    makeLine( geo ) {
 
         this.g = new MeshLine();
         switch( this.params.taper ) {
@@ -129,27 +129,25 @@ export default class Overpaint extends THREE.Object3D {
             // 0xFFEDE1,//siro
             // 0xBE63F2,//紫、ピンク
             // 0x6965DB,//青紫
-            // 0x98DEFF,//くすんだ青
+            0x98DEFF,//くすんだ青
             // 0x93EDE1,//シアン
             0x7B31F0,//紫
-            // 0x4300F5,//青
+            0x4300F5,//青
             0xAA21F5,//うす紫
-            0xC771F5,//うすピンク
-            // 0xeeeeee,
-            0xdddddd
+            0xC771F5//うすピンク
 
         ];
 
         var opacitys = [];
         for(let i =0; i< this.params.amount; i++){
-            let opc = Maf.randomInRange( 0.6, 1.0);
+            let opc = Maf.randomInRange( 0.3, 0.9);
             // console.log(opc);
             opacitys.push(opc);
         }
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 5, 10);
+            let wid = Maf.randomInRange( 5, 50);
             // console.log(wid);
             lineWidths.push(wid);
         }
@@ -163,8 +161,7 @@ export default class Overpaint extends THREE.Object3D {
         
         var dashOffsets = [];
         for(let i =0; i< this.params.amount; i++){
-            let offs= (~~(Math.random()*120));
-            // let offs= 0;
+            let offs= (~~(Math.random()*60));
             // console.log(offs);
             dashOffsets.push(offs);
         }
@@ -200,16 +197,14 @@ export default class Overpaint extends THREE.Object3D {
         var mesh = new THREE.Mesh( this.g.geometry, material );
 
         if( this.params.circles ) {
-            this.r = 190;
-            this.space = this.r/(this.params.amount/2);
-            // mesh.position.set( 0, Maf.randomInRange( -r, r )-20, 500);
-            
-            mesh.position.set( 0, j*this.space -this.r-100, 500 );
+            var r = 160;
+            mesh.position.set( 0, Maf.randomInRange( -r, r )+400, 200);
+            // mesh.position.set( 100, Maf.randomInRange( -r, r )+400-700, 260-360 );
             // mesh.position.set( 0,0,0 );
             var s = 500 + 10 * Math.random();
             mesh.scale.set( s,s,s );
             // mesh.rotation.set( Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI );
-            mesh.rotation.set(100 *Math.PI/180, -20 *Math.PI/180, 0 *Math.PI/180);
+            mesh.rotation.set(15 *Math.PI/180, 15 *Math.PI/180, 0 );
             
         }
 
@@ -291,10 +286,10 @@ export default class Overpaint extends THREE.Object3D {
             // if( params.opacity ) l.material.uniforms.lineWidth.value = params.lineWidth * ( 1 + .5 * Math.sin( 5 * t + i ) );
             // if( params.autoRotate ) l.rotation.y += .125 * delta;
             // l.material.uniforms.visibility.value = this.params.animateVisibility ? (this.time/3000) % 1.0 : 1.0;
-            l.material.uniforms.opacity.value = (Math.sin(t*1.2 -(Math.PI/180 *90)) *1.0)/2+ 0.4;
+            l.material.uniforms.opacity.value = (Math.sin(t*1.3 -Math.PI/180 *90) +1)/2*1.5;
             // l.material.uniforms.opacity.value = 1.2;
-            l.material.uniforms.time.value = t + i*0.9;//i入れて正解だったぽい
-            l.material.uniforms.dashOffset.value += 0.01;
+            l.material.uniforms.time.value = t + i*0.2;//i入れて正解だったぽい
+            // l.material.uniforms.dashOffset.value -= 0.009;
         } );
 
         // this.backMesh.material.opacity += this.opacitySpeed;

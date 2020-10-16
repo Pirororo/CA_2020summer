@@ -450,8 +450,8 @@ THREE.ShaderChunk[ 'meshline_vert' ] = [
 	'',
 	'    mat4 m = projectionMatrix * modelViewMatrix;',
 	'    vec4 finalPosition = m * vec4( position, 1.0 );',
-	// '    finalPosition.y += (sin(time/2.5)+0.85)/2.0 * 380.0 -190.0;',//追加
-	// '    finalPosition.x += (cos(time/0.5)+1.0)/2.0 * 120.0 -80.0;',//追加
+	'    finalPosition.y += (sin(time/2.5)+0.85)/2.0 * 380.0 -190.0;',//追加
+	'    finalPosition.x += (cos(time/0.5)+1.0)/2.0 * 120.0 -80.0;',//追加
 	'    vec4 prevPos = m * vec4( previous, 1.0 );',
 	'    vec4 nextPos = m * vec4( next, 1.0 );',
 	'',
@@ -526,23 +526,20 @@ THREE.ShaderChunk[ 'meshline_frag' ] = [
 	'',
 	
 	'    vec4 c = vColor;',
-	'    vec4 c2 = c;',
 	// '    if( useMap == 1. ) c *= texture2D( map, vUV * repeat );',
 	// '    if( useAlphaMap == 1. ) c.a *= texture2D( alphaMap, vUV * repeat ).a;',
 	// '    if( c.a < alphaTest ) discard;',
 	// '    if( useDash == 1. ){',
 	// '        c.a *= ceil(mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio));',//元
-	// '        c.a *= 0.8 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
-	'        c2.a *= 5.5*dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
+	// '        c.a *= 0.1 /mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//係数を0.1とかちっちゃくするともっと光のたまっぽくなる
+	// '        c.a *= dashGradate *mod(vCounters + dashOffset, dashArray) - (dashArray * dashRatio);',//薄くなる方向上と逆//d2.0ashGradate 1.~10.//大きいとグラデ長い
 	// '    }',
 
-	// '    gl_FragColor = (c + c2)/2.0;',
-	'    gl_FragColor = c2/1.0;',
-	
+	'    gl_FragColor = c;',
 	// '    float lenY = abs((vUV.y)-0.5);',//光ってみえる加工
 	// '    gl_FragColor.a /= lenY* .5;',//光ってみえる加工
 	// '    gl_FragColor.a /= vUV.x *backGradate;',//奥が薄くなる//0.4backGradate 0.1~1.0 大きいとくらい
-	// '    gl_FragColor.a += (1.0 -vUV.y)* 1.0 -1.0;',
+	'    gl_FragColor.a += (1.0-vUV.y)* 1.0 -1.0;',
 	// '    gl_FragColor.a *= step(vCounters, visibility);',
 	'',
 	THREE.ShaderChunk.fog_fragment,
