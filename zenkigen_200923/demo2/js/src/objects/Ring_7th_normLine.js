@@ -31,6 +31,8 @@ export default class Ring extends THREE.Object3D {
 
     let MAX_POINTS = 360;
     this.newValue = MAX_POINTS;//DrawRangeに使う
+    this.radius = 130*2;
+    this.span = 16*1;//28
 
     this.geometry = new THREE.BufferGeometry();
     this.positions = new Float32Array( MAX_POINTS * 3 ); 
@@ -44,24 +46,69 @@ export default class Ring extends THREE.Object3D {
     this.mesh = new THREE.Mesh( this.geometry, material );
     this.add( this.mesh );
 
+
     this.noise_seed_list = [];
     this.noise_param_list = [];
-    for (let i = 0; i < 3; i++) {
-      // this.noise_seed_list.push(Math.random(500));
+    for (let i = 0; i < 2; i++) {
+      // this.noise_seed_list.push(Math.random(1000));
       this.noise_seed_list.push(300*i);
       this.noise_param_list.push(0);
     }
-
     this.simplexNoise = new SimplexNoise;
-  }
+
+
+
+    //普通の線リング
+    this.frame = 0;
+    this.thetaSeg = 120;
+    this.phiSeg = 2;
+    this.ringWid = 2.5;
+    this.ringGeometry = new THREE.RingGeometry( 1, 2, this.thetaSeg, this.phiSeg-1);
+    this.planeMesh = new THREE.Mesh(
+        this.ringGeometry,
+        new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+            // wireframe: true
+            transparent: true,
+            opacity: 0.2
+        })
+    );
+    this.planeMesh2 = new THREE.Mesh(
+        this.ringGeometry,
+        new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+            // wireframe: true
+            transparent: true,
+            opacity: 0.1
+        })
+    );
+    this.planeMesh3 = new THREE.Mesh(
+        this.ringGeometry,
+        new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+            // wireframe: true
+            transparent: true,
+            opacity: 0.2
+        })
+    );
+
+    this.meshList = new THREE.Group();
+    this.meshList.add(this.planeMesh);
+    this.planeMesh2.rotateZ(120);
+    this.meshList.add(this.planeMesh2);
+    this.planeMesh3.rotateZ(240);
+    this.meshList.add(this.planeMesh3);
+    this.add(this.meshList);
+
+}
 
 
   update() {
     let posNum = 0;//this.positionsの数、毎回0から更新していく →数は普遍
     let idxNum = 0;//this.indicesの数、毎回0から更新していく   →距離によって毎回数はかわる。
-    let radius = 130*2;
-    // console.log(this.frame);
-    let span = 16*1;//28
 
     for (let i = 0; i < this.alphas.length; i++) {
       this.alphas[i] = 1.0;
@@ -75,20 +122,18 @@ export default class Ring extends THREE.Object3D {
       for (let deg = 0; deg < 360; deg += 3) {
 
         let noise_location = new THREE.Vector2(
-          radius * Math.cos(deg * Math.PI/180), 
-          radius * Math.sin(deg * Math.PI/180)
+          this.radius * Math.cos(deg * Math.PI/180), 
+          this.radius * Math.sin(deg * Math.PI/180)
         )
         let noise_param = THREEmap(this.simplexNoise.noise4d(
           this.noise_seed_list[i], 
           noise_location.x * 0.005, 
           noise_location.y * 0.005, 
-          this.noise_param_list[i]
-          ), 0, 1, 0.7, 0.8
-        );
+          this.noise_param_list[i]), 0, 1, 0.7, 0.8);
 
-        this.positions[posNum] = radius * noise_param * Math.cos(deg * Math.PI/180);
+        this.positions[posNum] = this.radius * noise_param * Math.cos(deg * Math.PI/180);
         posNum +=1;
-        this.positions[posNum] = radius * noise_param * Math.sin(deg * Math.PI/180);
+        this.positions[posNum] = this.radius * noise_param * Math.sin(deg * Math.PI/180);
         posNum +=1;
         this.positions[posNum] = 0;
         posNum +=1;
@@ -113,9 +158,8 @@ export default class Ring extends THREE.Object3D {
           this.positions[k+ 2]
         );
         let distance = startPoint.distanceTo (endPoint); 
-        if (distance < span && distance >0) {
-          // let alpha = distance < span * 0.25 ? 255 : THREEmap(distance, span * 0.25, span, 255, -50)/50;
-          let alpha = distance < span * 0.25 ? 1 : THREEmap(distance, span * 0.25, span, 1, -0.1);
+        if (distance < this.span && distance >0) {
+          let alpha = distance < this.span * 0.25 ? 255 : THREEmap(distance, this.span * 0.25, this.span, 255, -50)/50;
 
           this.alphas[i] = alpha;
           // this.alphas[k] = alpha;
@@ -135,6 +179,31 @@ export default class Ring extends THREE.Object3D {
     //draw
     this.newValue = idxNum-1;
     this.geometry.setDrawRange( 0, this.newValue );//毎回設定し直す必要あり
+
+
+
+    //普通の線リング
+    this.frame += 1;
+    // if(this.frame > 130){this.frame = 0;} 
+    let tau = 360/ this.thetaSeg;
+    
+    for ( let i = 0; i < this.phiSeg; i++ ) {
+      for ( let j = 0; j < this.thetaSeg; j++ ) {
+    // for ( let i = 0; i < this.ringGeometry.vertices.length; i++ ) {
+        var planeVertex = this.ringGeometry.vertices[ i*this.thetaSeg +j ];
+        let hure = 10*Math.sin((j*tau +(this.frame*0.2))*5 *Math.PI/180+ (1.5 *this.simplexNoise.noise( planeVertex.x *0.003, planeVertex.y *0.003 )));
+        this.ringWid = 4* Math.cos((j*tau)*Math.PI/180)
+
+          planeVertex.x = 
+            // (19 +(1*i)) *Math.sin(j*tau *Math.PI/180);
+            ((190 +(this.ringWid*i) +hure) *Math.sin((j*tau)*Math.PI/180));
+          planeVertex.y = 
+            // (19 +(1*i)) *Math.cos(j*tau *Math.PI/180);
+            ((190 +(this.ringWid*i) +hure) *Math.cos((j*tau)*Math.PI/180));
+      }
+    }
+    this.ringGeometry.verticesNeedUpdate = true;
+    // this.planeMesh.geometry.attributes.position.needsUpdate = true;
   }
 }
 

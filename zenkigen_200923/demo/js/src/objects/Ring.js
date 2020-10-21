@@ -59,9 +59,9 @@ export default class Ring extends THREE.Object3D {
   update() {
     let posNum = 0;//this.positionsの数、毎回0から更新していく →数は普遍
     let idxNum = 0;//this.indicesの数、毎回0から更新していく   →距離によって毎回数はかわる。
-    let radius = 130;
+    let radius = 130*2;
     // console.log(this.frame);
-    let span = 14;//28
+    let span = 16*1;//28
 
     for (let i = 0; i < this.alphas.length; i++) {
       this.alphas[i] = 1.0;
@@ -80,10 +80,10 @@ export default class Ring extends THREE.Object3D {
         )
         let noise_param = THREEmap(this.simplexNoise.noise4d(
           this.noise_seed_list[i], 
-          noise_location.x * 0.005*1.4, 
-          noise_location.y * 0.005*1.4, 
+          noise_location.x * 0.005, 
+          noise_location.y * 0.005, 
           this.noise_param_list[i]
-          ), 0, 1, 0.80, 1.0
+          ), 0, 1, 0.7, 0.8
         );
 
         this.positions[posNum] = radius * noise_param * Math.cos(deg * Math.PI/180);
@@ -115,7 +115,7 @@ export default class Ring extends THREE.Object3D {
         let distance = startPoint.distanceTo (endPoint); 
         if (distance < span && distance >0) {
           // let alpha = distance < span * 0.25 ? 255 : THREEmap(distance, span * 0.25, span, 255, -50)/50;
-          let alpha = distance < span * 0.25 ? 1 : THREEmap(distance, span * 0.25, span, 1, 0);
+          let alpha = distance < span * 0.25 ? 1 : THREEmap(distance, span * 0.25, span, 0.8, 0);
 
           this.alphas[i] = alpha;
           // this.alphas[k] = alpha;
@@ -151,7 +151,7 @@ const vertex= `
 const fragment = `
   varying float vAlpha;
   void main(){
-      gl_FragColor = vec4( vec3(0.0), vAlpha*0.3);
+      gl_FragColor = vec4( vec3(0.4), vAlpha*0.3);
       // gl_FragColor = vec4( vec3(0.2), 0.02 );
   }
 `;

@@ -59,9 +59,9 @@ export default class Ring extends THREE.Object3D {
   update() {
     let posNum = 0;//this.positionsの数、毎回0から更新していく →数は普遍
     let idxNum = 0;//this.indicesの数、毎回0から更新していく   →距離によって毎回数はかわる。
-    let radius = 130*2;
+    let radius = 130;
     // console.log(this.frame);
-    let span = 16*1;//28
+    let span = 14;//28
 
     for (let i = 0; i < this.alphas.length; i++) {
       this.alphas[i] = 1.0;
@@ -80,10 +80,10 @@ export default class Ring extends THREE.Object3D {
         )
         let noise_param = THREEmap(this.simplexNoise.noise4d(
           this.noise_seed_list[i], 
-          noise_location.x * 0.005, 
-          noise_location.y * 0.005, 
+          noise_location.x * 0.005*1.4, 
+          noise_location.y * 0.005*1.4, 
           this.noise_param_list[i]
-          ), 0, 1, 0.7, 0.8
+          ), 0, 1, 0.80, 1.0
         );
 
         this.positions[posNum] = radius * noise_param * Math.cos(deg * Math.PI/180);

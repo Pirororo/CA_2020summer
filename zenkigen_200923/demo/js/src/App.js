@@ -126,10 +126,10 @@ export class App{
       // console.log(position);
 
       this.frame += 1;
-      if(this.frame%480 ==0){
+      if(this.frame%240 ==0){
         this.sceneNUM += 1;
       }
-      if(this.sceneNUM >=3){
+      if(this.sceneNUM >=5){
         this.sceneNUM = 0;
         this.frame = 0;
       }
@@ -146,11 +146,15 @@ export class App{
         this._scene.scene2.scene = 9;
         this._scene.camera = this._scene._persCamera;
       }
-      // if (this.sceneNUM == 3) {
-      //   this._scene.scene2.scene = 10;
-      //   this._scene.camera = this._scene._persCamera;
-      // }
       if (this.sceneNUM == 2) {
+        this._scene.scene2.scene = 15;
+        this._scene.camera = this._scene._persCamera;
+      }
+      if (this.sceneNUM == 3) {
+        this._scene.scene2.scene = 16;
+        this._scene.camera = this._scene._persCamera;
+      }
+      if (this.sceneNUM == 4) {
         this._scene.scene2.scene = 13;
         this._scene.camera = this._scene._persCamera;
       }

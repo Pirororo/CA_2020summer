@@ -15,8 +15,9 @@ import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
-import Ring from '../objects/Ring.js';
-// import Ring from '../objects/Ring_1st.js';
+import Ring_5th from '../objects/Ring.js';
+import Ring_6th from '../objects/Ring_6th_2Loop*2.js';
+import Ring_7th from '../objects/Ring_7th_normLine.js';
 
 /**
  * シーンクラス：カメラとライト
@@ -241,10 +242,22 @@ export class Scene2 extends THREE.Scene {
         this.add(this._pictWaver);
 
         //ふわリング
-        this._ring = new Ring();
-        this._ring.position.set(0,0,0);;
-        this._ring.visible = false;
-        this.add(this._ring);
+        this._ring5 = new Ring_5th();
+        this._ring5.position.set(0,0,0);;
+        this._ring5.visible = false;
+        this.add(this._ring5);
+
+        //ふわリング
+        this._ring6 = new Ring_6th();
+        this._ring6.position.set(0,0,0);;
+        this._ring6.visible = false;
+        this.add(this._ring6);
+
+        //ふわリング
+        this._ring7 = new Ring_7th();
+        this._ring7.position.set(0,0,0);;
+        this._ring7.visible = false;
+        this.add(this._ring7);
 
         //グリッチ
 
@@ -268,7 +281,9 @@ export class Scene2 extends THREE.Scene {
             this._waveLine.visible = false;
             this._rails.visible = false;
             this._pictWaver.visible = false;
-            this._ring.visible = false;
+            this._ring5.visible = false;
+            this._ring6.visible = false;
+            this._ring7.visible = false;
         }
         
 
@@ -365,13 +380,31 @@ export class Scene2 extends THREE.Scene {
             this._pictWaver.update();
         }
 
+
         if(this.scene == 13){
-            if(this._ring.visible == false){
+            if(this._ring5.visible == false){
                 this.visibleFalse();
-                this._ring.visible = true;
+                this._ring5.visible = true;
             }
-            this._ring.update();
+            this._ring5.update();
         }
+
+        if(this.scene == 15){
+            if(this._ring6.visible == false){
+                this.visibleFalse();
+                this._ring6.visible = true;
+            }
+            this._ring6.update();
+        }
+
+        if(this.scene == 16){
+            if(this._ring7.visible == false){
+                this.visibleFalse();
+                this._ring7.visible = true;
+            }
+            this._ring7.update();
+        }
+
 
 
     }

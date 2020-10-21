@@ -15,9 +15,10 @@ import SeaData from '../objects/SeaData.js';
 import WaveLine from '../objects/waveLine.js';
 import CArails from '../objects/CArails.js';
 import PictWaver from '../objects/PictWaver.js';
-import Ring from '../objects/Ring.js';
+// import Ring from '../objects/Ring.js';
 // import Ring from '../objects/Ring_1st.js';
 // import Ring from '../objects/Ring_4th_shaderMat.js';
+import Ring from '../objects/Ring_6th_2Loop*2.js';
 // import Overpaint from '../objects/Overpaint_old.js';
 import Overpaint from '../objects/Overpaint.js';
 
