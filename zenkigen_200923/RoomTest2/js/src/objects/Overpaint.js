@@ -128,15 +128,29 @@ export default class Overpaint extends THREE.Object3D {
         var colors = [
             // 0xFFEDE1,//siro
             // 0xBE63F2,//紫、ピンク
-            // 0x6965DB,//青紫
-            // 0x98DEFF,//くすんだ青
-            // 0x93EDE1,//シアン
-            0x7B31F0,//紫
+            // 0x7B31F0,//紫
             // 0x4300F5,//青
-            0xAA21F5,//うす紫
-            0xC771F5,//うすピンク
-            // 0xeeeeee,
-            0xdddddd
+            // 0xAA21F5,//うす紫
+            // // 0xC771F5,//うすピンク
+            // // 0xeeeeee,
+            // 0xdddddd,
+
+            0x51BCE5,
+            0x51BCE5,
+
+            0x59BFD7,
+            0x59BFD7,
+
+            0x6DD6DA,//ミントフリーん
+            0x6DD6DA,
+
+            0x1D45B1,//青
+            0x2F298E,//紺
+            // 0xE0A5CF,
+            // 0xD196C9,
+            0xB98EC7,//紫ピンク
+
+
 
         ];
 
@@ -149,21 +163,21 @@ export default class Overpaint extends THREE.Object3D {
 
         var lineWidths = [];
         for(let i =0; i< this.params.amount; i++){
-            let wid = Maf.randomInRange( 5, 10);
+            let wid = Maf.randomInRange( 5, 15);
             // console.log(wid);
             lineWidths.push(wid);
         }
         
         var dashArrays = [];
         for(let i =0; i< this.params.amount; i++){
-            let arrays= Maf.randomInRange(0.2, 4);
+            let arrays= Maf.randomInRange(1, 3);
             // console.log(arrays);
             dashArrays.push(arrays);
         }
         
         var dashOffsets = [];
         for(let i =0; i< this.params.amount; i++){
-            let offs= (~~(Math.random()*120));
+            let offs= ((Math.random()*1));
             // let offs= 0;
             // console.log(offs);
             dashOffsets.push(offs);

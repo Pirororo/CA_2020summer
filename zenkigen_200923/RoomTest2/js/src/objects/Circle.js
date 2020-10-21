@@ -65,20 +65,29 @@ export default class Circle extends THREE.Object3D {
   createCircle(NUM){
 
     this.colors = [
-      // 0xFFEDE1,
-      0xE4EDE1,//siro
-      // 0x70c1b3,
-      // 0xBE63F2,
-      // 0x6965DB,
-      // 0x3DA1F5,
-      // 0x93EDE1
 
-      0x98DEFF,//くすんだ青
-      0x93EDE1,//シアン
-      0x7B31F0,//紫
-      0x4300F5,//青
-      // 0xAA21F5,//うす紫、意外と濃い
-      // 0xC771F5,//うすピンク
+      // 0x98DEFF,//くすんだ青
+      // 0x93EDE1,//シアン
+      // 0x7B31F0,//紫
+      // 0x4300F5,//青
+      // // 0xAA21F5,//うす紫、意外と濃い
+      // // 0xC771F5,//うすピンク
+
+
+      0x51BCE5,
+      // 0x51BCE5,
+
+      0x59BFD7,
+      // 0x59BFD7,
+
+      // 0x6DD6DA,//ミントフリーん
+      // 0x6DD6DA,
+
+      0x1D45B1,//青
+      0x2F298E,//紺
+      // 0xE0A5CF,
+      // 0xD196C9,
+      0xB98EC7,//紫ピンク
     ];
 
     for (let i = 0; i < NUM; i++) {
